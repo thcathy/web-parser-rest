@@ -45,3 +45,10 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
 }
+
+test {
+    systemProperty "tvboxnow.username", System.getProperty("tvboxnow.username")
+    systemProperty "tvboxnow.password", System.getProperty("tvboxnow.password")
+    systemProperty "discuss.username", System.getProperty("discuss.username")
+    systemProperty "discuss.password", System.getProperty("discuss.password")
+}
