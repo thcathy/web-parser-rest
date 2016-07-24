@@ -2,6 +2,7 @@ package thc;
 
 import com.mashape.unirest.http.Unirest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
@@ -40,18 +41,22 @@ public class WebParserRestApplication extends SpringBootServletInitializer {
 	@Autowired
 	private Environment env;
 
+	@Value("${tvboxnow.username}") String tvboxnowUsername;
+	@Value("${tvboxnow.password}") String tvboxnowPassword;
+	@Value("${discuss.username}") String discussUsername;
+	@Value("${discuss.password}") String discussPassword;
+	@Value("${http.max_connection:20}") int httpMaxConnection;
+	@Value("${http.max_connection_per_route:20}") int getHttpMaxConnectionPerRoute;
+
     @PostConstruct
-    public void configure() {        
-        TvboxnowThreadParser.USERNAME = env.getProperty("tvboxnow.username");
-        TvboxnowThreadParser.PASSWORD = env.getProperty("tvboxnow.password");
-        UwantsThreadParser.USERNAME = env.getProperty("discuss.username");
-        UwantsThreadParser.PASSWORD = env.getProperty("discuss.password");
+    public void configure() {
+		TvboxnowThreadParser.USERNAME = tvboxnowUsername;
+        TvboxnowThreadParser.PASSWORD = tvboxnowPassword;
+        UwantsThreadParser.USERNAME = discussUsername;
+        UwantsThreadParser.PASSWORD = discussPassword;
         
         UnirestSetup.setupAll();
-        Unirest.setConcurrency(
-                env.getProperty("http.max_connection", Integer.class , 20), 
-                env.getProperty("http.max_connection_per_route", Integer.class, 20)
-        );
+        Unirest.setConcurrency(httpMaxConnection,getHttpMaxConnectionPerRoute);
     }
 
     // Serivce Beans
