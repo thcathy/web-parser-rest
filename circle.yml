@@ -1,7 +1,8 @@
 general:
   artifacts:
     - "build/reports"
-
+    - "artifacts/jar"
+    
 machine:
   environment:
     CIRCLE_ARTIFACTS: artifacts
