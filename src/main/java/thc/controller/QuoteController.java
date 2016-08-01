@@ -50,7 +50,7 @@ public class QuoteController {
 	@RequestMapping(value = "/rest/quote/indexes")
 	public List<StockQuote> indexQuotes() {
 		log.debug("request indexQuotes");
-		return httpService.getStringAsync(Money18IndexQuoteParser.URL, Money18IndexQuoteParser::parse).join();
+		return httpService.queryAsync(Money18IndexQuoteParser.createRequest()::asStringAsync, Money18IndexQuoteParser::parse).join();
 	}
 
 	@RequestMapping(value= "/rest/index/constituents/{index}")
