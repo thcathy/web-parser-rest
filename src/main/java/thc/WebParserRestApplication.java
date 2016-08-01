@@ -41,10 +41,10 @@ public class WebParserRestApplication extends SpringBootServletInitializer {
 	@Autowired
 	private Environment env;
 
-	@Value("${tvboxnow_username}") String tvboxnowUsername;
-	@Value("${tvboxnow_password}") String tvboxnowPassword;
-	@Value("${discuss_username}") String discussUsername;
-	@Value("${discuss_password}") String discussPassword;
+	@Value("${tvboxnow.username}") String tvboxnowUsername;
+	@Value("${tvboxnow.password}") String tvboxnowPassword;
+	@Value("${discuss.username}") String discussUsername;
+	@Value("${discuss.password}") String discussPassword;
 	@Value("${http.max_connection:20}") int httpMaxConnection;
 	@Value("${http.max_connection_per_route:20}") int getHttpMaxConnectionPerRoute;
 
