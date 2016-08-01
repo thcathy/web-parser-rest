@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
@@ -48,13 +49,15 @@ public class ForumQueryService {
                 .distinct()
                 .map(l -> Unirest.get(l).asBinaryAsync())
                 .collect(Collectors.toList());
-
+        
         loginResults.stream().forEach(this::logHttpResponseStatus);
     }
 
     private void logHttpResponseStatus(Future<HttpResponse<InputStream>> result) {
         try {
             log.debug("logHttpResponseStatus {}", result.get().getStatus());
+        } catch (ExecutionException e) {
+            log.debug("Ignore concurrent execution exception as response processed by another thread");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
