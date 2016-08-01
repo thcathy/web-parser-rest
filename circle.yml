@@ -6,7 +6,9 @@ general:
 machine:
   environment:
     CIRCLE_ARTIFACTS: artifacts
-
+  services:
+    - docker
+    
 test:
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
@@ -14,3 +16,11 @@ test:
     - ./gradlew jacocoTestReport assemble
     - mkdir -p $CIRCLE_ARTIFACTS/jar
     - find . -type f -regex ".*build/libs/web-parser-rest.*jar" -exec cp {} $CIRCLE_ARTIFACTS/jar/ \;
+
+deployment:
+  hub:
+    branch: master
+    commands:
+      - docker build -t thcathy/web-parser-rest .
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push thcathy/web-parser-rest
