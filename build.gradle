@@ -48,8 +48,8 @@ buildscript {
 }
 
 test {
-    systemProperty "tvboxnow_username", System.getProperty("tvboxnow_username")
-    systemProperty "tvboxnow_password", System.getProperty("tvboxnow_password")
-    systemProperty "discuss_username", System.getProperty("discuss_username")
-    systemProperty "discuss_password", System.getProperty("discuss_password")
+    systemProperty "tvboxnow.username", System.getProperty("tvboxnow.username")
+    systemProperty "tvboxnow.password", System.getProperty("tvboxnow.password")
+    systemProperty "discuss.username", System.getProperty("discuss.username")
+    systemProperty "discuss.password", System.getProperty("discuss.password")
 }

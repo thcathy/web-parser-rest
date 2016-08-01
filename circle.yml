@@ -3,6 +3,13 @@ general:
     - "build/libs/web-parser-rest*.jar"
     - "build/reports"
 
+machine:
+  environment:
+    tvboxnow.username: $tvboxnow_username
+    tvboxnow.password: $tvboxnow_password
+    discuss.username: $discuss_username
+    discuss.password: $discuss_password
+
 test:
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
