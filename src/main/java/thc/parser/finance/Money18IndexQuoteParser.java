@@ -19,13 +19,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Money18IndexQuoteParser {
-	public  static final String URL = "http://money18.on.cc/js/real/index/index_all_r.js";
+	private static final String URL = "http://money18.on.cc/js/real/index/index_all_r.js";
 
 	protected static final Logger log = LoggerFactory.getLogger(Money18IndexQuoteParser.class);
 	private static final ObjectReader jsonReader = new ObjectMapper().configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true).readerFor(Map.class);
 
-    public static HttpRequest createRequest(String code) {
-        return Unirest.get(URL + StringUtils.leftPad(code, 5, '0'))
+    public static HttpRequest createRequest() {
+        return Unirest.get(URL)
                 .header("Referer", "http://money18.on.cc/")
                 .header("Host", "money18.on.cc");
     }
