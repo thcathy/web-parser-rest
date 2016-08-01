@@ -12,17 +12,6 @@ import java.util.function.Function;
  * Created by thcathy on 17/7/2016.
  */
 public class FinancialConstants {
-    public enum Side {
-        BUY("買入", 1), SELL("賣出", -1);
-
-        final public String chinese;
-        final public int factor;
-
-        Side(String chinese, int factor) {
-            this.chinese = chinese;
-            this.factor = factor;
-        }
-    }
 
     public enum IndexCode {
         HSI("Hang Seng Index", "http://www.etnet.com.hk/www/tc/stocks/indexes_detail.php?subtype=HSI", EtnetIndexConstituentParser::parse),

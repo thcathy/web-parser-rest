@@ -16,11 +16,11 @@ public class HKMAMonetaryBaseParserTest {
 
 		MonetaryBase result = httpService.getAsync(parser.url(), parser::parse).join().get();
 
-		assertEquals(370715, result.getIndebtedness(),0);
-		assertEquals(11892, result.getNotes(),0);
-		assertEquals(287470, result.getClosingBalance(),0);
-		assertEquals(934941, result.getExchangeFund(),0);
-		assertEquals(1605018, result.getTotal(),0);
+		assertEquals(370715, result.indebtedness,0);
+		assertEquals(11892, result.notes,0);
+		assertEquals(287470, result.closingBalance,0);
+		assertEquals(934941, result.exchangeFund,0);
+		assertEquals(1605018, result.total,0);
 	}
 		
 }
