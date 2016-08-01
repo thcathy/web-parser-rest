@@ -20,10 +20,10 @@ public class ForumThreadParserTest {
 
     static {
         UnirestSetup.setupAll();
-        TvboxnowThreadParser.USERNAME = System.getProperty("tvboxnow.username");
-        TvboxnowThreadParser.PASSWORD = System.getProperty("tvboxnow.password");
-        UwantsThreadParser.USERNAME = System.getProperty("discuss.username");
-        UwantsThreadParser.PASSWORD = System.getProperty("discuss.password");
+        TvboxnowThreadParser.USERNAME = System.getProperty("tvboxnow_username");
+        TvboxnowThreadParser.PASSWORD = System.getProperty("tvboxnow_password");
+        UwantsThreadParser.USERNAME = System.getProperty("discuss_username");
+        UwantsThreadParser.PASSWORD = System.getProperty("discuss_password");
     }
 	
 	@Test
