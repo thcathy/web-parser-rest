@@ -12,4 +12,4 @@ test:
     - find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
     - ./gradlew jacocoTestReport assemble
     - mkdir -p $CIRCLE_ARTIFACTS/jar
-    - find . -type -f -regex ".*/build/libs/web-parser-rest*.jar" -exec cp {} $CIRCLE_ARTIFACTS/jar/ \;
+    - find . -type f -regex ".*/build/libs/web-parser-rest*.jar" -exec cp {} $CIRCLE_ARTIFACTS/jar/ \;
