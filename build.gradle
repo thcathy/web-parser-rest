@@ -9,8 +9,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 jar {
-    baseName = 'web-parser-rest'
-    version =  '0.1.0'
+    archiveName = 'web-parser-rest.jar'
 }
 
 repositories {
