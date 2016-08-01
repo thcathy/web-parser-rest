@@ -3,7 +3,7 @@ general:
     - "build/reports"
 
 machine:
-  environments:
+  environment:
     CIRCLE_ARTIFACTS: artifacts
 
 test:
