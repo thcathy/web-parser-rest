@@ -23,9 +23,9 @@ public class Money18IndexQuoteParserTest {
 	public void shouldReturnAllIndexQuotes() throws UnirestException, IOException {
 		Stopwatch timer = Stopwatch.createStarted();
 		
-        List<StockQuote> quotes = httpService.getStringAsync(Money18IndexQuoteParser.URL, Money18IndexQuoteParser::parse).join();
+        List<StockQuote> quotes = httpService.queryAsync(Money18IndexQuoteParser.createRequest()::asStringAsync, Money18IndexQuoteParser::parse).join();
         
-		log.info("shouldReturnAllIndexQuotes took: " + timer.stop());
+	log.info("shouldReturnAllIndexQuotes took: " + timer.stop());
         
         assertTrue(TestUtils.containCode("HSI", quotes));
         assertTrue(TestUtils.containCode("HSCEI", quotes));
