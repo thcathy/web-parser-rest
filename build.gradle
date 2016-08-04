@@ -4,12 +4,14 @@ version '1.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
+apply plugin: 'jacoco'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 jar {
-    archiveName = 'web-parser-rest.jar'
+    baseName = 'web-parser-rest'
+    version =  '0.1.0'
 }
 
 repositories {
@@ -46,6 +48,8 @@ buildscript {
 }
 
 test {
+    testLogging.showStandardStreams = true
+    
     systemProperty "tvboxnow.username", System.getenv("tvboxnow_username")
     systemProperty "tvboxnow.password", System.getenv("tvboxnow_password")
     systemProperty "discuss.username", System.getenv("discuss_username")
