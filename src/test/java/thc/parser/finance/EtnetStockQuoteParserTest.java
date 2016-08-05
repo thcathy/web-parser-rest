@@ -51,7 +51,7 @@ public class EtnetStockQuoteParserTest {
 
 	private boolean tooEarlyTooTest() {
 		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("Asia/Hong_Kong"));
-		if (c.get(Calendar.HOUR_OF_DAY) < 9)
+		if (c.get(Calendar.HOUR_OF_DAY) < 9 || c.get(Calendar.MINUTE) < 20)
 			return true;
 		else
 			return false;
