@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 import thc.domain.StockQuote;
 import thc.service.HttpService;
 
+import java.util.Calendar;
+import java.util.TimeZone;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
@@ -20,6 +23,8 @@ public class EtnetStockQuoteParserTest {
 
 	@Test
 	public void getStockQuote_Given941_ShouldReturn941StockQuote() throws UnirestException {
+		if (tooEarlyTooTest()) return;
+		
 		Stopwatch timer = Stopwatch.createStarted();
 
 		StockQuote q = httpService
@@ -42,6 +47,14 @@ public class EtnetStockQuoteParserTest {
 		assertTrue(NumberUtils.isNumber(q.getYearHigh()));
 
 		log.debug("getStockQuote_Given941_ShouldReturn941StockQuote took: " + timer.stop());
+	}
+
+	private boolean tooEarlyTooTest() {
+		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("Asia/Hong_Kong"));
+		if (c.get(Calendar.HOUR_OF_DAY) < 9)
+			return true;
+		else
+			return false;
 	}
 
 }

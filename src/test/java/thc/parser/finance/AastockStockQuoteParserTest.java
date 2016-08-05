@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 import thc.domain.StockQuote;
 import thc.service.HttpService;
 
+import java.util.Calendar;
+import java.util.TimeZone;
+
 import static org.junit.Assert.*;
 import static thc.domain.StockQuote.NA;
 
@@ -18,7 +21,9 @@ public class AastockStockQuoteParserTest {
     HttpService httpService = new HttpService();
 
 	@Test
-	public void getStockQuote_Given941_ShouldReturn941StockQuote() {
+	public void getStockQuote_Given941_ShouldReturn941StockQuote() {        
+        if (tooEarlyTooTest()) return;
+        
         Stopwatch timer = Stopwatch.createStarted();
 
         HttpRequest request = AastockStockQuoteParser.createRequest("941");
@@ -42,6 +47,8 @@ public class AastockStockQuoteParserTest {
 
     @Test
     public void getStockQuote_Given2800_ShouldReturn2800StockQuote() {
+        if (tooEarlyTooTest()) return;
+        
         Stopwatch timer = Stopwatch.createStarted();
 
         HttpRequest request = AastockStockQuoteParser.createRequest("2800");
@@ -61,5 +68,13 @@ public class AastockStockQuoteParserTest {
         assertTrue(NumberUtils.isNumber(q.getYearHigh()));
 
         log.debug("getStockQuote_Given2800_ShouldReturn2800StockQuote took: {}", timer.stop());
+    }
+    
+    private boolean tooEarlyTooTest() {
+        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("Asia/Hong_Kong"));
+        if (c.get(Calendar.HOUR_OF_DAY) < 9) 
+            return true;
+        else 
+            return false;        
     }
 }
