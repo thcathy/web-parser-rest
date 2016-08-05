@@ -11,12 +11,12 @@ test:
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
     - find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
-    - ./gradlew assemble
 
 deployment:
   hub:
     branch: master
     commands:
+      - ./gradlew assemble
       - docker build -t thcathy/web-parser-rest .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push thcathy/web-parser-rest
