@@ -18,6 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import thc.parser.forum.TvboxnowThreadParser;
 import thc.parser.forum.UwantsThreadParser;
+import thc.parser.search.GoogleImageSearch;
 import thc.service.ForumQueryService;
 import thc.service.HttpService;
 import thc.unirest.UnirestSetup;
@@ -47,6 +48,7 @@ public class WebParserRestApplication extends SpringBootServletInitializer {
 	@Value("${discuss.password}") String discussPassword;
 	@Value("${http.max_connection:20}") int httpMaxConnection;
 	@Value("${http.max_connection_per_route:20}") int getHttpMaxConnectionPerRoute;
+	@Value("${googleapi.key}") String googleAPIKey;
 
     @PostConstruct
     public void configure() {
@@ -54,6 +56,7 @@ public class WebParserRestApplication extends SpringBootServletInitializer {
         TvboxnowThreadParser.PASSWORD = tvboxnowPassword;
         UwantsThreadParser.USERNAME = discussUsername;
         UwantsThreadParser.PASSWORD = discussPassword;
+		GoogleImageSearch.KEY = googleAPIKey;
         
         UnirestSetup.setupAll();
         Unirest.setConcurrency(httpMaxConnection,getHttpMaxConnectionPerRoute);

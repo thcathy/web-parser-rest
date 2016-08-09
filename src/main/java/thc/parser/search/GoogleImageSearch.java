@@ -5,6 +5,7 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.request.HttpRequest;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -23,7 +24,7 @@ public class GoogleImageSearch {
 	public static volatile String KEY;
 
 	public static HttpRequest createRequest(String query) {
-		if (StringUtils.isEmpty(KEY)) throw new IllegalArgumentException("Cannot create GoogleImageSearch request without KEY");
+		if (StringUtils.isEmpty(KEY)) throw new IllegalArgumentException("Cannot create google image search request without key");
 
 		return Unirest.get(URL)
 				.queryString("q", query)
@@ -35,6 +36,7 @@ public class GoogleImageSearch {
 
 	public static List<WebItem> parse(HttpResponse<JsonNode> response) {
 		log.info("start parse response status: {}", response.getStatus());
+		if (response.getStatus() > HttpStatus.SC_OK) throw new RuntimeException("Google image api return fail: {}" + response.getBody());
 
 		JSONArray items = response.getBody().getObject().getJSONArray("items");
 		log.debug("Query result items: {}", items.toString());
