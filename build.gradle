@@ -54,4 +54,5 @@ test {
     systemProperty "tvboxnow.password", System.getenv("tvboxnow_password")
     systemProperty "discuss.username", System.getenv("discuss_username")
     systemProperty "discuss.password", System.getenv("discuss_password")
+    systemProperty "googleapi.key", System.getenv("googleapi_key")
 }
