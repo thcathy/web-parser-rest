@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import thc.constant.FinancialConstants.IndexCode;
 import thc.domain.StockQuote;
-import thc.parser.finance.EtnetStockQuoteParser;
-import thc.parser.finance.HSINetParser;
-import thc.parser.finance.Money18IndexQuoteParser;
+import thc.parser.finance.*;
 import thc.service.HttpService;
 import thc.util.DateUtils;
 
@@ -32,7 +30,7 @@ public class QuoteController {
 	@Autowired
 	HttpService httpService;
 
-    @RequestMapping(value = "/rest/quote/hk/{codes}")
+    @RequestMapping(value = "/rest/quote/list/hk/{codes}")
     public List<StockQuote> hkQuotes(@PathVariable String codes) {
     	log.debug("hkquote: codes [{}]", codes);
 
@@ -46,6 +44,17 @@ public class QuoteController {
                 .map(Optional::get)
 				.collect(Collectors.toList());
     }
+
+    @RequestMapping(value = "/rest/quote/hk/{code}")
+	public StockQuote hkQuoteSingle(@PathVariable String code) {
+		log.debug("hkQuoteSingle: {}", code);
+
+		CompletableFuture<Optional<StockQuote>> quote = httpService.queryAsync(EtnetStockQuoteParser.createRequest(code)::asBinaryAsync, EtnetStockQuoteParser::parse);
+		CompletableFuture<Optional<StockQuote>> quote2 = httpService.queryAsync(AastockStockQuoteParser.createRequest(code)::asBinaryAsync, AastockStockQuoteParser::parse);
+		CompletableFuture<Optional<StockQuote>> quote3 = httpService.queryAsync(SinaStockQuoteParser.createRequest(code)::asBinaryAsync, SinaStockQuoteParser::parse);
+
+		return ((Optional<StockQuote>) CompletableFuture.anyOf(quote, quote2, quote3).join()).get();
+	}
 
 	@RequestMapping(value = "/rest/quote/indexes")
 	public List<StockQuote> indexQuotes() {

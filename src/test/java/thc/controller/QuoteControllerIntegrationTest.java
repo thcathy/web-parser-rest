@@ -60,6 +60,18 @@ public class QuoteControllerIntegrationTest {
 	}
 
 	@Test
+    public void hkQuoteSingle_givenHSBC_shouldReturnQuote() {
+        Stopwatch timer = Stopwatch.createStarted();
+
+        StockQuote quote = quoteController.hkQuoteSingle("5");
+
+        log.info("hkQuoteSingle_givenHSBC_shouldReturnQuote took: {}", timer.stop());
+
+        assertTrue(quote.getStockCode().endsWith("5"));
+        assertTrue(quote.getPriceDoubleValue() > 30);
+    }
+
+	@Test
 	public void getEachIndexConstituents_shouldReturnSomeStocks() {
         Stopwatch timer = Stopwatch.createStarted();
 
