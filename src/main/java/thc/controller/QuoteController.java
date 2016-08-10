@@ -30,13 +30,13 @@ public class QuoteController {
 	@Autowired
 	HttpService httpService;
 
-    @RequestMapping(value = "/rest/quote/list/hk/{codes}")
+    @RequestMapping(value = "/rest/quote/realtime/list/{codes}")
     public List<StockQuote> hkQuotes(@PathVariable String codes) {
     	log.debug("hkquote: codes [{}]", codes);
 
 		List<CompletableFuture<Optional<StockQuote>>> quotes = Arrays.stream(codes.split(","))
-				.map(EtnetStockQuoteParser::createRequest)
-                .map(r -> httpService.queryAsync(r::asBinaryAsync, EtnetStockQuoteParser::parse))
+				.map(SinaStockQuoteParser::createRequest)
+                .map(r -> httpService.queryAsync(r::asBinaryAsync, SinaStockQuoteParser::parse))
 				.collect(Collectors.toList());
 
 		return quotes.stream().map(q -> q.join())
@@ -45,15 +45,14 @@ public class QuoteController {
 				.collect(Collectors.toList());
     }
 
-    @RequestMapping(value = "/rest/quote/hk/{code}")
+    @RequestMapping(value = "/rest/quote/full/{code}")
 	public StockQuote hkQuoteSingle(@PathVariable String code) {
 		log.debug("hkQuoteSingle: {}", code);
 
 		CompletableFuture<Optional<StockQuote>> quote = httpService.queryAsync(EtnetStockQuoteParser.createRequest(code)::asBinaryAsync, EtnetStockQuoteParser::parse);
 		CompletableFuture<Optional<StockQuote>> quote2 = httpService.queryAsync(AastockStockQuoteParser.createRequest(code)::asBinaryAsync, AastockStockQuoteParser::parse);
-		CompletableFuture<Optional<StockQuote>> quote3 = httpService.queryAsync(SinaStockQuoteParser.createRequest(code)::asBinaryAsync, SinaStockQuoteParser::parse);
 
-		return ((Optional<StockQuote>) CompletableFuture.anyOf(quote, quote2, quote3).join()).get();
+		return ((Optional<StockQuote>) CompletableFuture.anyOf(quote, quote2).join()).get();
 	}
 
 	@RequestMapping(value = "/rest/quote/indexes")

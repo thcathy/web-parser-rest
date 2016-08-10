@@ -49,7 +49,7 @@ public class ForumThreadParserTest {
 	}
 
 	private void checkForumThreadList(String uwantsSource, String urlPrefix, List<ForumThread> result) {
-		Assert.assertTrue("Return hkQuotes should not empty", result.size() > 0);
+		Assert.assertTrue("Return should not empty", result.size() > 0);
 				
 		log.info("First ForumThread: {}", result.get(0).toString());
 		result.forEach(f->{

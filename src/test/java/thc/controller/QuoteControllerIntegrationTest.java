@@ -54,9 +54,9 @@ public class QuoteControllerIntegrationTest {
 		log.info("hkquotes_givenHsiCodes_shouldReturnListOfStockQuote took: {}", timer.stop());
 
 		assertTrue(quotes.size() > 30);
-		assertTrue(containCode("02800", quotes));
-		assertTrue(containCode("00005", quotes));
-		assertTrue(containCode("00939", quotes));
+		assertTrue(containCode("2800", quotes));
+		assertTrue(containCode("5", quotes));
+		assertTrue(containCode("939", quotes));
 	}
 
 	@Test
