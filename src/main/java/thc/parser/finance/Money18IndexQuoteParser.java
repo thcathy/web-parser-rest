@@ -61,7 +61,7 @@ public class Money18IndexQuoteParser {
 	private static String calculateChangePercentage(String pre, String real) {
 		double preVal = Double.valueOf(pre);
 		double realVal = Double.valueOf(real);
-		return new DecimalFormat("###.##").format((preVal - realVal) / preVal * 100);
+		return new DecimalFormat("###.##").format((realVal - preVal) / preVal * 100);
 	}
 
 }
