@@ -38,7 +38,7 @@ public class SearchControllerIntegrationTest {
 
     private void checkItem(WebItem webItem) {
         log.info("WebItem: {}", webItem);
-        assertTrue(webItem.url.startsWith("http://"));
+        assertTrue(webItem.url.startsWith("http"));
         assertTrue(webItem.mime.startsWith("image"));
         assertTrue(webItem.imageHeight > 10);
         assertTrue(webItem.imageWidth > 10);
