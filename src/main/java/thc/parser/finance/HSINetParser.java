@@ -11,6 +11,7 @@ import thc.domain.StockQuote;
 import thc.util.NumberUtils;
 
 import java.text.MessageFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -24,9 +25,15 @@ public class HSINetParser {
 	private final IndexCode index;
 	private final Date date;
 
-	public HSINetParser(IndexCode index, Date date) {
+	public HSINetParser(IndexCode index, String yyyymmdd) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 		this.index = index;
-		this.date = date;
+
+		try {
+			this.date = dateFormat.parse(yyyymmdd);
+		} catch (ParseException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public HttpRequest createRequest() {

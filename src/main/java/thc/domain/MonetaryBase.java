@@ -18,6 +18,10 @@ public class MonetaryBase {
 		this.total = indebtedness + notes + closingBalance + exchangeFund;
 	}
 
+	public static MonetaryBase empty() {
+		return new MonetaryBase(0,0,0,0);
+	}
+
 	public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }

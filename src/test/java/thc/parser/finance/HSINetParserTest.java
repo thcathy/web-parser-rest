@@ -4,8 +4,8 @@ import org.junit.Test;
 import thc.constant.FinancialConstants;
 import thc.domain.StockQuote;
 import thc.service.HttpService;
-import thc.util.DateUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -36,12 +36,9 @@ public class HSINetParserTest {
 
 	private Optional<Boolean> getLatestIndexReport(FinancialConstants.IndexCode code) {
 		return TenPreviousDayStream()
-				.filter(DateUtils::notWeekEnd)
-				.map(Calendar::getTime)
 				.map(t -> new HSINetParser(code, t))
 				.map(r ->
-					submitHttpRequest(r)
-							.join()
+					submitHttpRequest(r).join()
 				)
 				.map(quote -> quote.isPresent() && quote.get().getPriceDoubleValue() > 1)
 				.filter(x -> x)
@@ -55,11 +52,13 @@ public class HSINetParserTest {
 						r::parse);
 	}
 
-	private Stream<Calendar> TenPreviousDayStream() {
+	private Stream<String> TenPreviousDayStream() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+
 		return IntStream.range(0, 10).mapToObj(i-> {
 			Calendar c = Calendar.getInstance();
 			c.add(Calendar.DATE, -i-1);
-			return c;
+			return dateFormat.format(c.getTime());
 		});
 	}
 }
