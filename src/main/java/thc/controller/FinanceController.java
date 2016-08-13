@@ -12,6 +12,7 @@ import thc.domain.StockQuote;
 import thc.parser.finance.*;
 import thc.service.HttpService;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
@@ -88,6 +89,14 @@ public class FinanceController {
                 .join()
                 .orElse(MonetaryBase.empty());
     }
+
+    @RequestMapping(value = "/rest/quote/{code}/price/pre/{preYear}")
+	public BigDecimal getHistoryPrice(@PathVariable String code, @PathVariable int preYear) {
+		HistoryQuoteParser parser = new HistoryQuoteParser(code, preYear);
+		return httpService.getAsync(parser.url(), parser::parse)
+				.join()
+				.orElse(new BigDecimal(0));
+	}
 
 	private StockQuote getIndexReport(IndexCode code, String yyyymmdd) throws ParseException {
 	    HSINetParser parser = new HSINetParser(code, yyyymmdd);
