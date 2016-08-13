@@ -54,7 +54,7 @@ public class FinanceController {
 
 		//return ((Optional<StockQuote>) CompletableFuture.anyOf(quote).join()).get();
 
-		httpService.queryAsync(EtnetStockQuoteParser.createRequest(code)::asBinaryAsync, EtnetStockQuoteParser::parse).join().get();
+		return httpService.queryAsync(EtnetStockQuoteParser.createRequest(code)::asBinaryAsync, EtnetStockQuoteParser::parse).join().get();
 	}
 
 	@RequestMapping(value = "/rest/quote/indexes")
