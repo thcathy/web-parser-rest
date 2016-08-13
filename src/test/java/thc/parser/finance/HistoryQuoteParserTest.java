@@ -17,7 +17,7 @@ public class HistoryQuoteParserTest {
 
 	@Test
     public void getPreviousYearQuote_GivenLastYear0001_ShouldReturnPriceOver50() throws ExecutionException, InterruptedException {
-		HistoryQuoteParser parser = new HistoryQuoteParser("1", 1);
+		HistoryQuoteParser parser = new HistoryQuoteParser("00001", 1);
 
 		BigDecimal result = httpService.getAsync(parser.url(), parser::parse).join().get();
 		assertTrue(result.doubleValue() > 50);
