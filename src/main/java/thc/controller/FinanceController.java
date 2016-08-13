@@ -49,10 +49,12 @@ public class FinanceController {
 	public StockQuote hkQuoteSingle(@PathVariable String code) {
 		log.info("hkQuoteSingle: {}", code);
 
-		CompletableFuture<Optional<StockQuote>> quote = httpService.queryAsync(EtnetStockQuoteParser.createRequest(code)::asBinaryAsync, EtnetStockQuoteParser::parse);
-		CompletableFuture<Optional<StockQuote>> quote2 = httpService.queryAsync(AastockStockQuoteParser.createRequest(code)::asBinaryAsync, AastockStockQuoteParser::parse);
+		//CompletableFuture<Optional<StockQuote>> quote = httpService.queryAsync(EtnetStockQuoteParser.createRequest(code)::asBinaryAsync, EtnetStockQuoteParser::parse);
+		//CompletableFuture<Optional<StockQuote>> quote2 = httpService.queryAsync(AastockStockQuoteParser.createRequest(code)::asBinaryAsync, AastockStockQuoteParser::parse);
 
-		return ((Optional<StockQuote>) CompletableFuture.anyOf(quote, quote2).join()).get();
+		//return ((Optional<StockQuote>) CompletableFuture.anyOf(quote).join()).get();
+
+		httpService.queryAsync(EtnetStockQuoteParser.createRequest(code)::asBinaryAsync, EtnetStockQuoteParser::parse).join().get();
 	}
 
 	@RequestMapping(value = "/rest/quote/indexes")
