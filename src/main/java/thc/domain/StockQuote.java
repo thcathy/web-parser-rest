@@ -82,7 +82,7 @@ public class StockQuote {
 		return percentage;
 	}
 
-	public Double getLastYearPercentage() {
+	public double getLastYearPercentage() {
 		if (lastYearPercentage == null) {
 			lastYearPercentage = getPreviouYearPercentage(1);
 		}
@@ -90,7 +90,7 @@ public class StockQuote {
 	}
 
 
-	public Double getLast2YearPercentage() {
+	public double getLast2YearPercentage() {
 		if (last2YearPercentage == null) {
 			last2YearPercentage = getPreviouYearPercentage(2);
 		}
@@ -98,7 +98,7 @@ public class StockQuote {
 	}
 
 
-	public Double getLast3YearPercentage() {
+	public double getLast3YearPercentage() {
 		if (last3YearPercentage == null) {
 			last3YearPercentage = getPreviouYearPercentage(3);
 		}
@@ -198,26 +198,6 @@ public class StockQuote {
 
 	public String getYearHigh() {
         return this.yearHigh;
-    }
-
-	public void setYearHighPercentage(Double yearHighPercentage) {
-        this.yearHighPercentage = yearHighPercentage;
-    }
-
-	public void setLastYearPercentage(Double lastYearPercentage) {
-        this.lastYearPercentage = lastYearPercentage;
-    }
-
-	public void setLast2YearPercentage(Double last2YearPercentage) {
-        this.last2YearPercentage = last2YearPercentage;
-    }
-
-	public void setLast3YearPercentage(Double last3YearPercentage) {
-        this.last3YearPercentage = last3YearPercentage;
-    }
-
-	public Map<Integer, Double> getPreviousPriceMap() {
-        return this.previousPriceMap;
     }
 
 	public String getStockName() {

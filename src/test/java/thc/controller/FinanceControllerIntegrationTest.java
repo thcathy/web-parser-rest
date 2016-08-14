@@ -18,6 +18,7 @@ import java.text.ParseException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static thc.Utils.TestUtils.containCode;
 
@@ -68,6 +69,9 @@ public class FinanceControllerIntegrationTest {
 
         assertTrue(quote.getStockCode().endsWith("5"));
         assertTrue(quote.getPriceDoubleValue() > 30);
+        assertNotEquals(0.0, quote.getLastYearPercentage());
+        assertNotEquals(0.0, quote.getLast2YearPercentage());
+        assertNotEquals(0.0, quote.getLast3YearPercentage());
     }
 
 	@Test

@@ -32,7 +32,7 @@ public class HistoryQuoteParser {
 		toDate.add(Calendar.YEAR, 0-preYear);
 		toDate.add(Calendar.DATE, 7);
 
-		this.code = StringUtils.leftPad(stock.substring(1), 4, '0').concat(".HK");
+		this.code = StringUtils.leftPad(stock.replaceFirst("^0+(?!$)", ""), 4, '0').concat(".HK");
 	}
 
 	public HistoryQuoteParser(String code, Calendar fromDate, Calendar toDate) {

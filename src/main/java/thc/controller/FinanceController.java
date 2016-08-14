@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static thc.constant.FinancialConstants.IndexCode.HSCEI;
 import static thc.constant.FinancialConstants.IndexCode.HSI;
@@ -54,7 +55,24 @@ public class FinanceController {
 
 		//return ((Optional<StockQuote>) CompletableFuture.anyOf(quote).join()).get();
 
-		return httpService.queryAsync(EtnetStockQuoteParser.createRequest(code)::asBinaryAsync, EtnetStockQuoteParser::parse).join().get();
+		CompletableFuture<Optional<StockQuote>> quoteFuture = httpService.queryAsync(EtnetStockQuoteParser.createRequest(code)::asBinaryAsync, EtnetStockQuoteParser::parse);
+		List<CompletableFuture<Optional<BigDecimal>>> historyFutures = submitHistoryQuote(code);
+
+		StockQuote quote = quoteFuture.join().get();
+		for (int i=1; i<=3; i++) {
+			quote.setPreviousPrice(i, historyFutures.get(i-1).join().orElse(new BigDecimal(0)).doubleValue());
+		}
+
+		return quote;
+	}
+
+	private List<CompletableFuture<Optional<BigDecimal>>> submitHistoryQuote(String code) {
+		return IntStream.rangeClosed(1, 3)
+				.mapToObj(i -> {
+					HistoryQuoteParser parse = new HistoryQuoteParser(code, i);
+					return httpService.getAsync(parse.url(), parse::parse);
+				})
+				.collect(Collectors.toList());
 	}
 
 	@RequestMapping(value = "/rest/quote/indexes")
