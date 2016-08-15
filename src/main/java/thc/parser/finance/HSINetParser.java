@@ -58,7 +58,7 @@ public class HSINetParser {
 			quote.setPe(NumberUtils.extractNumber(result[9]));
 			return Optional.of(quote);
 		} catch (Exception e) {
-			log.warn("Fail to retrieveDailyReportFromHSINet: " + index, e);
+			log.warn("Fail to retrieveDailyReportFromHSINet: {}, due to {}", index, e.getMessage());
 			return Optional.empty();
 		}
 	}
