@@ -20,7 +20,14 @@
 	<logger name="org.apache" level="info" />
 	<logger name="org.springframework" level="info" />
 
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+    	<encoder>
+      		<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    	</encoder>
+  </appender>
+  
 	<root level="debug">
 		<appender-ref ref="async" />
+		<appender-ref ref="stdout" />
 	</root>
 </configuration>
