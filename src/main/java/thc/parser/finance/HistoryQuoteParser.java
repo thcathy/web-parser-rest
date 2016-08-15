@@ -48,7 +48,7 @@ public class HistoryQuoteParser {
 			String price = doc.select("td[class^=yfnc_tabledata1]:eq(6)").first().text();
 			return Optional.of( new BigDecimal(NumberUtils.extractDouble(price)));
 		} catch (Exception e) {			
-			log.warn("Fail to get historial price from {}, Reason {}", url(), e);
+			log.warn("Fail to get historial price from {}, Reason {}", url(), e.getMessage());
 			return Optional.empty();
 		}
 	}
