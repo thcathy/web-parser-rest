@@ -12,6 +12,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static thc.constant.FinancialConstants.IndexCode.HSCEI;
 import static thc.constant.FinancialConstants.IndexCode.HSI;
@@ -32,6 +33,13 @@ public class HSINetParserTest {
 		Optional<Boolean> hsiFound = getLatestIndexReport(HSI);
 
 		assertTrue(hsiFound.get());
+	}
+
+	@Test
+	public void parse_givenVeryOldDate_ShouldNotFound() {
+		HSINetParser parser = new HSINetParser(HSI, "20160102");
+		Optional<StockQuote> result = submitHttpRequest(parser).join();
+		assertFalse(result.isPresent());
 	}
 
 	private Optional<Boolean> getLatestIndexReport(FinancialConstants.IndexCode code) {
