@@ -25,12 +25,12 @@ public class StockQuote {
 	private String NAV = NA;
 	private String yearLow = NA;
 	private String yearHigh = NA;
-	private Double yearHighPercentage = null;
+
 	private Double lastYearPercentage = null;
 	private Double last2YearPercentage = null;
 	private Double last3YearPercentage = null;
 
-	private final Map<Integer, Double> previousPriceMap = new HashMap<Integer, Double>();
+	private final Map<Integer, Double> previousPriceMap = new HashMap<>();
 
 	public StockQuote() {}
 
@@ -39,27 +39,11 @@ public class StockQuote {
 	}
 	
 	public void setPrice(String price) {
-		yearHighPercentage = null;
 		this.price = price;
 	}
 	
 	public void setYearHigh(String yearHigh) {
-		yearHighPercentage = null;
 		this.yearHigh = yearHigh;
-	}
-
-	public double getYearHighPercentage() {
-		try {
-			if (yearHighPercentage == null) {
-				double yearHighValue = Double.valueOf(yearHigh);
-				double realPrice = Double.valueOf(price);
-				yearHighPercentage = new BigDecimal(((realPrice - yearHighValue) / yearHighValue) * 100).setScale(2,RoundingMode.HALF_UP).doubleValue();
-
-			}
-		} catch (Exception e) {
-			yearHighPercentage = 0.0;
-		}
-		return yearHighPercentage;
 	}
 
 	public void setPreviousPrice(int previousYear, double price) {
@@ -104,7 +88,7 @@ public class StockQuote {
 		}
 		return last3YearPercentage;
 	}
-	
+
 	public Double getPriceDoubleValue() { return NumberUtils.extractDouble(price); }
 
 	@Override
