@@ -46,8 +46,8 @@ public class EtnetStockQuoteParser {
 			q.setPe(doc.select("div[id^=StkList] li:eq(33)").text().split("/")[0].trim());
 			q.setYield(doc.select("div[id^=StkList] li:eq(37)").text().split("/")[0].trim() + "%");
 			q.setNAV(doc.select("div[id^=StkList] li:eq(49)").text());
-			q.setYearHigh(doc.select("div[id^=StkList] li:eq(19)").text());
-			q.setYearLow(doc.select("div[id^=StkList] li:eq(23)").text());
+			q.setYearHigh(doc.select("div[id^=StkList] li:eq(23)").text());
+			q.setYearLow(doc.select("div[id^=StkList] li:eq(27)").text());
 			
 			log.debug("parsed quote: {}", q);
 			
