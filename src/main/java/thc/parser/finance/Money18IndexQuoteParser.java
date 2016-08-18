@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.request.HttpRequest;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import thc.domain.StockQuote;
@@ -33,8 +32,13 @@ public class Money18IndexQuoteParser {
 	public static List<StockQuote> parse(HttpResponse<String> response) {
 		String[] indexes = response.getBody().split(";");
 		return Arrays.stream(indexes)
+				.filter(Money18IndexQuoteParser::validInput)
 				.flatMap(Money18IndexQuoteParser::toStockQuote)
 				.collect(Collectors.toList());		
+	}
+
+	private static boolean validInput(String s) {
+		return s.contains("difference") && s.contains("pc") && s.contains("value");
 	}
 
 	private static Stream<StockQuote> toStockQuote(String input) {
