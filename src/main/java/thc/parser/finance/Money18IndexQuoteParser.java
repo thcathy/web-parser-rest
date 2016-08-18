@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static thc.domain.StockQuote.NA;
+
 public class Money18IndexQuoteParser {
 	private static final String URL = "http://money18.on.cc/js/real/index/index_all_r.js";
 
@@ -32,13 +34,8 @@ public class Money18IndexQuoteParser {
 	public static List<StockQuote> parse(HttpResponse<String> response) {
 		String[] indexes = response.getBody().split(";");
 		return Arrays.stream(indexes)
-				.filter(Money18IndexQuoteParser::validInput)
 				.flatMap(Money18IndexQuoteParser::toStockQuote)
 				.collect(Collectors.toList());		
-	}
-
-	private static boolean validInput(String s) {
-		return s.contains("difference") && s.contains("pc") && s.contains("value");
 	}
 
 	private static Stream<StockQuote> toStockQuote(String input) {
@@ -65,7 +62,11 @@ public class Money18IndexQuoteParser {
 	private static String calculateChangePercentage(String pre, String real) {
 		double preVal = Double.valueOf(pre);
 		double realVal = Double.valueOf(real);
-		return new DecimalFormat("###.##").format((realVal - preVal) / preVal * 100);
+
+		if (preVal <= 0.0)
+			return NA;
+		else
+			return new DecimalFormat("###.##").format((realVal - preVal) / preVal * 100);
 	}
 
 }
