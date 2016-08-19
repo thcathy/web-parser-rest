@@ -6,6 +6,7 @@ A server provide restful API to parse resources from websites.
 - variable to support...
 
 # Configuration
+- max connection / per route
 
 # Starting server
 # Command line

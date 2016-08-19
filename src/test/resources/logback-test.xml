@@ -1,17 +1,22 @@
 <configuration>
 
-  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-    <!-- encoders are assigned the type
-         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+
+
+  <logger name="org.apache" level="info" />
+  <logger name="org.springframework" level="info" />
+
+  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
       <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
     </encoder>
   </appender>
-  
-  <logger name="org.apache" level="INFO"/>
-  <logger name="org.springframework" level="WARN"/>
+
+  <appender name="async" class="ch.qos.logback.classic.AsyncAppender">
+
+    <appender-ref ref="stdout" />
+  </appender>
 
   <root level="debug">
-    <appender-ref ref="STDOUT" />
+    <appender-ref ref="async" />
   </root>
 </configuration>
