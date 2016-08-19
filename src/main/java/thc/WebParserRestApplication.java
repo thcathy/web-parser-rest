@@ -1,6 +1,5 @@
 package thc;
 
-import com.mashape.unirest.http.Unirest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -47,7 +46,7 @@ public class WebParserRestApplication extends SpringBootServletInitializer {
 	@Value("${discuss.username}") String discussUsername;
 	@Value("${discuss.password}") String discussPassword;
 	@Value("${http.max_connection:20}") int httpMaxConnection;
-	@Value("${http.max_connection_per_route:20}") int getHttpMaxConnectionPerRoute;
+	@Value("${http.max_connection_per_route:20}") int httpMaxConnectionPerRoute;
 	@Value("${googleapi.key}") String googleAPIKey;
 
     @PostConstruct
@@ -57,9 +56,10 @@ public class WebParserRestApplication extends SpringBootServletInitializer {
         UwantsThreadParser.USERNAME = discussUsername;
         UwantsThreadParser.PASSWORD = discussPassword;
 		GoogleImageSearch.KEY = googleAPIKey;
-        
+
+		UnirestSetup.MAX_TOTAL_HTTP_CONNECTION = httpMaxConnection;
+		UnirestSetup.MAX_HTTP_CONNECTION_PER_ROUTE = httpMaxConnectionPerRoute;
         UnirestSetup.setupAll();
-        Unirest.setConcurrency(httpMaxConnection,getHttpMaxConnectionPerRoute);
     }
 
     // Serivce Beans

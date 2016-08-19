@@ -9,9 +9,11 @@ import thc.util.ProxySetting;
  * Created by wongtim on 21/07/2016.
  */
 public class UnirestSetup {
+    public static volatile int MAX_TOTAL_HTTP_CONNECTION = 20;
+    public static volatile int MAX_HTTP_CONNECTION_PER_ROUTE = 20;
 
     public static void setupAll() {
-        Unirest.setConcurrency(20, 20);
+        Unirest.setConcurrency(MAX_TOTAL_HTTP_CONNECTION, MAX_HTTP_CONNECTION_PER_ROUTE);
         setDefaultHeaders();
         setupProxy();
     }
