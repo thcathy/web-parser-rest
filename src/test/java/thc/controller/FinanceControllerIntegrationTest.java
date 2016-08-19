@@ -66,12 +66,15 @@ public class FinanceControllerIntegrationTest {
         StockQuote quote = financeController.hkQuoteSingle("5");
 
         log.info("hkQuoteSingle_givenHSBC_shouldReturnQuote took: {}", timer.stop());
+        log.info("Return quote: {}", quote);
 
         assertTrue(quote.getStockCode().endsWith("5"));
         assertTrue(quote.getPriceDoubleValue() > 30);
         assertNotEquals(0.0, quote.getLastYearPercentage());
         assertNotEquals(0.0, quote.getLast2YearPercentage());
         assertNotEquals(0.0, quote.getLast3YearPercentage());
+        assertTrue("High >= Low", Double.valueOf(quote.getHigh()) >= Double.valueOf(quote.getLow()));
+        assertTrue("Year High >= Year Low", Double.valueOf(quote.getYearHigh()) >= Double.valueOf(quote.getYearLow()));
     }
 
 	@Test

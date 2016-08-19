@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.request.HttpRequest;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import thc.domain.StockQuote;
@@ -17,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static thc.domain.StockQuote.NA;
 
 public class Money18IndexQuoteParser {
 	private static final String URL = "http://money18.on.cc/js/real/index/index_all_r.js";
@@ -61,7 +62,11 @@ public class Money18IndexQuoteParser {
 	private static String calculateChangePercentage(String pre, String real) {
 		double preVal = Double.valueOf(pre);
 		double realVal = Double.valueOf(real);
-		return new DecimalFormat("###.##").format((realVal - preVal) / preVal * 100);
+
+		if (preVal <= 0.0)
+			return NA;
+		else
+			return new DecimalFormat("###.##").format((realVal - preVal) / preVal * 100);
 	}
 
 }
