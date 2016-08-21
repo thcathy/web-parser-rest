@@ -21,6 +21,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static thc.constant.FinancialConstants.IndexCode.HSCEI;
 import static thc.constant.FinancialConstants.IndexCode.HSI;
 
@@ -31,7 +32,7 @@ public class FinanceController {
 	@Autowired
 	HttpService httpService;
 
-    @RequestMapping(value = "/rest/quote/realtime/list/{codes}")
+    @RequestMapping(value = "/rest/quote/realtime/list/{codes}", method = GET)
     public List<StockQuote> hkQuotes(@PathVariable String codes) {
     	log.info("hkquote: codes [{}]", codes);
 
@@ -46,7 +47,7 @@ public class FinanceController {
 				.collect(Collectors.toList());
     }
 
-    @RequestMapping(value = "/rest/quote/full/{code}")
+    @RequestMapping(value = "/rest/quote/full/{code}", method = GET)
 	public StockQuote hkQuoteSingle(@PathVariable String code) {
 		log.info("hkQuoteSingle: {}", code);
 
@@ -75,13 +76,13 @@ public class FinanceController {
 				.collect(Collectors.toList());
 	}
 
-	@RequestMapping(value = "/rest/quote/indexes")
+	@RequestMapping(value = "/rest/quote/indexes", method = GET)
 	public List<StockQuote> indexQuotes() {
 		log.info("request indexQuotes");
 		return httpService.queryAsync(Money18IndexQuoteParser.createRequest()::asStringAsync, Money18IndexQuoteParser::parse).join();
 	}
 
-	@RequestMapping(value= "/rest/index/constituents/{index}")
+	@RequestMapping(value= "/rest/index/constituents/{index}", method = GET)
 	public List<String> indexConstituents(@PathVariable String index) {
 		log.info("request index constituents of {}", index);
 		IndexCode indexCode = IndexCode.valueOf(index);
@@ -89,7 +90,7 @@ public class FinanceController {
 		return httpService.getAsync(indexCode.url, indexCode.parser).join();
 	}
 
-	@RequestMapping(value = "/rest/index/report/hsinet/{yyyymmdd}")
+	@RequestMapping(value = "/rest/index/report/hsinet/{yyyymmdd}", method = GET)
 	public List<StockQuote> getHsiNetReports(@PathVariable String yyyymmdd) throws ParseException {
 		log.info("request getHsiNetReportsClosestTo  [{}]", yyyymmdd);
 
@@ -99,7 +100,7 @@ public class FinanceController {
 				);
 	}
 
-	@RequestMapping(value = "/rest/hkma/report/{yyyymmdd}")
+	@RequestMapping(value = "/rest/hkma/report/{yyyymmdd}", method = GET)
     public MonetaryBase getHKMAReport(@PathVariable String yyyymmdd) throws ParseException {
         log.info("request getHKMAReport [{}]", yyyymmdd);
 
@@ -110,7 +111,7 @@ public class FinanceController {
                 .orElse(MonetaryBase.empty());
     }
 
-    @RequestMapping(value = "/rest/quote/{code}/price/pre/{preYear}")
+    @RequestMapping(value = "/rest/quote/{code}/price/pre/{preYear}", method = GET)
 	public BigDecimal getHistoryPrice(@PathVariable String code, @PathVariable int preYear) {
 		HistoryQuoteParser parser = new HistoryQuoteParser(code, preYear);
 		return httpService.getAsync(parser.url(), parser::parse)

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import thc.domain.ForumThread;
 import thc.parser.forum.ForumThreadParser;
@@ -59,7 +60,7 @@ public class ForumController {
 		this.pagePerBatch = pagePerBatch;
 	}
 			
-    @RequestMapping(value = "/rest/forum/list/{type}/{batch}")
+    @RequestMapping(value = "/rest/forum/list/{type}/{batch}", method = RequestMethod.GET)
     public List<ForumThread> list(@PathVariable String type, @PathVariable int batch) {
     	log.debug("hkQuotes: type [{}], batch [{}]", type, batch);
 
