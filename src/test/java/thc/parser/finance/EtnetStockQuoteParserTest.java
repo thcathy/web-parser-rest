@@ -40,8 +40,9 @@ public class EtnetStockQuoteParserTest {
 		assertTrue(NumberUtils.isNumber(q.getLow()));
 		assertTrue(NumberUtils.isNumber(q.getHigh()));
 		assertNotEquals("NA", q.getLastUpdate());
-		assertTrue(NumberUtils.isNumber(q.getPe()));
+		assertTrue("PE of 941 > 1", NumberUtils.toDouble(q.getPe()) > 1);
 		assertTrue(q.getYield().endsWith("%"));
+		assertTrue("Yield of 941 < 10%", NumberUtils.toDouble(q.getYield().replace("%","")) < 10);
 		assertNotEquals("NA", q.getNAV());
 		assertTrue(NumberUtils.isNumber(q.getYearLow()));
 		assertTrue(NumberUtils.isNumber(q.getYearHigh()));

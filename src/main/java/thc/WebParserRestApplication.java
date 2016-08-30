@@ -27,7 +27,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.Filter;
 
 @SpringBootApplication
-public class WebParserRestApplication extends SpringBootServletInitializer {
+public class WebParserRestApplication {
 
 	@Configuration
 	@PropertySource({"classpath:application.properties"})
