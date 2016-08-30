@@ -13,13 +13,15 @@ import thc.service.HttpService;
 
 import java.util.List;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+
 @RestController
 public class SearchController {
 	private static Logger log = LoggerFactory.getLogger(SearchController.class);
 
 	@Autowired HttpService httpService;
 
-    @RequestMapping(value = "/rest/search/image/{query}")
+    @RequestMapping(value = "/rest/search/image/{query}", method = GET)
     public List<WebItem> searchImage(@PathVariable String query) {
     	log.debug("searchImage: {}", query);
 
