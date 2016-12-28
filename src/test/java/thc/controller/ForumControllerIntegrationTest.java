@@ -68,6 +68,7 @@ public class ForumControllerIntegrationTest {
 				.allMatch(i -> contents.get(i).getCreatedDate().getTime() >= contents.get(i+1).getCreatedDate().getTime());
 		assertTrue("Contents are decending ordered by created date", descSortedByDate);
 		contents.forEach(x -> {
+			log.debug(x.toString());
 			assert StringUtils.isNotBlank(x.getUrl());
 			assert StringUtils.isNotBlank(x.getTitle());
 		});

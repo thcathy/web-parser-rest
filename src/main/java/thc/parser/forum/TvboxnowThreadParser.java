@@ -40,7 +40,7 @@ public class TvboxnowThreadParser extends ForumThreadParser {
 
 	@Override
 	protected Elements parseThreads(Document doc) {
-		return doc.select("tbody[id*=thread_]");
+		return doc.select("tbody[id*=thread_]:has(span[id^=thread_])");
 	}
 	
 }

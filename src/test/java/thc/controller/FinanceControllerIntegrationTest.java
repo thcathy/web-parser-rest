@@ -17,9 +17,7 @@ import thc.domain.StockQuote;
 import java.text.ParseException;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static thc.Utils.TestUtils.containCode;
 
 @RunWith(SpringJUnit4ClassRunner.class)
