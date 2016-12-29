@@ -36,10 +36,10 @@ public class ForumThreadParserTest {
 		checkForumThreadList(uwantsSource, "www.uwants.com", result);
 		
 		// Test Discuss
-		String discussSource = "Discuss";
-		ForumThreadParser discuss = new UwantsThreadParser("http://www.discuss.com.hk/forumdisplay.php?fid=101&page=2", discussSource);
-		result = queryService.query(discuss);	
-		checkForumThreadList(discussSource, "www.discuss.com.hk", result);
+//		String discussSource = "Discuss";
+//		ForumThreadParser discuss = new UwantsThreadParser("http://www.discuss.com.hk/forumdisplay.php?fid=101&page=2", discussSource);
+//		result = queryService.query(discuss);
+//		checkForumThreadList(discussSource, "www.discuss.com.hk", result);
 		
 		// Test Tvbox
 		String tvboxSource = "Tvboxnow";
