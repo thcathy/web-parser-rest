@@ -15,6 +15,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by wongtim on 21/07/2016.
@@ -40,8 +41,17 @@ public class ForumQueryService {
                 .collect(Collectors.toList());
 
         return futures.stream()
-                .flatMap(f -> f.join().stream())
+                .flatMap(this::toForumThreadStream)
                 .collect(Collectors.toList());
+    }
+
+    private Stream<ForumThread> toForumThreadStream(CompletableFuture<List<ForumThread>> future) {
+        try {
+            return future.join().stream();
+        } catch (Exception e) {
+            log.error("Cannot get forum threads", e);
+            return Stream.empty();
+        }
     }
 
     private void loginForums(List<ForumThreadParser> parsers) {
