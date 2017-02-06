@@ -58,4 +58,5 @@ test {
     systemProperty "discuss.username", System.getenv("discuss_username")
     systemProperty "discuss.password", System.getenv("discuss_password")
     systemProperty "googleapi.key", System.getenv("googleapi_key")
+    systemProperty "pearsonapi.key", System.getenv("pearsonapi_key")
 }
