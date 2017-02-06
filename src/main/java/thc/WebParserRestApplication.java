@@ -16,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import thc.parser.forum.TvboxnowThreadParser;
 import thc.parser.forum.UwantsThreadParser;
+import thc.parser.language.LongmanDictionaryParser;
 import thc.parser.search.GoogleImageSearch;
 import thc.service.ForumQueryService;
 import thc.service.HttpService;
@@ -47,6 +48,7 @@ public class WebParserRestApplication {
 	@Value("${http.max_connection:20}") int httpMaxConnection;
 	@Value("${http.max_connection_per_route:20}") int httpMaxConnectionPerRoute;
 	@Value("${googleapi.key}") String googleAPIKey;
+	@Value("${pearsonapi.key}") String pearsonAPIKey;
 
     @PostConstruct
     public void configure() {
@@ -55,6 +57,7 @@ public class WebParserRestApplication {
         UwantsThreadParser.USERNAME = discussUsername;
         UwantsThreadParser.PASSWORD = discussPassword;
 		GoogleImageSearch.KEY = googleAPIKey;
+		LongmanDictionaryParser.CONSUMER_KEY = pearsonAPIKey;
 
 		UnirestSetup.MAX_TOTAL_HTTP_CONNECTION = httpMaxConnection;
 		UnirestSetup.MAX_HTTP_CONNECTION_PER_ROUTE = httpMaxConnectionPerRoute;
