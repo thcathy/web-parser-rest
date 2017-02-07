@@ -19,9 +19,12 @@ repositories {
 
 dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
     
     compile group: 'org.jsoup', name: 'jsoup', version: '1.9.2'
 
+    compile group: 'org.ehcache', name: 'ehcache', version: '3.0.0'
+    compile group: 'javax.cache', name: 'cache-api'
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
     compile group: 'commons-io', name: 'commons-io', version: '2.5'
