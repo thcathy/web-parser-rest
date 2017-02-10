@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,13 +33,17 @@ public class DictionaryController {
 
 	@CacheResult(cacheName = "dictionary")
     @RequestMapping(value = "/rest/dictionary/{query}", method = GET)
-    public Optional<DictionaryResult> query(@PathVariable String query) {
+    public ResponseEntity<DictionaryResult> query(@PathVariable String query) {
     	log.debug("query: {}", query);
 
 		LongmanDictionaryParser parser = new LongmanDictionaryParser(query);
 		HttpRequest request = parser.createRequest();
-		return httpService.queryAsync(request::asJsonAsync, parser::parse).join();
-    }
+		Optional<DictionaryResult> result = httpService.queryAsync(request::asJsonAsync, parser::parse).join();
+		if (result.isPresent())
+			return ResponseEntity.ok(result.get());
+		else
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+	}
 
 
 	@Component

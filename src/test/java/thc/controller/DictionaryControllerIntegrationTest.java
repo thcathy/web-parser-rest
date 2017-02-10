@@ -45,4 +45,14 @@ public class DictionaryControllerIntegrationTest {
         log.info("query_shouldReturnResult took: {}", timer.stop());
     }
 
+    @Test
+    public void query_notAWord_shouldReturn404() throws Exception {
+        Stopwatch timer = Stopwatch.createStarted();
+
+        mockMvc.perform(get("/rest/dictionary/-------"))
+                .andExpect(status().isNotFound());
+
+        log.info("query_shouldReturnResult took: {}", timer.stop());
+    }
+
 }
