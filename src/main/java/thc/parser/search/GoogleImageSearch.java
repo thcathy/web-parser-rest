@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import thc.domain.WebItem;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -36,7 +37,13 @@ public class GoogleImageSearch {
 
 	public static List<WebItem> parse(HttpResponse<JsonNode> response) {
 		log.info("start parse response status: {}", response.getStatus());
-		if (response.getStatus() > HttpStatus.SC_OK) throw new RuntimeException("Google image api return fail: {}" + response.getBody());
+		if (response.getStatus() > HttpStatus.SC_OK)
+			throw new RuntimeException("Google image api return fail: {}" + response.getBody());
+
+		if (!response.getBody().getObject().has("items")) {
+			log.warn("No item found from body", response.getBody().getObject());
+			return Collections.EMPTY_LIST;
+		}
 
 		JSONArray items = response.getBody().getObject().getJSONArray("items");
 		log.debug("Query result items: {}", items.toString());

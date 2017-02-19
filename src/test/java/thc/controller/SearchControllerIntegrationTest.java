@@ -36,6 +36,12 @@ public class SearchControllerIntegrationTest {
         items.forEach(this::checkItem);
     }
 
+    @Test
+    public void searchImage_givenRubbish_shouldReturnEmptyWebItemArray() throws Exception {
+        List<WebItem> items = controller.searchImage("lksdajflksdalkfjlkwejr clipart");
+        assertEquals(0, items.size());
+    }
+
     private void checkItem(WebItem webItem) {
         log.info("WebItem: {}", webItem);
         assertTrue(webItem.url.startsWith("http"));
