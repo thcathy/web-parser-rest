@@ -55,6 +55,17 @@ public class LongmanDictionaryTest {
 	}
 
 	@Test
+	public void query_account_shouldReturnCorrectResult() {
+		LongmanDictionaryParser parser = new LongmanDictionaryParser("account");
+		DictionaryResult result = httpService.queryAsync(parser.createRequest()::asJsonAsync, parser::parse).join().get();
+
+		assertEquals("account", result.word);
+		assertEquals("əˈkaʊnt", result.IPA);
+		assertEquals("http://api.pearson.com/v2/dictionaries/assets/ldoce/gb_pron/account_v0205.mp3", result.pronunciationUrl);
+		assertEquals("a written or spoken description that says what happens in an event or process", result.definition);
+	}
+
+	@Test
 	public void query_newyork_shouldReturnCorrectResult() {
 		Stopwatch timer = Stopwatch.createStarted();
 

@@ -44,7 +44,10 @@ public class LongmanDictionaryParser {
 	}
 
 	private Optional<JSONObject> matchQueryToResult(JSONArray results) {
-		Optional<JSONObject> result = exactMatch(results);
+		Optional<JSONObject> result = exactMatchWithPrononciation(results);
+		if (result.isPresent()) return result;
+
+		result = exactMatch(results);
 		if (result.isPresent()) return result;
 
 		result = alphaMatchWithPartOfSpeech(results);
@@ -53,6 +56,15 @@ public class LongmanDictionaryParser {
 		result = alphaMatchWithOutPartOfSpeech(results);
 		return result;
 
+	}
+
+	private Optional<JSONObject> exactMatchWithPrononciation(JSONArray results) {
+		for (int i=0; i < results.length(); i++) {
+			if (query.equals(results.getJSONObject(i).getString("headword"))
+					&& results.getJSONObject(i).has("pronunciations"))
+				return Optional.of(results.getJSONObject(i));
+		}
+		return Optional.empty();
 	}
 
 	private Optional<JSONObject> alphaMatchWithPartOfSpeech(JSONArray results) {
@@ -101,12 +113,18 @@ public class LongmanDictionaryParser {
 			}
 		}
 
+		String definition = Optional.ofNullable(src.getJSONArray("senses"))
+				.flatMap(x -> Optional.ofNullable(x.getJSONObject(0).has("definition")
+						? x.getJSONObject(0).getJSONArray("definition") : null))
+				.flatMap(x -> Optional.ofNullable(x.getString(0)))
+				.orElse("");
+
 		return new DictionaryResult(
 				src.getString("headword"),
 				audioUrl,
 				audioLang,
 				ipa,
-				src.getJSONArray("senses").getJSONObject(0).has("definition") ? src.getJSONArray("senses").getJSONObject(0).getJSONArray("definition").getString(0) : ""
+				definition
 		);
 	}
 
