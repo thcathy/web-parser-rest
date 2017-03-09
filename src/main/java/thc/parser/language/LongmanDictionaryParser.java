@@ -113,9 +113,13 @@ public class LongmanDictionaryParser {
 			}
 		}
 
-		String definition = Optional.ofNullable(src.getJSONArray("senses"))
+		String definition =
+				Optional.ofNullable(
+						src.isNull("senses") ? null : src.getJSONArray("senses")
+				)
 				.flatMap(x -> Optional.ofNullable(x.getJSONObject(0).has("definition")
-						? x.getJSONObject(0).getJSONArray("definition") : null))
+						? x.getJSONObject(0).getJSONArray("definition") : null)
+				)
 				.flatMap(x -> Optional.ofNullable(x.getString(0)))
 				.orElse("");
 

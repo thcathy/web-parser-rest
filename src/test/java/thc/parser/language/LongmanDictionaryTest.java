@@ -81,6 +81,21 @@ public class LongmanDictionaryTest {
 	}
 
 	@Test
+	public void query_refer_shouldReturnCorrectResult() {
+		Stopwatch timer = Stopwatch.createStarted();
+
+		LongmanDictionaryParser parser = new LongmanDictionaryParser("refer");
+		DictionaryResult result = httpService.queryAsync(parser.createRequest()::asJsonAsync, parser::parse).join().get();
+
+		assertEquals("refer", result.word);
+		assertEquals("rɪˈfɜː", result.IPA);
+		assertEquals("http://api.pearson.com/v2/dictionaries/assets/ldoce/gb_pron/refer0205.mp3", result.pronunciationUrl);
+		assertEquals("", result.definition);
+
+		log.info("query_newyork_shouldReturnCorrectResult took: {}", timer.stop());
+	}
+
+	@Test
 	public void query_nonword_shouldReturnEmptyResult() {
 		Stopwatch timer = Stopwatch.createStarted();
 
