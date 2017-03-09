@@ -61,12 +61,12 @@ public class FinanceControllerIntegrationTest {
     public void hkQuoteSingle_givenHSBC_shouldReturnQuote() {
         Stopwatch timer = Stopwatch.createStarted();
 
-        StockQuote quote = financeController.hkQuoteSingle("5");
+        StockQuote quote = financeController.hkQuoteSingle("941");
 
         log.info("hkQuoteSingle_givenHSBC_shouldReturnQuote took: {}", timer.stop());
         log.info("Return quote: {}", quote);
 
-        assertTrue(quote.getStockCode().endsWith("5"));
+        assertTrue(quote.getStockCode().endsWith("941"));
         assertTrue(quote.getPriceDoubleValue() > 30);
         assertNotEquals(0.0, quote.getLastYearPercentage());
         assertNotEquals(0.0, quote.getLast2YearPercentage());
@@ -89,7 +89,7 @@ public class FinanceControllerIntegrationTest {
 
         constituents= financeController.indexConstituents("HSCEI");
         assertTrue(constituents.size() > 30);
-        assertTrue(containList("168", constituents));
+        assertTrue(containList("939", constituents));
         assertTrue(containList("753", constituents));
         assertTrue(containList("3968", constituents));
 
