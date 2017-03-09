@@ -18,7 +18,7 @@ import java.util.Optional;
 public class HistoryQuoteParser {
 	private static Logger log = LoggerFactory.getLogger(HistoryQuoteParser.class);
 	
-	private static String YAHOO_HISTORY_QUOTE_URL = "http://hk.finance.yahoo.com/q/hp?s={0}&a={2,number,##}&b={1,date,dd}&c={1,date,yyyy}&d={4,number,##}&e={3,date,dd}&f={3,date,yyyy}&g=d";
+	private static String YAHOO_HISTORY_QUOTE_URL = "https://hk.finance.yahoo.com/q/hp?s={0}&a={2,number,##}&b={1,date,dd}&c={1,date,yyyy}&d={4,number,##}&e={3,date,dd}&f={3,date,yyyy}&g=d";
 
 	private final String code;
 	private final Calendar fromDate;
