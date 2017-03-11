@@ -9,6 +9,7 @@ import thc.domain.WebItem;
 import thc.service.HttpService;
 import thc.unirest.UnirestSetup;
 
+import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -21,7 +22,7 @@ public class GoogleImageSearchTest {
 
 	static {
 		UnirestSetup.setupAll();
-		GoogleImageSearch.KEY = System.getProperty("googleapi.key");
+		GoogleImageSearch.setAPIKeys(System.getProperty("googleapi.key"));
 	}
 
 	@Test
@@ -39,13 +40,13 @@ public class GoogleImageSearchTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void query_givenNoAPIKey_shouldThrowException() {
-		String key = GoogleImageSearch.KEY;
+		Iterator<String> keys = GoogleImageSearch.keys;
 
 		try {
-			GoogleImageSearch.KEY = null;
+			GoogleImageSearch.keys = null;
 			HttpRequest request = GoogleImageSearch.createRequest("book");
 		} finally {
-			GoogleImageSearch.KEY = key;
+			GoogleImageSearch.keys = keys;
 		}
 	}
 

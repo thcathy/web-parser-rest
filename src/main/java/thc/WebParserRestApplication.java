@@ -58,7 +58,7 @@ public class WebParserRestApplication {
         TvboxnowThreadParser.PASSWORD = tvboxnowPassword;
         UwantsThreadParser.USERNAME = discussUsername;
         UwantsThreadParser.PASSWORD = discussPassword;
-		GoogleImageSearch.KEY = googleAPIKey;
+		GoogleImageSearch.setAPIKeys(googleAPIKey);
 		LongmanDictionaryParser.CONSUMER_KEY = pearsonAPIKey;
 
 		UnirestSetup.MAX_TOTAL_HTTP_CONNECTION = httpMaxConnection;

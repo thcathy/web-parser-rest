@@ -47,7 +47,7 @@ docker run -d --name web-parser-rest \
 **All configurations are optional.**
 * `discuss.username / discuss.password`: Account access www.discuss.com.hk
 * `tvboxnow.username / tvboxnow.password`: Account access www.tvboxnow.com
-* `googleapi.key`: Google API key for image search
+* `googleapi.key`: Google API key for image search (support multiple keys separated by comma)
 * `pearsonapi.key` : Pearson API key for Longman dictionary API (get key from https://developer.pearson.com/user/register)
 * `http.max_connection`: Max concurrent http connections to parse contents (default to 20)
 * `http.max_connection_per_route`: Max concurrent connections per router (default to 20)
