@@ -62,7 +62,6 @@ test {
     systemProperty "discuss.password", System.getenv("discuss_password")
     systemProperty "googleapi.key", System.getenv("googleapi_key")
     systemProperty "pearsonapi.key", System.getenv("pearsonapi_key")
-    systemProperty "pearsonapi.key", System.getenv("oxforddictionary_appId")
     systemProperty "oxford.dictionary.appId", System.getenv("oxforddictionary_appId")
     systemProperty "oxford.dictionary.appKey", System.getenv("oxforddictionary_appKey")
 }
