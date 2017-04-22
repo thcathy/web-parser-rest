@@ -1,6 +1,7 @@
 package thc.domain;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.util.StringUtils;
 
 public class DictionaryResult {
     public final String word;
@@ -26,5 +27,9 @@ public class DictionaryResult {
                 .append("IPA", IPA)
                 .append("definition", definition)
                 .toString();
+    }
+
+    public boolean hasPronunciation() {
+        return !StringUtils.isEmpty(pronunciationUrl);
     }
 }

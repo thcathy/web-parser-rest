@@ -55,4 +55,27 @@ public class DictionaryControllerIntegrationTest {
         log.info("query_shouldReturnResult took: {}", timer.stop());
     }
 
+    @Test
+    public void queryToward_shouldReturnResult() throws Exception {
+        mockMvc.perform(get("/rest/dictionary/toward"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("word", is("toward")))
+                .andExpect(jsonPath("pronunciationUrl", is("http://audio.oxforddictionaries.com/en/mp3/toward_gb_1_8.mp3")))
+                .andExpect(jsonPath("pronunciationLang", is("British English")))
+                .andExpect(jsonPath("IPA", is("twɔːd")));
+    }
+
+    @Test
+    public void querySenior_shouldReturnResult() throws Exception {
+        mockMvc.perform(get("/rest/dictionary/senior"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("word", is("senior")))
+                .andExpect(jsonPath("pronunciationUrl", is("http://audio.oxforddictionaries.com/en/mp3/senior_gb_1_8.mp3")))
+                .andExpect(jsonPath("pronunciationLang", is("British English")))
+                .andExpect(jsonPath("definition", is("of or for older or more experienced people")))
+                .andExpect(jsonPath("IPA", is("ˈsiːnɪə")));
+    }
+
 }

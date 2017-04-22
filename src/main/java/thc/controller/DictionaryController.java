@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import thc.domain.DictionaryResult;
 import thc.parser.language.LongmanDictionaryParser;
+import thc.parser.language.OxfordDictionaryParser;
 import thc.service.HttpService;
 
 import javax.cache.CacheManager;
@@ -36,14 +37,37 @@ public class DictionaryController {
     public ResponseEntity<DictionaryResult> query(@PathVariable String query) {
     	log.debug("query: {}", query);
 
-		LongmanDictionaryParser parser = new LongmanDictionaryParser(query);
-		HttpRequest request = parser.createRequest();
-		Optional<DictionaryResult> result = httpService.queryAsync(request::asJsonAsync, parser::parse).join();
+		Optional<DictionaryResult> result = queryLongmanDictionary(query);
+		if (!result.isPresent() || !result.get().hasPronunciation()) result	= queryOxfordDictionary(query);
+
 		if (result.isPresent())
 			return ResponseEntity.ok(result.get());
 		else
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
+
+	private Optional<DictionaryResult> queryLongmanDictionary(String query) {
+		LongmanDictionaryParser parser = new LongmanDictionaryParser(query);
+		HttpRequest request = parser.createRequest();
+		try {
+			return httpService.queryAsync(request::asJsonAsync, parser::parse).get(2, TimeUnit.SECONDS);
+		} catch (Exception e) {
+			log.warn("Exception when query longman dictionary for {}", query);
+			return Optional.empty();
+		}
+	}
+
+	private Optional<DictionaryResult> queryOxfordDictionary(String query) {
+		OxfordDictionaryParser parser = new OxfordDictionaryParser(query);
+		HttpRequest request = parser.createRequest();
+		try {
+			return httpService.queryAsync(request::asJsonAsync, parser::parse).get(2, TimeUnit.SECONDS);
+		} catch (Exception e) {
+			log.warn("Exception when query oxford dictionary for {}", query);
+			return Optional.empty();
+		}
+	}
+
 
 
 	@Component
