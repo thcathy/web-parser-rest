@@ -71,7 +71,7 @@ public class FinanceController {
 		return IntStream.rangeClosed(1, 3)
 				.mapToObj(i -> {
 					HistoryQuoteParser parse = new HistoryQuoteParser(code, i);
-					return httpService.getAsync(parse.url(), parse::parse);
+					return httpService.queryAsync(parse.createRequest()::asStringAsync, parse::parse);
 				})
 				.collect(Collectors.toList());
 	}
@@ -114,7 +114,7 @@ public class FinanceController {
     @RequestMapping(value = "/rest/quote/{code}/price/pre/{preYear}", method = GET)
 	public BigDecimal getHistoryPrice(@PathVariable String code, @PathVariable int preYear) {
 		HistoryQuoteParser parser = new HistoryQuoteParser(code, preYear);
-		return httpService.getAsync(parser.url(), parser::parse)
+		return httpService.queryAsync(parser.createRequest()::asStringAsync, parser::parse)
 				.join()
 				.orElse(new BigDecimal(0));
 	}
