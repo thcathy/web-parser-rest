@@ -26,7 +26,8 @@ public class HistoryQuoteParserTest {
 	@Test
 	public void getQuoteAtDate_GivenHSIAndHSCEI_ShouldReturnCorrectPrice() {
 		Calendar c = Calendar.getInstance();
-		c.set(2013, 5, 10);	// 10 Jun 2013
+		c.clear();
+		c.set(2016, 5, 10);	// 10 Jun 2016
 
 		HistoryQuoteParser hsiParser = new HistoryQuoteParser("%5EHSI", c, c);
 		CompletableFuture<Optional<BigDecimal>> hsi = httpService.queryAsync(hsiParser.createRequest()::asStringAsync, hsiParser::parse);
@@ -34,7 +35,7 @@ public class HistoryQuoteParserTest {
 		HistoryQuoteParser hsceiParser = new HistoryQuoteParser("%5EHSCE", c, c);
 		CompletableFuture<Optional<BigDecimal>> hscei = httpService.queryAsync(hsceiParser.createRequest()::asStringAsync, hsceiParser::parse);
 
-		assertEquals(21615.09, hsi.join().get().doubleValue(), 2);
-		assertEquals(10126.97, hscei.join().get().doubleValue(), 2);
+		assertEquals(21042.64	, hsi.join().get().doubleValue(), 2);
+		assertEquals(8831.97, hscei.join().get().doubleValue(), 2);
 	}
 }
