@@ -33,10 +33,10 @@ public class ISharesConstituentParser {
 	public static List<String> parseMSCIHK(HttpResponse input) {
 		try {
 			Map<String, ?> value = jsonReader.readValue(input.getRawBody());
-			List<Map<String,Object>> data = (List<Map<String, Object>>) value.get("aaData");
+			List<List<String>> data = (List<List<String>>) value.get("aaData");
 			List<String> results = data.stream()					
-									.filter(m -> m.get("colExchange").equals("Hong Kong Exchanges And Clearing Ltd"))
-									.map(m -> (String)m.get("colTicker"))
+									.filter(l -> l.get(11).equals("Hong Kong Exchanges And Clearing Ltd"))
+									.map(l -> l.get(0))
 									.collect(Collectors.toList());
 			return results;
 		} catch (Exception e) {
