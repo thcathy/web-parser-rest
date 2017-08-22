@@ -1,4 +1,4 @@
-# web-parser-rest [![CircleCI](https://circleci.com/gh/thcathy/web-parser-rest.svg?style=svg)](https://circleci.com/gh/thcathy/web-parser-rest)
+# web-parser-rest
 
 A server provide restful API to parse resources from websites.
 
