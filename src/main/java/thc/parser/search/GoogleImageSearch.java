@@ -42,22 +42,27 @@ public class GoogleImageSearch {
 	}
 
 	public static List<WebItem> parse(HttpResponse<JsonNode> response) {
-		log.info("start parse response status: {}", response.getStatus());
-		if (response.getStatus() > HttpStatus.SC_OK)
-			throw new RuntimeException("Google image api return fail: {}" + response.getBody());
+		try {
+			log.info("start parse response status: {}", response.getStatus());
+			if (response.getStatus() > HttpStatus.SC_OK)
+				throw new RuntimeException("Google image api return fail: {}" + response.getBody());
 
-		if (!response.getBody().getObject().has("items")) {
-			log.warn("No item found from body", response.getBody().getObject());
+			if (!response.getBody().getObject().has("items")) {
+				log.warn("No item found from body", response.getBody().getObject());
+				return Collections.EMPTY_LIST;
+			}
+
+			JSONArray items = response.getBody().getObject().getJSONArray("items");
+			log.debug("Query result items: {}", items.toString());
+
+			return IntStream.range(0, NUM_RESULT)
+					.mapToObj(items::getJSONObject)
+					.map(GoogleImageSearch::toWebItem)
+					.collect(Collectors.toList());
+		} catch (Exception e) {
+			log.error("fail to parse response", e);
 			return Collections.EMPTY_LIST;
 		}
-
-		JSONArray items = response.getBody().getObject().getJSONArray("items");
-		log.debug("Query result items: {}", items.toString());
-
-		return IntStream.range(0, NUM_RESULT)
-				.mapToObj(items::getJSONObject)
-				.map(GoogleImageSearch::toWebItem)
-				.collect(Collectors.toList());
 	}
 
 	private static WebItem toWebItem(JSONObject src) {

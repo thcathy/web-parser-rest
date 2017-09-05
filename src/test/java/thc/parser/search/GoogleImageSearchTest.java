@@ -1,10 +1,14 @@
 package thc.parser.search;
 
 import com.google.common.base.Stopwatch;
+import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.request.HttpRequest;
+import org.apache.http.HttpStatus;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 import thc.domain.WebItem;
 import thc.service.HttpService;
 import thc.unirest.UnirestSetup;
@@ -14,6 +18,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
 public class GoogleImageSearchTest {
 	private Logger log = LoggerFactory.getLogger(GoogleImageSearchTest.class);
@@ -48,6 +53,15 @@ public class GoogleImageSearchTest {
 		} finally {
 			GoogleImageSearch.keys = keys;
 		}
+	}
+
+	@Test
+	public void parse_givenFailedResponse_shouldReturnEmptyList() {
+		HttpResponse mockResponse = Mockito.mock(HttpResponse.class);
+		when(mockResponse.getStatus()).thenReturn(HttpStatus.SC_BAD_REQUEST);
+
+		List result = GoogleImageSearch.parse(mockResponse);
+		assertTrue(CollectionUtils.isEmpty(result));
 	}
 
 	private void checkItem(WebItem webItem) {
