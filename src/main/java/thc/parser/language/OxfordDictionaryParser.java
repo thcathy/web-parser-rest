@@ -37,12 +37,18 @@ public class OxfordDictionaryParser {
 	}
 
 	public Optional<DictionaryResult> parse(HttpResponse<JsonNode> response) {
-		log.info("start parse response status: {}", response.getStatus());
-		if (response.getStatus() > HttpStatus.SC_OK) throw new RuntimeException("Oxford dictionary api return fail: {}" + response.getBody());
+		try {
+			log.info("start parse response status: {}", response.getStatus());
+			if (response.getStatus() > HttpStatus.SC_OK)
+				throw new RuntimeException("Oxford dictionary api return fail: {}" + response.getBody());
 
-		JSONArray results = response.getBody().getObject().getJSONArray("results").getJSONObject(0).getJSONArray("lexicalEntries");
-		Optional<JSONObject> result = matchQueryToResult(results);
-		return result.map(this::toDictionayResult);
+			JSONArray results = response.getBody().getObject().getJSONArray("results").getJSONObject(0).getJSONArray("lexicalEntries");
+			Optional<JSONObject> result = matchQueryToResult(results);
+			return result.map(this::toDictionayResult);
+		} catch (Exception e) {
+			log.error("Fail parse response", e);
+			return Optional.empty();
+		}
 	}
 
 	private Optional<JSONObject> matchQueryToResult(JSONArray results) {
