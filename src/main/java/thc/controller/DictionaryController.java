@@ -50,9 +50,9 @@ public class DictionaryController {
 		LongmanDictionaryParser parser = new LongmanDictionaryParser(query);
 		HttpRequest request = parser.createRequest();
 		try {
-			return httpService.queryAsync(request::asJsonAsync, parser::parse).get(2, TimeUnit.SECONDS);
+			return httpService.queryAsync(request::asJsonAsync, parser::parse).get(10, TimeUnit.SECONDS);
 		} catch (Exception e) {
-			log.warn("Exception when query longman dictionary for {}", query);
+			log.warn("Exception when query longman dictionary for {}", query, e);
 			return Optional.empty();
 		}
 	}
@@ -61,9 +61,9 @@ public class DictionaryController {
 		OxfordDictionaryParser parser = new OxfordDictionaryParser(query);
 		HttpRequest request = parser.createRequest();
 		try {
-			return httpService.queryAsync(request::asJsonAsync, parser::parse).get(2, TimeUnit.SECONDS);
+			return httpService.queryAsync(request::asJsonAsync, parser::parse).get(10, TimeUnit.SECONDS);
 		} catch (Exception e) {
-			log.warn("Exception when query oxford dictionary for {}", query);
+			log.warn("Exception when query oxford dictionary for {}", query, e);
 			return Optional.empty();
 		}
 	}
