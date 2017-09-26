@@ -37,8 +37,7 @@ public class DictionaryController {
     public ResponseEntity<DictionaryResult> query(@PathVariable String query) {
     	log.debug("query: {}", query);
 
-		Optional<DictionaryResult> result = queryLongmanDictionary(query);
-		if (!result.isPresent() || !result.get().hasPronunciation()) result	= queryOxfordDictionary(query);
+		Optional<DictionaryResult> result = queryOxfordDictionary(query);
 
 		if (result.isPresent())
 			return ResponseEntity.ok(result.get());

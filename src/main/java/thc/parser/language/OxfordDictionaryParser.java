@@ -12,14 +12,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import thc.domain.DictionaryResult;
 
+import java.util.Date;
 import java.util.Optional;
 
 public class OxfordDictionaryParser {
 	protected static final Logger log = LoggerFactory.getLogger(OxfordDictionaryParser.class);
 
 	public static final String URL = "https://od-api.oxforddictionaries.com/api/v1/entries/en/";
-	public static volatile String APP_KEY;
-	public static volatile String APP_ID;
+	public static final String KEY_SEPARATOR = ",";
+	public static volatile String[] APP_KEY_LIST;
+	public static volatile String[] APP_ID_LIST;
+
 
 	private final String query;
 
@@ -28,12 +31,13 @@ public class OxfordDictionaryParser {
 	}
 
 	public HttpRequest createRequest() {
-		if (StringUtils.isEmpty(APP_KEY) || StringUtils.isEmpty(APP_ID))
+		int i = (int) (System.currentTimeMillis() % APP_ID_LIST.length);
+		if (StringUtils.isEmpty(APP_KEY_LIST[i]) || StringUtils.isEmpty(APP_ID_LIST[i]))
 			throw new IllegalArgumentException("Cannot query Oxford dictionary without App Key and App Id");
 
 		return Unirest.get(URL + query)
-				.header("app_id", APP_ID)
-				.header("app_key", APP_KEY);
+				.header("app_id", APP_ID_LIST[i])
+				.header("app_key", APP_KEY_LIST[i]);
 	}
 
 	public Optional<DictionaryResult> parse(HttpResponse<JsonNode> response) {
