@@ -12,22 +12,31 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import thc.domain.DictionaryResult;
 
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.Optional;
 
 public class OxfordDictionaryParser {
 	protected static final Logger log = LoggerFactory.getLogger(OxfordDictionaryParser.class);
 
-	public static final String URL = "https://od-api.oxforddictionaries.com/api/v1/entries/en/";
+	public static final String URL = "https://od-api.oxforddictionaries.com/api/v1/entries/en/{0}/regions={1}";
 	public static final String KEY_SEPARATOR = ",";
 	public static volatile String[] APP_KEY_LIST;
 	public static volatile String[] APP_ID_LIST;
+	public static final String REGION_GB = "gb";
+	public static final String REGION_US = "us";
 
 
 	private final String query;
+	private final String region;
 
 	public OxfordDictionaryParser(String query) {
+		this(query, REGION_GB);
+	}
+
+	public OxfordDictionaryParser(String query, String region) {
 		this.query = query;
+		this.region = region;
 	}
 
 	public HttpRequest createRequest() {
@@ -35,7 +44,7 @@ public class OxfordDictionaryParser {
 		if (StringUtils.isEmpty(APP_KEY_LIST[i]) || StringUtils.isEmpty(APP_ID_LIST[i]))
 			throw new IllegalArgumentException("Cannot query Oxford dictionary without App Key and App Id");
 
-		return Unirest.get(URL + query)
+		return Unirest.get(MessageFormat.format(URL, query, region))
 				.header("app_id", APP_ID_LIST[i])
 				.header("app_key", APP_KEY_LIST[i]);
 	}
@@ -101,10 +110,24 @@ public class OxfordDictionaryParser {
 		String audioLang = "";
 
 		if (src.has("pronunciations")) {
-			JSONObject pronunciation = src.getJSONArray("pronunciations").getJSONObject(0);
-			ipa = pronunciation.getString("phoneticSpelling");
-			audioUrl = pronunciation.getString("audioFile");
-			audioLang = pronunciation.getJSONArray("dialects").getString(0);
+			JSONArray pronunciations = src.getJSONArray("pronunciations");
+			for (int i=0; i < pronunciations.length(); i++) {
+				JSONObject pronunciation = pronunciations.getJSONObject(i);
+
+				if (pronunciation.has("phoneticNotation") && pronunciation.has("phoneticSpelling")) {
+					if (pronunciation.getString("phoneticNotation").equalsIgnoreCase("IPA"))
+						ipa = pronunciation.getString("phoneticSpelling").replaceAll("\\(","").replaceAll("\\)","");
+				}
+
+				if (pronunciation.has("audioFile")) {
+					audioUrl = pronunciation.getString("audioFile");
+					if (pronunciation.has("dialects"))
+						audioLang = pronunciation.getJSONArray("dialects").getString(0);
+				}
+
+				if (StringUtils.isNotEmpty(ipa) && StringUtils.isNotEmpty(audioUrl))
+					break;
+			}
 		}
 
 		String definition =
