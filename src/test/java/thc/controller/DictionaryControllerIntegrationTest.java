@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import thc.WebParserRestApplication;
 
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.StringEndsWith.endsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -84,7 +85,7 @@ public class DictionaryControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("word", is("center")))
-                .andExpect(jsonPath("pronunciationUrl", is("http://dictionary.cambridge.org/media/english/uk_pron/u/ukc/ukcen/ukcensu007.mp3")))
+                .andExpect(jsonPath("pronunciationUrl", endsWith("//dictionary.cambridge.org/media/english/uk_pron/u/ukc/ukcen/ukcensu007.mp3")))
                 .andExpect(jsonPath("pronunciationLang", is("British English")))
                 .andExpect(jsonPath("IPA", is("ˈsen.tə")));
     }
@@ -95,7 +96,7 @@ public class DictionaryControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("word", is("anymore")))
-                .andExpect(jsonPath("pronunciationUrl", is("http://dictionary.cambridge.org/media/english/uk_pron/u/uka/ukant/ukantis017.mp3")))
+                .andExpect(jsonPath("pronunciationUrl", endsWith("//dictionary.cambridge.org/media/english/uk_pron/u/uka/ukant/ukantis017.mp3")))
                 .andExpect(jsonPath("IPA", is("ˌen.iˈmɔː")));
     }
 
@@ -105,7 +106,7 @@ public class DictionaryControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("word", is("program")))
-                .andExpect(jsonPath("pronunciationUrl", is("http://dictionary.cambridge.org/media/english/uk_pron/u/ukp/ukpro/ukprofi026.mp3")))
+                .andExpect(jsonPath("pronunciationUrl", endsWith("//dictionary.cambridge.org/media/english/uk_pron/u/ukp/ukpro/ukprofi026.mp3")))
                 .andExpect(jsonPath("IPA", is("ˈprəʊ.ɡræm")));
     }
 
