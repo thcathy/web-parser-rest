@@ -1,22 +1,29 @@
-general:
-  artifacts:
-    - "build/reports"
-    - "build/libs/web-parser-rest.jar"
-    
-machine:
-  services:
-    - docker
-    
-test:
-  post:
-    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
-    - find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
-
-deployment:
-  hub:
-    branch: master
-    commands:
-      - ./gradlew assemble
-      - docker build -t thcathy/web-parser-rest .
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - docker push thcathy/web-parser-rest
+version: 2
+jobs:
+  build:
+    working_directory: ~/code
+    docker:
+      - image: circleci/openjdk:8-jdk
+    environment:
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - restore_cache:
+          key: web-parser-rest-{{ checksum "build.gradle" }}
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: web-parser-rest-{{ checksum "build.gradle" }}
+      - run:
+          name: Run Tests
+          command: ./gradlew check
+      - store_test_results:
+          path: ./build/test-results
+      - run: |
+          TAG=1.0.$CIRCLE_BUILD_NUM
+          docker build -t thcathy/web-parser-rest:$TAG .
+          docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+          docker push thcathy/web-parser-rest:$TAG
