@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/web-parser-rest
+    working_directory: ~/code
     docker:
       - image: circleci/openjdk:8-jdk
         environment:
@@ -14,7 +14,7 @@ jobs:
           key: web-parser-rest-{{ checksum "build.gradle" }}
       - run:
           name: Download Dependencies
-          command: ./gradlew androidDependencies
+          command: ./gradlew dependencies
       - save_cache:
           paths:
             - ~/.gradle
