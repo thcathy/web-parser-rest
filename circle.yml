@@ -38,7 +38,7 @@ jobs:
       - setup_remote_docker
       - run: |
           TAG=1.0.$CIRCLE_BUILD_NUM
-          cp --parents ./build/libs/web-parser-rest.jar /var/lib/docker/${DOCKER_CERT_PATH}
+          cp --parents ./build/libs/web-parser-rest.jar /var/lib/docker/${DOCKER_CERT_PATH}/
           docker build -t thcathy/web-parser-rest:$TAG .
           docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
           docker push thcathy/web-parser-rest:$TAG
