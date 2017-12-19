@@ -32,6 +32,9 @@ jobs:
           path: ~/junit
       - store_artifacts:
           path: ~/junit
+      - run:
+          name: Build Artifacts
+          command: ./gradlew assemble
       - setup_remote_docker
       - run: |
           TAG=1.0.$CIRCLE_BUILD_NUM
