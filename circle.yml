@@ -41,3 +41,19 @@ jobs:
           docker build -t thcathy/web-parser-rest:$TAG .
           docker login -u $DOCKER_USER -p $DOCKER_PASS
           docker push thcathy/web-parser-rest:$TAG
+
+workflows:
+  version: 2
+  commit-workflow:
+    jobs:
+      - build 
+  scheduled-workflow:
+    triggers:
+      - schedule:
+          cron: "20 5 * * 5"
+          filters:
+            branches:
+              only: 
+                - master
+    jobs:
+      - build
