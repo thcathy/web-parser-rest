@@ -41,8 +41,8 @@ jobs:
             - code
   deploy:
     working_directory: ~/code
-      docker:
-        - image: circleci/openjdk:8-jdk
+    docker:
+      - image: circleci/openjdk:8-jdk
     steps:      
       - attach_workspace:
           at: ~/
