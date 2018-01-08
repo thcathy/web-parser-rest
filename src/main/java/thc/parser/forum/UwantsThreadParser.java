@@ -13,8 +13,8 @@ public class UwantsThreadParser extends ForumThreadParser {
 	static public volatile String USERNAME;
 	static public volatile String PASSWORD;
 
-	public UwantsThreadParser(String url, String source) {
-		super(url, source, "Big5", Optional.of(MessageFormat.format(LOGIN_URL, USERNAME, PASSWORD)));
+	public UwantsThreadParser(String url, String source, String encoding) {
+		super(url, source, encoding, Optional.of(MessageFormat.format(LOGIN_URL, USERNAME, PASSWORD)));
 		validateAccount();
 	}
 

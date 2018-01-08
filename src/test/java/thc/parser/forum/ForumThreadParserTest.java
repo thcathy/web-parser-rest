@@ -30,7 +30,7 @@ public class ForumThreadParserTest {
 	public void parse_GivenRightURL_ShouldReturnSomeForumThread() throws UnirestException {
 		// Test Uwants
 		String uwantsSource = "Uwants";
-		ForumThreadParser uwants = new UwantsThreadParser("http://www.uwants.com/forumdisplay.php?fid=472&page=1", uwantsSource);
+		ForumThreadParser uwants = new UwantsThreadParser("http://www.uwants.com/forumdisplay.php?fid=472&page=1", uwantsSource, "UTF-8");
 		List<ForumThread> result = queryService.query(uwants);
         
 		checkForumThreadList(uwantsSource, "www.uwants.com", result);
