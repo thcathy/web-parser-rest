@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import thc.WebParserRestApplication;
 
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.StringEndsWith.endsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -61,9 +62,9 @@ public class DictionaryControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("word", is("toward")))
-                .andExpect(jsonPath("pronunciationUrl", is("http://audio.oxforddictionaries.com/en/mp3/toward_gb_1_8.mp3")))
+                .andExpect(jsonPath("pronunciationUrl", is("http://audio.oxforddictionaries.com/en/mp3/toward_gb_1.mp3")))
                 .andExpect(jsonPath("pronunciationLang", is("British English")))
-                .andExpect(jsonPath("IPA", is("twɔːd")));
+                .andExpect(jsonPath("IPA", is("təˈwɔːd")));
     }
 
     @Test
@@ -72,10 +73,41 @@ public class DictionaryControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("word", is("senior")))
-                .andExpect(jsonPath("pronunciationUrl", is("http://audio.oxforddictionaries.com/en/mp3/senior_gb_1_8.mp3")))
+                .andExpect(jsonPath("pronunciationUrl", is("http://audio.oxforddictionaries.com/en/mp3/senior_gb_2_8.mp3")))
                 .andExpect(jsonPath("pronunciationLang", is("British English")))
                 .andExpect(jsonPath("definition", is("of or for older or more experienced people")))
-                .andExpect(jsonPath("IPA", is("ˈsiːnɪə")));
+                .andExpect(jsonPath("IPA", is("ˈsiːnjə")));
+    }
+
+    @Test
+    public void queryCenter_shouldReturnResult() throws Exception {
+        mockMvc.perform(get("/rest/dictionary/center"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("word", is("center")))
+                .andExpect(jsonPath("pronunciationUrl", endsWith("//dictionary.cambridge.org/media/english/uk_pron/u/ukc/ukcen/ukcensu007.mp3")))
+                .andExpect(jsonPath("pronunciationLang", is("British English")))
+                .andExpect(jsonPath("IPA", is("ˈsen.tə")));
+    }
+
+    @Test
+    public void queryAnymore_shouldReturnResult() throws Exception {
+        mockMvc.perform(get("/rest/dictionary/anymore"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("word", is("anymore")))
+                .andExpect(jsonPath("pronunciationUrl", endsWith("//dictionary.cambridge.org/media/english/uk_pron/u/uka/ukant/ukantis017.mp3")))
+                .andExpect(jsonPath("IPA", is("ˌen.iˈmɔː")));
+    }
+
+    @Test
+    public void queryProgram_shouldReturnResult() throws Exception {
+        mockMvc.perform(get("/rest/dictionary/program"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("word", is("program")))
+                .andExpect(jsonPath("pronunciationUrl", endsWith("//dictionary.cambridge.org/media/english/uk_pron/u/ukp/ukpro/ukprofi026.mp3")))
+                .andExpect(jsonPath("IPA", is("ˈprəʊ.ɡræm")));
     }
 
 }

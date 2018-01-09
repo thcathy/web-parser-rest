@@ -2,6 +2,7 @@ package thc.parser.language;
 
 import com.mashape.unirest.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -10,6 +11,8 @@ import java.util.Optional;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.when;
 
+// longman dictionary api is going deleted
+@Ignore
 public class LongmanDictionaryParserTest {
     @Test
     public void parse_givenFailedResponse_shouldReturnOptionalEmpty() {

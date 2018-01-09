@@ -26,6 +26,7 @@ import thc.unirest.UnirestSetup;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.Filter;
+import java.util.Optional;
 
 @SpringBootApplication
 @EnableCaching
@@ -63,8 +64,8 @@ public class WebParserRestApplication {
         UwantsThreadParser.PASSWORD = discussPassword;
 		GoogleImageSearch.setAPIKeys(googleAPIKey);
 		LongmanDictionaryParser.CONSUMER_KEY = pearsonAPIKey;
-		OxfordDictionaryParser.APP_ID = oxfordDictionaryAppId;
-		OxfordDictionaryParser.APP_KEY = oxfordDictionaryAppKey;
+		OxfordDictionaryParser.APP_ID_LIST = Optional.ofNullable(oxfordDictionaryAppId).orElse("").split(OxfordDictionaryParser.KEY_SEPARATOR);
+		OxfordDictionaryParser.APP_KEY_LIST = Optional.ofNullable(oxfordDictionaryAppKey).orElse("").split(OxfordDictionaryParser.KEY_SEPARATOR);
 
 		UnirestSetup.MAX_TOTAL_HTTP_CONNECTION = httpMaxConnection;
 		UnirestSetup.MAX_HTTP_CONNECTION_PER_ROUTE = httpMaxConnectionPerRoute;
