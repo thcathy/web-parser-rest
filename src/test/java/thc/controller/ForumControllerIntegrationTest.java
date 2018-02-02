@@ -30,7 +30,7 @@ public class ForumControllerIntegrationTest {
 	@Autowired ForumController controller;	
 	@Value("${forum.threadEarliestDay}") int threadShouldNotOlderDay;
 
-	private static int MIN_NUM_OF_THREADS = 200;
+	private static int MIN_NUM_OF_THREADS = 150;
 
 	@Test
 	public void list_MusicPage1_ShouldReturnDescendingForumThreadsNotOlderThanConfig() {
