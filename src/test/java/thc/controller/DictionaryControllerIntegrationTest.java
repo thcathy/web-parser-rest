@@ -17,6 +17,7 @@ import thc.WebParserRestApplication;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.StringEndsWith.endsWith;
+import static org.hamcrest.core.StringStartsWith.startsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -62,7 +63,7 @@ public class DictionaryControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("word", is("toward")))
-                .andExpect(jsonPath("pronunciationUrl", is("http://audio.oxforddictionaries.com/en/mp3/toward_gb_1.mp3")))
+                .andExpect(jsonPath("pronunciationUrl", startsWith("http://audio.oxforddictionaries.com/en/mp3/toward_gb")))
                 .andExpect(jsonPath("pronunciationLang", is("British English")))
                 .andExpect(jsonPath("IPA", is("təˈwɔːd")));
     }
@@ -73,7 +74,7 @@ public class DictionaryControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("word", is("senior")))
-                .andExpect(jsonPath("pronunciationUrl", is("http://audio.oxforddictionaries.com/en/mp3/senior_gb_2_8.mp3")))
+                .andExpect(jsonPath("pronunciationUrl", startsWith("http://audio.oxforddictionaries.com/en/mp3/senior_gb_2")))
                 .andExpect(jsonPath("pronunciationLang", is("British English")))
                 .andExpect(jsonPath("definition", is("of or for older or more experienced people")))
                 .andExpect(jsonPath("IPA", is("ˈsiːnjə")));
