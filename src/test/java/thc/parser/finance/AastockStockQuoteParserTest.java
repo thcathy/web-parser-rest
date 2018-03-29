@@ -50,6 +50,8 @@ public class AastockStockQuoteParserTest {
 
         HttpRequest request = AastockStockQuoteParser.createRequest("2800");
         StockQuote q = httpService.queryAsync(request::asBinaryAsync, AastockStockQuoteParser::parse).join().get();
+        log.debug("StockQuote: ", q);
+
         assertEquals("2800", q.getStockCode());
         assertEquals("TRACKER FUND", q.getStockName());
         assertTrue(NumberUtils.isNumber(q.getPrice()));

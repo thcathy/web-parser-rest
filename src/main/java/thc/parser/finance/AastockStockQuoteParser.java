@@ -4,6 +4,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.request.HttpRequest;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
@@ -46,8 +47,8 @@ public class AastockStockQuoteParser {
 			// day high day low
 			String[] range = doc.select("div:containsOwn(Range)").first().nextElementSibling().nextElementSibling().text().split(" ");
 			if (range.length >= 3) {
-				if (StringUtils.isNumeric(range[0])) quote.setHigh(range[0]);
-				if (StringUtils.isNumeric(range[2])) quote.setLow(range[2]);
+				if (NumberUtils.isNumber(range[0])) quote.setLow(range[0]);
+				if (NumberUtils.isNumber(range[2])) quote.setHigh(range[2]);
 			}
 
 			// PE
