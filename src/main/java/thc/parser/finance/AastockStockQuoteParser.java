@@ -31,7 +31,7 @@ public class AastockStockQuoteParser {
 		try
 		{			
 			Document doc = Jsoup.parse(response.getRawBody(), "UTF-8", URL);
-			StockQuote quote = new StockQuote(extractNumber(doc.select("title").first().text()).replace(".-",""));
+			StockQuote quote = new StockQuote(extractNumber(doc.select("title").first().text()).replace(".-","").replaceFirst("^0+(?!$)", ""));
 
 			// price
 			quote.setPrice(doc.select("div[id=labelLast] span").first().text().substring(1));
@@ -45,8 +45,10 @@ public class AastockStockQuoteParser {
 
 			// day high day low
 			String[] range = doc.select("div:containsOwn(Range)").first().nextElementSibling().nextElementSibling().text().split(" ");
-			quote.setHigh(range[0]);
-			quote.setLow(range[2]);
+			if (range.length >= 3) {
+				if (StringUtils.isNumeric(range[0])) quote.setHigh(range[0]);
+				if (StringUtils.isNumeric(range[2])) quote.setLow(range[2]);
+			}
 
 			// PE
 			quote.setPe(parseValue(() -> doc.select("div[id=tbPERatio]").first().child(1).text().split(" / ")[0].substring(1)));

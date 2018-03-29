@@ -71,8 +71,10 @@ public class FinanceControllerIntegrationTest {
         assertNotEquals(0.0, quote.getLastYearPercentage());
         assertNotEquals(0.0, quote.getLast2YearPercentage());
         assertNotEquals(0.0, quote.getLast3YearPercentage());
-        assertTrue("High >= Low", Double.valueOf(quote.getHigh()) >= Double.valueOf(quote.getLow()));
-        assertTrue("Year High >= Year Low", Double.valueOf(quote.getYearHigh()) >= Double.valueOf(quote.getYearLow()));
+        if (TestUtils.withIntraDayData()) {
+            assertTrue("High >= Low", Double.valueOf(quote.getHigh()) >= Double.valueOf(quote.getLow()));
+            assertTrue("Year High >= Year Low", Double.valueOf(quote.getYearHigh()) >= Double.valueOf(quote.getYearLow()));
+        }
     }
 
 	@Test

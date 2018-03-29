@@ -3,6 +3,7 @@ package thc.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ForkJoinPool;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -32,19 +35,26 @@ public class FinanceController {
 	@Autowired
 	HttpService httpService;
 
+	@Value("${financeController.quotes.threadPool:10}")
+	int threadPool;
+
     @RequestMapping(value = "/rest/quote/realtime/list/{codes}", method = GET)
-    public List<StockQuote> hkQuotes(@PathVariable String codes) {
+    public List<StockQuote> hkQuotes(@PathVariable String codes) throws ExecutionException, InterruptedException {
     	log.info("hkquote: codes [{}]", codes);
 
 		List<CompletableFuture<Optional<StockQuote>>> quotes = Arrays.stream(codes.split(","))
-				.map(SinaStockQuoteParser::createRequest)
-                .map(r -> httpService.queryAsync(r::asBinaryAsync, SinaStockQuoteParser::parse))
+				.map(EtnetStockQuoteParser::createRequest)
+                .map(r -> httpService.queryAsync(r::asBinaryAsync, EtnetStockQuoteParser::parse))
 				.collect(Collectors.toList());
 
-		return quotes.stream().map(q -> q.join())
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-				.collect(Collectors.toList());
+		ForkJoinPool forkJoinPool = new ForkJoinPool(threadPool);
+		return forkJoinPool.submit(() ->
+					quotes.stream().map(q -> q.join())
+								.filter(Optional::isPresent)
+								.map(Optional::get)
+								.collect(Collectors.toList())
+		).get();
+
     }
 
     @RequestMapping(value = "/rest/quote/full/{code}", method = GET)

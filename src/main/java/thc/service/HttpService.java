@@ -10,9 +10,6 @@ import java.io.InputStream;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
-/**
- * Created by thcathy on 23/7/2016.
- */
 public class HttpService {
     public HttpService() {
         UnirestSetup.setupAll();
