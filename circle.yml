@@ -49,8 +49,9 @@ jobs:
       - setup_remote_docker
       - run: |
           TAG=1.0.$CIRCLE_BUILD_NUM          
-          docker build -t thcathy/web-parser-rest:$TAG .
+          docker build -t thcathy/web-parser-rest:latest -t thcathy/web-parser-rest:$TAG .
           docker login -u $DOCKER_USER -p $DOCKER_PASS
+          docker push thcathy/web-parser-rest:latest
           docker push thcathy/web-parser-rest:$TAG
 workflows:
   version: 2
