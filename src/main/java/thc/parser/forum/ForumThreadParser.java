@@ -39,7 +39,7 @@ public abstract class ForumThreadParser {
 		if (url.contains("www.uwants.com")) 
 			return new UwantsThreadParser(String.format(url,page), "Uwants", "UTF-8");
 		else if (url.contains("www.discuss.com"))
-			return new UwantsThreadParser(String.format(url,page), "Discuss", "Big5");
+			return new UwantsThreadParser(String.format(url,page), "Discuss", "UTF-8");
 		else if (url.contains("www.tvboxnow.com"))
 			return new TvboxnowThreadParser(String.format(url,page), "Tvboxnow");			
 		else
