@@ -70,7 +70,8 @@ public class GoogleImageSearch {
 				src.getString("link"),
 				src.getString("mime"),
 				src.getJSONObject("image").getInt("height"),
-				src.getJSONObject("image").getInt("width")
+				src.getJSONObject("image").getInt("width"),
+				src.getJSONObject("image").getString("thumbnailLink")
 		);
 	}
 

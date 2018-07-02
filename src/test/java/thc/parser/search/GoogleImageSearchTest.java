@@ -16,8 +16,8 @@ import thc.unirest.UnirestSetup;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 public class GoogleImageSearchTest {
@@ -70,5 +70,6 @@ public class GoogleImageSearchTest {
 		assertTrue(webItem.mime.startsWith("image"));
 		assertTrue(webItem.imageHeight > 10);
 		assertTrue(webItem.imageWidth > 10);
+		assertThat(webItem.thumbnailUrl, containsString("https://"));
 	}
 }
