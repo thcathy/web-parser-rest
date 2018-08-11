@@ -12,7 +12,7 @@ import java.util.Optional;
 public class CambridgeDictionaryParser {
 	protected static final Logger log = LoggerFactory.getLogger(CambridgeDictionaryParser.class);
 
-	public static final String URL = "http://dictionary.cambridge.org/dictionary/english/";
+	public static final String URL = "https://dictionary.cambridge.org/dictionary/english/";
 
 	private String query;
 	private String audioLink;
@@ -47,8 +47,8 @@ public class CambridgeDictionaryParser {
 		try {
 			doc = Jsoup.connect(url).get();
 
-			Elements audioLinkSource = doc.select("span.audio_play_button.uk");
-			audioLink = audioLinkSource.get(0).attr("data-src-mp3");
+			Elements audioLinkSource = doc.select("span.audio_play_button");
+			audioLink = "https://dictionary.cambridge.org" + audioLinkSource.get(0).attr("data-src-mp3");
 
 			ipa = doc.select("span.ipa").get(0).ownText();
 		} catch (Exception e1) {

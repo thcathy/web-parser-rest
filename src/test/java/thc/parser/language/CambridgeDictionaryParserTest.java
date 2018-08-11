@@ -1,11 +1,13 @@
 package thc.parser.language;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import thc.domain.DictionaryResult;
 
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class CambridgeDictionaryParserTest {
@@ -16,7 +18,7 @@ public class CambridgeDictionaryParserTest {
 
 		assertTrue(result.isPresent());
 		assertEquals("bəˈnɑː.nə", result.get().IPA);
-		assertTrue(result.get().pronunciationUrl.endsWith("//dictionary.cambridge.org/media/english/uk_pron/u/ukb/ukbal/ukballs018.mp3"));
+		assertThat(result.get().pronunciationUrl, Matchers.endsWith("//dictionary.cambridge.org/media/english/uk_pron/u/ukb/ukbal/ukballs018.mp3"));
 	}
 
 	@Test
@@ -25,7 +27,7 @@ public class CambridgeDictionaryParserTest {
 
 		assertTrue(result.isPresent());
 		assertEquals("ˈɒr.ɪndʒ",result.get().IPA);
-		assertTrue(result.get().pronunciationUrl.endsWith("//dictionary.cambridge.org/media/english/uk_pron/u/uko/ukora/ukorang001.mp3"));
+		assertThat(result.get().pronunciationUrl, Matchers.endsWith("//dictionary.cambridge.org/media/english/uk_pron/u/uko/ukora/ukorang001.mp3"));
 	}
 
 	@Test
