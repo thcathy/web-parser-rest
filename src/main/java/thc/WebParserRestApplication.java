@@ -1,5 +1,7 @@
 package thc;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -12,9 +14,13 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import reactor.core.publisher.Mono;
+import thc.controller.FinanceController;
 import thc.parser.forum.TvboxnowThreadParser;
 import thc.parser.forum.UwantsThreadParser;
 import thc.parser.language.LongmanDictionaryParser;
@@ -31,6 +37,7 @@ import java.util.Optional;
 @SpringBootApplication
 @EnableCaching
 public class WebParserRestApplication {
+	private static Logger log = LoggerFactory.getLogger(WebParserRestApplication.class);
 
 	@Configuration
 	@PropertySource({"classpath:application.properties"})
@@ -55,6 +62,7 @@ public class WebParserRestApplication {
 	@Value("${pearsonapi.key}") String pearsonAPIKey;
 	@Value("${oxford.dictionary.appId}") String oxfordDictionaryAppId;
 	@Value("${oxford.dictionary.appKey}") String oxfordDictionaryAppKey;
+	@Value("${webclient.log.enable:true}") boolean enableWebClientLog;
 
     @PostConstruct
     public void configure() {
@@ -95,7 +103,34 @@ public class WebParserRestApplication {
             }
         };
     }
-        	
+
+    @Bean
+	public WebClient webClient() {
+		WebClient.Builder builder = WebClient.builder();
+
+		if (enableWebClientLog) {
+			builder = builder
+					.filter(logWebClientRequest())
+					.filter(logWebClientResponse());
+		}
+
+    	return WebClient.create();
+	}
+
+	private ExchangeFilterFunction logWebClientRequest() {
+		return ExchangeFilterFunction.ofRequestProcessor(clientRequest -> {
+			log.info("Request: {} {}", clientRequest.method(), clientRequest.url());
+			return Mono.just(clientRequest);
+		});
+	}
+
+	private ExchangeFilterFunction logWebClientResponse() {
+		return ExchangeFilterFunction.ofResponseProcessor(clientResponse -> {
+			log.info("Response Status {}", clientResponse. ,clientResponse.statusCode());
+			return Mono.just(clientResponse);
+		});
+	}
+
 	/**
 	 * Main function for the whole application
 	 */
