@@ -1,18 +1,18 @@
 package thc.parser.finance;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.request.HttpRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.asynchttpclient.AsyncHttpClient;
+import org.asynchttpclient.BoundRequestBuilder;
+import org.asynchttpclient.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import thc.domain.StockQuote;
 
-import java.io.InputStream;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 import static thc.util.NumberUtils.extractNumber;
@@ -21,17 +21,32 @@ public class AastockStockQuoteParser {
 	protected static final Logger log = LoggerFactory.getLogger(AastockStockQuoteParser.class);
 	
 	public static String URL = "http://www.aastocks.com/en/stocks/quote/detail-quote.aspx?symbol=";
+	private final BoundRequestBuilder requestBuilder;
 
-	public static HttpRequest createRequest(String code) {
-		return Unirest.get(URL + StringUtils.leftPad(code, 5, '0'))
-				.header("Referer", "http://www.aastocks.com/en/stocks/quote/detail-quote.aspx")
-				.header("Host", "www.aastocks.com");
+	public AastockStockQuoteParser(AsyncHttpClient asyncHttpClient) {
+		this.requestBuilder = asyncHttpClient.prepareGet("http://www.aastocks.com/en/stocks/quote/detail-quote.aspx")
+				.addHeader("Referer", "http://www.aastocks.com/en/stocks/quote/detail-quote.aspx")
+				.addHeader("Host", "www.aastocks.com");
 	}
 
-	public static Optional<StockQuote> parse(HttpResponse<InputStream> response) {
+	public CompletableFuture<Optional<StockQuote>> query(String code) {
+		return requestBuilder
+				.addQueryParam("symbol", StringUtils.leftPad(code, 5, '0'))
+				.execute()
+				.toCompletableFuture()
+				.exceptionally(t -> nullResponseOnError(code, t))
+				.thenApply(response -> parse(response));
+	}
+
+	private static Response nullResponseOnError(String url, Throwable t) {
+		log.error("Error when querying: {}", url, t);
+		return null;
+	}
+
+	public Optional<StockQuote> parse(Response response) {
 		try
-		{			
-			Document doc = Jsoup.parse(response.getRawBody(), "UTF-8", URL);
+		{
+			Document doc = Jsoup.parse(response.getResponseBodyAsStream(), "UTF-8", URL);
 			StockQuote quote = new StockQuote(extractNumber(doc.select("title").first().text()).replace(".-","").replaceFirst("^0+(?!$)", ""));
 
 			// price
@@ -65,11 +80,11 @@ public class AastockStockQuoteParser {
 			String[] yearHighLow = doc.select("td:containsOwn(52 Week)").first().nextElementSibling().text().split(" - ");
 			quote.setYearLow(yearHighLow[0]);
 			quote.setYearHigh(yearHighLow[1]);
-            return Optional.of(quote);
+            return Optional.ofNullable(quote);
 		} catch (Exception e) {
 			log.error("Cannot parse stock code: {}", response.getHeaders(), e);            
 		}
-        return Optional.empty();		
+        return Optional.empty();
 	}
 
     private static String parseValue(Supplier<String> f) {

@@ -1,5 +1,6 @@
 package thc;
 
+import org.asynchttpclient.AsyncHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +15,9 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
-import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import reactor.core.publisher.Mono;
-import thc.controller.FinanceController;
 import thc.parser.forum.TvboxnowThreadParser;
 import thc.parser.forum.UwantsThreadParser;
 import thc.parser.language.LongmanDictionaryParser;
@@ -33,6 +30,8 @@ import thc.unirest.UnirestSetup;
 import javax.annotation.PostConstruct;
 import javax.servlet.Filter;
 import java.util.Optional;
+
+import static org.asynchttpclient.Dsl.asyncHttpClient;
 
 @SpringBootApplication
 @EnableCaching
@@ -105,30 +104,8 @@ public class WebParserRestApplication {
     }
 
     @Bean
-	public WebClient webClient() {
-		WebClient.Builder builder = WebClient.builder();
-
-		if (enableWebClientLog) {
-			builder = builder
-					.filter(logWebClientRequest())
-					.filter(logWebClientResponse());
-		}
-
-    	return WebClient.create();
-	}
-
-	private ExchangeFilterFunction logWebClientRequest() {
-		return ExchangeFilterFunction.ofRequestProcessor(clientRequest -> {
-			log.info("Request: {} {}", clientRequest.method(), clientRequest.url());
-			return Mono.just(clientRequest);
-		});
-	}
-
-	private ExchangeFilterFunction logWebClientResponse() {
-		return ExchangeFilterFunction.ofResponseProcessor(clientResponse -> {
-			log.info("Response Status {}", clientResponse. ,clientResponse.statusCode());
-			return Mono.just(clientResponse);
-		});
+	public AsyncHttpClient httpClient() {
+    	return asyncHttpClient();
 	}
 
 	/**

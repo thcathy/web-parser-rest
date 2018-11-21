@@ -2,6 +2,8 @@ package thc.parser.finance;
 
 import com.google.common.base.Stopwatch;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.asynchttpclient.AsyncHttpClient;
+import org.asynchttpclient.Dsl;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ public class EtnetStockQuoteParserTest {
 	private Logger log = LoggerFactory.getLogger(EtnetStockQuoteParserTest.class);
 
 	HttpService httpService = new HttpService();
+	AsyncHttpClient asyncHttpClient = Dsl.asyncHttpClient();
 
 	@Test
 	public void getStockQuote_Given941_ShouldReturn941StockQuote() {
