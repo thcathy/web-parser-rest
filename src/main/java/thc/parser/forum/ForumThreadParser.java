@@ -1,6 +1,6 @@
 package thc.parser.forum;
 
-import com.mashape.unirest.http.HttpResponse;
+import org.asynchttpclient.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -46,11 +46,12 @@ public abstract class ForumThreadParser {
 			throw new IllegalArgumentException("No thc.parser for url: " + url);
 	}
     
-	public List<ForumThread> parse(HttpResponse response) {
+	public List<ForumThread> parse(Response response) {
 		List<ForumThread> results = new ArrayList<ForumThread>();
 		
 		try {
-			for (Iterator<Element> iter = parseThreads(Jsoup.parse(response.getRawBody(), encoding, url)).iterator(); iter.hasNext(); ) {				
+			Document doc = Jsoup.parse(response.getResponseBodyAsStream(), encoding, url);
+			for (Iterator<Element> iter = parseThreads(doc).iterator(); iter.hasNext(); ) {
 				Element e = iter.next();
 				results.add(new ForumThread(new URL(url).getHost() + "/" + parseURL(e), parseTitle(e), source, convertDate(parseDateStr(e))));
 			}

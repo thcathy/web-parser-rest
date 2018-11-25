@@ -1,34 +1,50 @@
 package thc.parser.finance;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.request.HttpRequest;
+import com.google.common.collect.ImmutableMap;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import thc.domain.StockQuote;
+import thc.parser.HttpParseRequest;
 
 import java.io.InputStream;
+import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class EtnetStockQuoteParser {
-	protected static final Logger log = LoggerFactory.getLogger(EtnetStockQuoteParser.class);
-	
+public class EtnetStockQuoteRequest implements HttpParseRequest<Optional<StockQuote>> {
+	protected static final Logger log = LoggerFactory.getLogger(EtnetStockQuoteRequest.class);
+
 	private static final String URL = "http://www.etnet.com.hk/www/tc/stocks/realtime/quote.php";
-	
-    public static HttpRequest createRequest(String code) {
-        return Unirest.get(URL)				
-                .header("Referer", URL)
-                .header("Host", "www.etnet.com.hk")
-				.queryString("code", code);
-    }
-	
-	public static Optional<StockQuote> parse(HttpResponse<InputStream> response) {
+	private final String code;
+
+	public EtnetStockQuoteRequest(String code) {
+		this.code = code;
+	}
+
+	@Override
+	public String url() {
+		return URL;
+	}
+
+	@Override
+	public Map<String, String> headers() {
+		return ImmutableMap.of(
+				"Referer",URL,
+				"Host", "www.aastocks.com");
+	}
+
+	@Override
+	public Map<String, String> queryParams() {
+		return ImmutableMap.of("code", code);
+	}
+
+	@Override
+	public Optional<StockQuote> parseResponse(InputStream responseInputStream) {
 		try {
-			Document doc = Jsoup.parse(response.getRawBody(), "UTF-8", "http://www.etnet.com.hk");
+			Document doc = Jsoup.parse(responseInputStream, "UTF-8", "http://www.etnet.com.hk");
 						
 			StockQuote q = new StockQuote(doc.select("input[id=quotesearch]").attr("value").replaceFirst("^0+(?!$)", ""));
 			q.setPrice(doc.select("div[id^=StkDetailMainBox] span[class^=Price ]").text().replaceAll("[\\D]+$",""));
@@ -55,7 +71,7 @@ public class EtnetStockQuoteParser {
 			
 			return Optional.of(q);
 		} catch (Exception e) {
-			log.warn("Cannot get quote from Etnet:" + response.getHeaders(), e);
+			log.warn("Cannot get quote from Etnet" , e);
 			return Optional.empty();
 		}	
 	}
@@ -69,6 +85,5 @@ public class EtnetStockQuoteParser {
 			return Optional.empty();
 		}
 	}
-
 
 }

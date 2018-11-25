@@ -3,15 +3,18 @@ package thc.parser.finance;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.request.HttpRequest;
+import com.google.common.collect.ImmutableMap;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import thc.domain.StockQuote;
+import thc.parser.HttpParseRequest;
 
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -19,23 +22,34 @@ import java.util.stream.Stream;
 
 import static thc.domain.StockQuote.NA;
 
-public class Money18IndexQuoteParser {
+public class Money18IndexQuoteRequest implements HttpParseRequest<List<StockQuote>> {
 	private static final String URL = "http://money18.on.cc/js/real/index/index_all_r.js";
 
-	protected static final Logger log = LoggerFactory.getLogger(Money18IndexQuoteParser.class);
+	protected static final Logger log = LoggerFactory.getLogger(Money18IndexQuoteRequest.class);
 	private static final ObjectReader jsonReader = new ObjectMapper().configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true).readerFor(Map.class);
 
-    public static HttpRequest createRequest() {
-        return Unirest.get(URL)
-                .header("Referer", "http://money18.on.cc/")
-                .header("Host", "money18.on.cc");
-    }
-		
-	public static List<StockQuote> parse(HttpResponse<String> response) {
-		String[] indexes = response.getBody().split(";");
-		return Arrays.stream(indexes)
-				.flatMap(Money18IndexQuoteParser::toStockQuote)
-				.collect(Collectors.toList());		
+	@Override
+	public String url() { return URL; }
+
+	@Override
+	public Map<String, String> headers() {
+		return ImmutableMap.of(
+				"Referer","http://money18.on.cc/",
+				"Host","money18.on.cc");
+	}
+
+	@Override
+	public List<StockQuote> parseResponse(InputStream response) {
+		try {
+			String[] indexes = IOUtils.toString(response, StandardCharsets.ISO_8859_1.name()).split(";");
+			return Arrays.stream(indexes)
+					.flatMap(Money18IndexQuoteRequest::toStockQuote)
+					.collect(Collectors.toList());
+		} catch (Exception e) {
+			log.error("cannot parse response", e);
+			return Collections.emptyList();
+		}
+
 	}
 
 	private static Stream<StockQuote> toStockQuote(String input) {

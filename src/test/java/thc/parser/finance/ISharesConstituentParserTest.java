@@ -1,8 +1,9 @@
 package thc.parser.finance;
 
 import org.junit.Test;
+import thc.WebParserRestApplication;
 import thc.constant.FinancialConstants;
-import thc.service.HttpService;
+import thc.service.HttpParseService;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import static thc.constant.FinancialConstants.IndexCode.MSCIHK;
 
 public class ISharesConstituentParserTest {
 
-	HttpService httpService = new HttpService();
+	HttpParseService parserService = new HttpParseService(WebParserRestApplication.httpClient());
 
 	@Test
 	public void parseMSCIChina_ShouldReturnCorrectStockCodes() {
@@ -28,7 +29,7 @@ public class ISharesConstituentParserTest {
 	}
 
 	private List<String> queryConstituents(FinancialConstants.IndexCode index) {
-		return httpService.getAsync(index.url, index.parser).join();
+		return parserService.process(index).join();
 	}
 
 	@Test

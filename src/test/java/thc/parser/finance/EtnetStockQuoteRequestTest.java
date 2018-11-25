@@ -2,29 +2,26 @@ package thc.parser.finance;
 
 import com.google.common.base.Stopwatch;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.asynchttpclient.Dsl;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import thc.Utils.TestUtils;
 import thc.domain.StockQuote;
-import thc.service.HttpService;
+import thc.service.HttpParseService;
 
 import static org.junit.Assert.*;
 
-public class EtnetStockQuoteParserTest {
-	private Logger log = LoggerFactory.getLogger(EtnetStockQuoteParserTest.class);
+public class EtnetStockQuoteRequestTest {
+	private Logger log = LoggerFactory.getLogger(EtnetStockQuoteRequestTest.class);
 
-	HttpService httpService = new HttpService();
+	HttpParseService parserService = new HttpParseService(Dsl.asyncHttpClient());
 
 	@Test
 	public void getStockQuote_Given941_ShouldReturn941StockQuote() {
 		Stopwatch timer = Stopwatch.createStarted();
 
-		StockQuote q = httpService
-				.queryAsync(
-						EtnetStockQuoteParser.createRequest("941")::asBinaryAsync, 
-						EtnetStockQuoteParser::parse)
-				.join().get();
+		StockQuote q = parserService.process(new EtnetStockQuoteRequest("941")).join().get();
 
 		log.info("StockQuote: ", q);
 		assertEquals("941", q.getStockCode());

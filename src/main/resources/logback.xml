@@ -13,24 +13,14 @@
 		</encoder>
 	</appender>
 
-	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
-    	<encoder>
-      		<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-    	</encoder>
-  	</appender>
-
 	<appender name="async" class="ch.qos.logback.classic.AsyncAppender">
 		<appender-ref ref="file" />
-	</appender>
-	<appender name="async2" class="ch.qos.logback.classic.AsyncAppender">
-		<appender-ref ref="stdout" />
 	</appender>
 
 	<logger name="org.apache" level="info" />
 	<logger name="org.springframework" level="info" />
 
-	<root level="debug">
+	<root level="info">
 		<appender-ref ref="async" />
-		<appender-ref ref="async2" />
 	</root>
 </configuration>
