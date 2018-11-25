@@ -52,7 +52,7 @@ public class CambridgeDictionaryParser {
 
 			ipa = doc.select("span.ipa").get(0).ownText();
 		} catch (Exception e1) {
-			log.warn("cannot get reader when query [{}] from url [{}], reason [{}]", new Object[]{query, url, e1.toString()});
+			log.warn("cannot get reader when process [{}] from url [{}], reason [{}]", new Object[]{query, url, e1.toString()});
 		}
 		return isContentFind();
 	}

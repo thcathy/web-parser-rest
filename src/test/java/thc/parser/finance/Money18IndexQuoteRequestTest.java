@@ -1,32 +1,31 @@
 package thc.parser.finance;
 
 import com.google.common.base.Stopwatch;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import thc.Utils.TestUtils;
+import thc.WebParserRestApplication;
 import thc.domain.StockQuote;
-import thc.service.HttpService;
+import thc.service.HttpParseService;
 
-import java.io.IOException;
 import java.util.List;
 
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static thc.domain.StockQuote.NA;
 
-public class Money18IndexQuoteParserTest {
-	private Logger log = LoggerFactory.getLogger(Money18IndexQuoteParserTest.class);
+public class Money18IndexQuoteRequestTest {
+	private Logger log = LoggerFactory.getLogger(Money18IndexQuoteRequestTest.class);
 
-    HttpService httpService = new HttpService();
+    HttpParseService parserService = new HttpParseService(WebParserRestApplication.httpClient());
 
 	@Test
-	public void shouldReturnAllIndexQuotes() throws UnirestException, IOException {
+	public void shouldReturnAllIndexQuotes() {
 		Stopwatch timer = Stopwatch.createStarted();
 		
-        List<StockQuote> quotes = httpService.queryAsync(Money18IndexQuoteParser.createRequest()::asStringAsync, Money18IndexQuoteParser::parse).join();
+        List<StockQuote> quotes = parserService.process(new Money18IndexQuoteRequest()).join();
         
 	    log.info("shouldReturnAllIndexQuotes took: " + timer.stop());
         

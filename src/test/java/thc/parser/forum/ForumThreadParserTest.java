@@ -1,25 +1,22 @@
 package thc.parser.forum;
 
-import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.commons.lang3.StringUtils;
+import org.asynchttpclient.Dsl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import thc.domain.ForumThread;
 import thc.service.ForumQueryService;
-import thc.service.HttpService;
-import thc.unirest.UnirestSetup;
 
 import java.util.List;
 
 public class ForumThreadParserTest {
 	private static Logger log = LoggerFactory.getLogger(ForumThreadParserTest.class);
 	
-	private ForumQueryService queryService = new ForumQueryService(new HttpService());
+	private ForumQueryService queryService = new ForumQueryService(Dsl.asyncHttpClient());
 
     static {
-        UnirestSetup.setupAll();
         TvboxnowThreadParser.USERNAME = System.getProperty("tvboxnow.username");
         TvboxnowThreadParser.PASSWORD = System.getProperty("tvboxnow.password");
         UwantsThreadParser.USERNAME = System.getProperty("discuss.username");
@@ -27,17 +24,17 @@ public class ForumThreadParserTest {
     }
 	
 	@Test
-	public void parse_GivenRightURL_ShouldReturnSomeForumThread() throws UnirestException {
+	public void parse_GivenRightURL_ShouldReturnSomeForumThread() {
 		// Test Uwants
 		String uwantsSource = "Uwants";
-		ForumThreadParser uwants = new UwantsThreadParser("http://www.uwants.com/forumdisplay.php?fid=472&page=1", uwantsSource, "UTF-8");
+		ForumThreadParser uwants = new UwantsThreadParser("https://www.uwants.com/forumdisplay.php?fid=472&page=1", uwantsSource, "UTF-8");
 		List<ForumThread> result = queryService.query(uwants);
         
 		checkForumThreadList(uwantsSource, "www.uwants.com", result);
 		
 		// Test Discuss
 		String discussSource = "Discuss";
-		ForumThreadParser discuss = new UwantsThreadParser("http://www.discuss.com.hk/forumdisplay.php?fid=101&page=2", discussSource, "UTF-8");
+		ForumThreadParser discuss = new UwantsThreadParser("https://www.discuss.com.hk/forumdisplay.php?fid=101&page=2", discussSource, "UTF-8");
 		result = queryService.query(discuss);
 		checkForumThreadList(discussSource, "www.discuss.com.hk", result);
 		

@@ -3,7 +3,6 @@ package thc.controller;
 import com.google.common.base.Stopwatch;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -34,7 +33,6 @@ public class ForumControllerIntegrationTest {
 	private static int MIN_NUM_OF_THREADS = 150;
 
 	@Test
-	@Ignore
 	public void list_MusicPage1_ShouldReturnDescendingForumThreadsNotOlderThanConfig() {
 		Stopwatch timer = Stopwatch.createStarted();
 		

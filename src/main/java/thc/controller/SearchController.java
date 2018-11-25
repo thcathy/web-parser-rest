@@ -1,6 +1,5 @@
 package thc.controller;
 
-import com.mashape.unirest.request.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import thc.domain.WebItem;
-import thc.parser.search.GoogleImageSearch;
-import thc.service.HttpService;
+import thc.parser.search.GoogleImageSearchRequest;
+import thc.service.HttpParseService;
 
 import javax.cache.CacheManager;
 import javax.cache.annotation.CacheResult;
@@ -27,15 +26,16 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 public class SearchController {
 	private static Logger log = LoggerFactory.getLogger(SearchController.class);
 
-	@Autowired HttpService httpService;
+	@Autowired
+	HttpParseService parseService;
 
 	@CacheResult(cacheName = "image_search")
     @RequestMapping(value = "/rest/search/image/{query}", method = GET)
     public List<WebItem> searchImage(@PathVariable String query) {
     	log.debug("searchImage: {}", query);
 
-		HttpRequest request = GoogleImageSearch.createRequest(query);
-		return httpService.queryAsync(request::asJsonAsync, GoogleImageSearch::parse).join();
+		GoogleImageSearchRequest request = new GoogleImageSearchRequest(query);
+		return parseService.process(request).join();
     }
 
 	@Component

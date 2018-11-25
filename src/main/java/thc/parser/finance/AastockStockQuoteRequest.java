@@ -1,52 +1,53 @@
 package thc.parser.finance;
 
+import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.asynchttpclient.AsyncHttpClient;
-import org.asynchttpclient.BoundRequestBuilder;
-import org.asynchttpclient.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import thc.domain.StockQuote;
+import thc.parser.HttpParseRequest;
 
+import java.io.InputStream;
+import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 import static thc.util.NumberUtils.extractNumber;
 
-public class AastockStockQuoteParser {
-	protected static final Logger log = LoggerFactory.getLogger(AastockStockQuoteParser.class);
+public class AastockStockQuoteRequest implements HttpParseRequest<Optional<StockQuote>> {
+	protected static final Logger log = LoggerFactory.getLogger(AastockStockQuoteRequest.class);
 	
-	public static String URL = "http://www.aastocks.com/en/stocks/quote/detail-quote.aspx?symbol=";
-	private final BoundRequestBuilder requestBuilder;
+	public static String URL = "http://www.aastocks.com/en/stocks/quote/detail-quote.aspx";
 
-	public AastockStockQuoteParser(AsyncHttpClient asyncHttpClient) {
-		this.requestBuilder = asyncHttpClient.prepareGet("http://www.aastocks.com/en/stocks/quote/detail-quote.aspx")
-				.addHeader("Referer", "http://www.aastocks.com/en/stocks/quote/detail-quote.aspx")
-				.addHeader("Host", "www.aastocks.com");
+	private final String symbol;
+
+	public AastockStockQuoteRequest(String code) {
+		this.symbol = StringUtils.leftPad(code, 5, '0');
 	}
 
-	public CompletableFuture<Optional<StockQuote>> query(String code) {
-		return requestBuilder
-				.addQueryParam("symbol", StringUtils.leftPad(code, 5, '0'))
-				.execute()
-				.toCompletableFuture()
-				.exceptionally(t -> nullResponseOnError(code, t))
-				.thenApply(response -> parse(response));
+	@Override
+	public String url() { return URL; }
+
+	@Override
+	public Map<String, String> headers() {
+		return ImmutableMap.of(
+		        "Referer",URL,
+                "Host", "www.aastocks.com");
 	}
 
-	private static Response nullResponseOnError(String url, Throwable t) {
-		log.error("Error when querying: {}", url, t);
-		return null;
+	@Override
+	public Map<String, String> queryParams() {
+		return ImmutableMap.of("symbol", symbol);
 	}
 
-	public Optional<StockQuote> parse(Response response) {
+	@Override
+	public Optional<StockQuote> parseResponse(InputStream responseInputStream) {
 		try
 		{
-			Document doc = Jsoup.parse(response.getResponseBodyAsStream(), "UTF-8", URL);
+			Document doc = Jsoup.parse(responseInputStream, "UTF-8", URL);
 			StockQuote quote = new StockQuote(extractNumber(doc.select("title").first().text()).replace(".-","").replaceFirst("^0+(?!$)", ""));
 
 			// price
@@ -82,7 +83,7 @@ public class AastockStockQuoteParser {
 			quote.setYearHigh(yearHighLow[1]);
             return Optional.ofNullable(quote);
 		} catch (Exception e) {
-			log.error("Cannot parse stock code: {}", response.getHeaders(), e);            
+			log.error("Cannot parse stock code", e);
 		}
         return Optional.empty();
 	}

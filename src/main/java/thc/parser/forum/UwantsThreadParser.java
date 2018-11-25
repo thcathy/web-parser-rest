@@ -9,7 +9,7 @@ import java.text.MessageFormat;
 import java.util.Optional;
 
 public class UwantsThreadParser extends ForumThreadParser {
-	static public final String LOGIN_URL = "http://www.discuss.com.hk/logging.php?action=login&loginsubmit=yes&username={0}&password={1}";
+	static public final String LOGIN_URL = "https://www.discuss.com.hk/logging.php?action=login&loginsubmit=yes&username={0}&password={1}";
 	static public volatile String USERNAME;
 	static public volatile String PASSWORD;
 

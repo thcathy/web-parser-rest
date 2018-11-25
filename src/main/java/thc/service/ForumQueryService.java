@@ -1,32 +1,27 @@
 package thc.service;
 
 import com.google.common.collect.Lists;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
+import org.asynchttpclient.AsyncHttpClient;
+import org.asynchttpclient.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import thc.domain.ForumThread;
 import thc.parser.forum.ForumThreadParser;
+import thc.util.HttpClientUtils;
 
-import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/**
- * Created by wongtim on 21/07/2016.
- */
 public class ForumQueryService {
     private static Logger log = LoggerFactory.getLogger(ForumQueryService.class);
 
-    private HttpService httpService;
+    private AsyncHttpClient asyncHttpClient;
 
-    public ForumQueryService(HttpService httpService) {
-        this.httpService = httpService;
+    public ForumQueryService(AsyncHttpClient asyncHttpClient) {
+        this.asyncHttpClient = asyncHttpClient;
     }
 
     public List<ForumThread> query(ForumThreadParser parsers) {
@@ -34,15 +29,22 @@ public class ForumQueryService {
     }
 
     public List<ForumThread> query(List<ForumThreadParser> parsers) {
-        loginForums(parsers);
+       loginForums(parsers);
 
         List<CompletableFuture<List<ForumThread>>> futures = parsers.stream()
-                .map(p -> httpService.getAsync(p.url, p::parse))
+                .map(this::queryForum)
                 .collect(Collectors.toList());
 
         return futures.stream()
                 .flatMap(this::toForumThreadStream)
                 .collect(Collectors.toList());
+    }
+
+    private CompletableFuture<List<ForumThread>> queryForum(ForumThreadParser parser) {
+        return asyncHttpClient.prepareGet(parser.url)
+                .execute().toCompletableFuture()
+                .exceptionally(t -> HttpClientUtils.nullResponseOnError(parser.url, t))
+                .thenApply(response -> parser.parse(response));
     }
 
     private Stream<ForumThread> toForumThreadStream(CompletableFuture<List<ForumThread>> future) {
@@ -55,23 +57,20 @@ public class ForumQueryService {
     }
 
     private void loginForums(List<ForumThreadParser> parsers) {
-        List<Future<HttpResponse<InputStream>>> loginResults = parsers.stream().map(p -> p.loginUrl).filter(Optional::isPresent).map(Optional::get)
+        List<CompletableFuture<Response>> loginResponse = parsers.stream()
+                .map(p -> p.loginUrl)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .distinct()
-                .map(l -> Unirest.get(l).asBinaryAsync())
+                .map(url -> asyncHttpClient.prepareGet(url).execute().toCompletableFuture())
                 .collect(Collectors.toList());
-        
-        loginResults.stream().forEach(this::logHttpResponseStatus);
+
+        loginResponse.stream().forEach(this::logHttpResponseStatus);
     }
 
-    private void logHttpResponseStatus(Future<HttpResponse<InputStream>> result) {
-        try {
-            log.debug("logHttpResponseStatus {}", result.get().getStatus());
-        } catch (ExecutionException e) {
-            log.debug("Ignore concurrent execution exception as response processed by another thread");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    private void logHttpResponseStatus(CompletableFuture<Response> completableFuture) {
+        Response response = completableFuture.join();
+        log.debug("logHttpResponseStatus {} - {}", response.getStatusCode(), response.getStatusText());
     }
-
 
 }

@@ -29,16 +29,16 @@ public class ForumController {
 		
 	enum ContentType {
 		MUSIC(new String[]{
-				"http://www.uwants.com/forumdisplay.php?fid=472&page=%d",
-				"http://www.uwants.com/forumdisplay.php?fid=471&page=%d",
-				"http://www.discuss.com.hk/forumdisplay.php?fid=101&page=%d",
+				"https://www.uwants.com/forumdisplay.php?fid=472&page=%d",
+				"https://www.uwants.com/forumdisplay.php?fid=471&page=%d",
+				"https://www.discuss.com.hk/forumdisplay.php?fid=101&page=%d",
 				"http://www.tvboxnow.com/forum-50-%d.html",
 				"http://www.tvboxnow.com/forum-153-%d.html"
 		}), 
 		MOVIE(new String[]{
-				"http://www.uwants.com/forumdisplay.php?fid=231&page=%d",
-				"http://www.uwants.com/forumdisplay.php?fid=7&page=%d",
-				"http://www.uwants.com/forumdisplay.php?fid=406&page=%d",
+				"https://www.uwants.com/forumdisplay.php?fid=231&page=%d",
+				"https://www.uwants.com/forumdisplay.php?fid=7&page=%d",
+				"https://www.uwants.com/forumdisplay.php?fid=406&page=%d",
 				"http://www.tvboxnow.com/forum-231-%d.html",
 				"http://www.tvboxnow.com/forum-232-%d.html",
 				"http://www.tvboxnow.com/forum-233-%d.html"

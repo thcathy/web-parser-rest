@@ -1,41 +1,34 @@
 package thc.parser.search;
 
 import com.google.common.base.Stopwatch;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.request.HttpRequest;
-import org.apache.http.HttpStatus;
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
+import thc.WebParserRestApplication;
 import thc.domain.WebItem;
-import thc.service.HttpService;
-import thc.unirest.UnirestSetup;
+import thc.service.HttpParseService;
 
 import java.util.Iterator;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
 
-public class GoogleImageSearchTest {
-	private Logger log = LoggerFactory.getLogger(GoogleImageSearchTest.class);
+public class GoogleImageSearchRequestTest {
+	private Logger log = LoggerFactory.getLogger(GoogleImageSearchRequestTest.class);
 
-    HttpService httpService = new HttpService();
+	HttpParseService parserService = new HttpParseService(WebParserRestApplication.httpClient());
 
 	static {
-		UnirestSetup.setupAll();
-		GoogleImageSearch.setAPIKeys(System.getProperty("googleapi.key"));
+		GoogleImageSearchRequest.setAPIKeys(System.getProperty("googleapi.key"));
 	}
 
 	@Test
 	public void query_shouldReturnWebItems() {
 		Stopwatch timer = Stopwatch.createStarted();
 
-        HttpRequest request = GoogleImageSearch.createRequest("book+clipart");
-		List<WebItem> items = httpService.queryAsync(request::asJsonAsync, GoogleImageSearch::parse).join();
+		List<WebItem> items = parserService.process(new GoogleImageSearchRequest("book+clipart")).join();
 
 		assertEquals(10, items.size());
 		items.forEach(this::checkItem);
@@ -45,22 +38,19 @@ public class GoogleImageSearchTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void query_givenNoAPIKey_shouldThrowException() {
-		Iterator<String> keys = GoogleImageSearch.keys;
+		Iterator<String> keys = GoogleImageSearchRequest.keys;
 
 		try {
-			GoogleImageSearch.keys = null;
-			HttpRequest request = GoogleImageSearch.createRequest("book");
+			GoogleImageSearchRequest.keys = null;
+			GoogleImageSearchRequest request = new GoogleImageSearchRequest("book");
 		} finally {
-			GoogleImageSearch.keys = keys;
+			GoogleImageSearchRequest.keys = keys;
 		}
 	}
 
 	@Test
 	public void parse_givenFailedResponse_shouldReturnEmptyList() {
-		HttpResponse mockResponse = Mockito.mock(HttpResponse.class);
-		when(mockResponse.getStatus()).thenReturn(HttpStatus.SC_BAD_REQUEST);
-
-		List result = GoogleImageSearch.parse(mockResponse);
+		List result = new GoogleImageSearchRequest("").parseResponse(null);
 		assertTrue(CollectionUtils.isEmpty(result));
 	}
 
