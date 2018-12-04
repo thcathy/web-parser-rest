@@ -79,6 +79,8 @@ public class AastockStockQuoteRequest implements HttpParseRequest<Optional<Stock
 			String[] yearHighLow = doc.select("td:containsOwn(52 Week)").first().nextElementSibling().text().split(" - ");
 			quote.setYearLow(yearHighLow[0]);
 			quote.setYearHigh(yearHighLow[1]);
+
+			log.info("parsed quote: {}", quote);
             return Optional.ofNullable(quote);
 		} catch (Exception e) {
 			log.error("Cannot parse stock code", e);

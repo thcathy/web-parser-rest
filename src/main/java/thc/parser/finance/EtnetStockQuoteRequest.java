@@ -67,7 +67,7 @@ public class EtnetStockQuoteRequest implements HttpParseRequest<Optional<StockQu
 			q.setYearHigh(doc.select("div[id^=StkList] li:eq(23)").text());
 			q.setYearLow(doc.select("div[id^=StkList] li:eq(27)").text());
 			
-			log.debug("parsed quote: {}", q);
+			log.info("parsed quote: {}", q);
 			
 			return Optional.of(q);
 		} catch (Exception e) {
