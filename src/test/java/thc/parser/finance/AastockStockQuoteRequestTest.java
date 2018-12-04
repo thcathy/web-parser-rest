@@ -75,4 +75,13 @@ public class AastockStockQuoteRequestTest {
         log.debug("getStockQuote_Given2800_ShouldReturn2800StockQuote took: {}", timer.stop());
     }
 
+    @Test
+    public void getStockQuote_Given7288_ShouldReturnCode7288() {
+        CompletableFuture<Optional<StockQuote>> quote = parserService.process(new AastockStockQuoteRequest("7288"));
+        StockQuote q = quote.join().get();
+        log.debug("StockQuote: ", q);
+
+        assertEquals("7288", q.getStockCode());
+    }
+
 }

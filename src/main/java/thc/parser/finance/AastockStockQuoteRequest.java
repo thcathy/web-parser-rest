@@ -15,8 +15,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import static thc.util.NumberUtils.extractNumber;
-
 public class AastockStockQuoteRequest implements HttpParseRequest<Optional<StockQuote>> {
 	protected static final Logger log = LoggerFactory.getLogger(AastockStockQuoteRequest.class);
 	
@@ -48,7 +46,7 @@ public class AastockStockQuoteRequest implements HttpParseRequest<Optional<Stock
 		try
 		{
 			Document doc = Jsoup.parse(responseInputStream, "UTF-8", URL);
-			StockQuote quote = new StockQuote(extractNumber(doc.select("title").first().text()).replace(".-","").replaceFirst("^0+(?!$)", ""));
+			StockQuote quote = new StockQuote(symbol.replaceFirst("^0+(?!$)", ""));
 
 			// price
 			quote.setPrice(doc.select("div[id=labelLast] span").first().text().substring(1));
