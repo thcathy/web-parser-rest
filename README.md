@@ -9,8 +9,8 @@ Type | API | Parameters | Contents
 :--- | :--- |:--- |:--- 
 Search | GET `/rest/search/image/{query}` | **query**: string to search | Search Image from seach engine <br>*(Google api key may needed)*
 Finance | GET `/rest/quote/indexes` | | Real time quote of major indexes in HK and China
-Finance | GET `/rest/quote/full/{code}` | **code**: Hong Kong Stock code e.g. 0005 | Real time quote of HK stocks with PE and NAV
-Finance | GET `/rest/quote/realtime/list/{codes}` | **codes**: comma separated  HK stock codes | Real time quote of HK stocks (faster)
+Finance | GET `/rest/quote/full/{code}?source=<etnet,aastock>` | **code**: Hong Kong Stock code e.g. 0005 <br>**source (optional)**: specific source to get stock quote | Real time quote of HK stocks with PE and NAV
+Finance | GET `/rest/quote/realtime/list/{codes}?source=<etnet,aastock>` | **codes**: comma separated  HK stock codes <br>**source (optional)**: specific source to get stock quote | Real time quote of HK stocks (faster)
 Finance | GET `/rest/hkma/report/{yyyymmdd}` | **yyyymmdd**: date of report | [HKMA Monetary Base Report](http://www.hkma.gov.hk/eng/market-data-and-statistics/monetary-statistics/)
 Finance | GET `/rest/index/constituents/{index}` | **index**: HSI / HSCEI / HCCI / MSCIChina / MSCIHK | Constituents of major HK Indexes
 Finance | GET `/rest/index/report/hsinet/{yyyymmdd}` | **yyyymmdd**: date of report | [Hang Seng Index Performance Summary ](https://www.hsi.com.hk)

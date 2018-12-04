@@ -5,10 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import thc.constant.FinancialConstants.IndexCode;
 import thc.domain.MonetaryBase;
 import thc.domain.StockQuote;
+import thc.parser.HttpParseRequest;
 import thc.parser.finance.*;
 import thc.service.HttpParseService;
 
@@ -32,12 +34,24 @@ public class FinanceController {
 	@Autowired
 	HttpParseService parseService;
 
+	enum StockQuoteSource {
+		AASTOCKS(AastockStockQuoteRequest.class), ETNET(EtnetStockQuoteRequest.class);
+
+		final public Class sourceClass;
+
+		StockQuoteSource(Class sourceClass) {
+			this.sourceClass = sourceClass;
+		}
+	}
+
     @RequestMapping(value = "/rest/quote/realtime/list/{codes}", method = GET)
-    public List<StockQuote> hkQuotes(@PathVariable String codes) {
+    public List<StockQuote> hkQuotes(
+    		@PathVariable String codes,
+			@RequestParam String source) {
     	log.info("hkquote: codes [{}]", codes);
 
 		List<CompletableFuture<Optional<StockQuote>>> quotes = Arrays.stream(codes.split(","))
-				.map(this::queryStockQuote)
+				.map(code -> queryStockQuote(code, source))
 				.collect(Collectors.toList());
 
 		return quotes.stream().map(q -> q.join())
@@ -46,17 +60,31 @@ public class FinanceController {
 				.collect(Collectors.toList());
     }
 
-	private CompletableFuture<Optional<StockQuote>> queryStockQuote(String code) {
-    	return parseService.process(new EtnetStockQuoteRequest(code));
+	private CompletableFuture<Optional<StockQuote>> queryStockQuote(String code, String source) {
+		try {
+			Class stockQuoteClass = getStockQuoteClass(source);
+			return parseService.process((HttpParseRequest<Optional<StockQuote>>) stockQuoteClass.getConstructors()[0].newInstance(code));
+		} catch (Exception e) {
+			log.error("Error in query stock quote for code: {} with source: {}", code, source, e);
+			return CompletableFuture.completedFuture(Optional.empty());
+		}
+	}
+
+	private Class getStockQuoteClass(String sourceStr) {
+		try {
+			return StockQuoteSource.valueOf(sourceStr.toUpperCase()).sourceClass;
+		} catch (Exception e) {
+			return StockQuoteSource.values()[(int) (System.currentTimeMillis() % StockQuoteSource.values().length)].sourceClass;
+		}
 	}
 
 	@RequestMapping(value = "/rest/quote/full/{code}", method = GET)
-	public StockQuote hkQuoteSingle(@PathVariable String code) {
+	public StockQuote hkQuoteSingle(@PathVariable String code, @RequestParam String source) {
 		log.info("hkQuoteSingle: {}", code);
 
 		//return ((Optional<StockQuote>) CompletableFuture.anyOf(quote).join()).get();
 
-		CompletableFuture<Optional<StockQuote>> quoteFuture = queryStockQuote(code);
+		CompletableFuture<Optional<StockQuote>> quoteFuture = queryStockQuote(code, source);
 		List<CompletableFuture<Optional<BigDecimal>>> historyFutures = submitHistoryQuote(code);
 
 		StockQuote quote = quoteFuture.join().get();
@@ -120,4 +148,7 @@ public class FinanceController {
                 .orElse(new StockQuote(StockQuote.NA));
 	}
 
+	public void setParseService(HttpParseService parseService) {
+		this.parseService = parseService;
+	}
 }
