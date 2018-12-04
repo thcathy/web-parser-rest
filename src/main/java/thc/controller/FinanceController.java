@@ -47,7 +47,7 @@ public class FinanceController {
     @RequestMapping(value = "/rest/quote/realtime/list/{codes}", method = GET)
     public List<StockQuote> hkQuotes(
     		@PathVariable String codes,
-			@RequestParam String source) {
+			@RequestParam(required = false) String source) {
     	log.info("hkquote: codes [{}]", codes);
 
 		List<CompletableFuture<Optional<StockQuote>>> quotes = Arrays.stream(codes.split(","))
@@ -79,7 +79,7 @@ public class FinanceController {
 	}
 
 	@RequestMapping(value = "/rest/quote/full/{code}", method = GET)
-	public StockQuote hkQuoteSingle(@PathVariable String code, @RequestParam String source) {
+	public StockQuote hkQuoteSingle(@PathVariable String code, @RequestParam(required = false) String source) {
 		log.info("hkQuoteSingle: {}", code);
 
 		//return ((Optional<StockQuote>) CompletableFuture.anyOf(quote).join()).get();
