@@ -5,10 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import thc.domain.StockQuote;
 import thc.parser.HttpParseRequest;
+import thc.util.NumberUtils;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -53,6 +55,8 @@ public class Money18IndexQuoteRequest implements HttpParseRequest<List<StockQuot
 	}
 
 	private static Stream<StockQuote> toStockQuote(String input) {
+		if (StringUtils.isBlank(input) || !input.contains("value")) return Stream.empty();
+
 		try {
 			String[] temp = input.replaceAll("\r","").replaceAll("\n", "").replaceAll("\t", "").split(" = ");
 			String code = temp[0].replace("M18.r_", "");
@@ -68,14 +72,14 @@ public class Money18IndexQuoteRequest implements HttpParseRequest<List<StockQuot
 			
 			return Stream.of(quote);
 		} catch (Exception e) {
-			log.warn("Fail to parse index to stock quote: {}", input);
+			log.warn("Fail to parse index to stock quote: {} : {}", e.toString(), input);
 			return Stream.empty();
 		}
 	}
 	
 	private static String calculateChangePercentage(String pre, String real) {
-		double preVal = Double.valueOf(pre);
-		double realVal = Double.valueOf(real);
+		double preVal = Double.valueOf(NumberUtils.extractDouble(pre));
+		double realVal = Double.valueOf(NumberUtils.extractDouble(real));
 
 		if (preVal <= 0.0)
 			return NA;
