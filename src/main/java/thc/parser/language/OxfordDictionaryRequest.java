@@ -58,6 +58,7 @@ public class OxfordDictionaryRequest implements HttpParseRequest<Optional<Dictio
 
 	@Override
 	public Optional<DictionaryResult> parseResponse(InputStream response) {
+		if (response == null) return Optional.empty();
 		try {
             JsonNode node = jsonReader.readTree(response);
 			ArrayNode results = (ArrayNode) node.get("results").get(0).get("lexicalEntries");

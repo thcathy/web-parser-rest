@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import thc.parser.HttpParseRequest;
 
+import java.io.InputStream;
 import java.util.concurrent.CompletableFuture;
 
 public class HttpParseService {
@@ -27,7 +28,16 @@ public class HttpParseService {
 
         return builder.execute().toCompletableFuture()
                 .exceptionally(t -> nullResponseOnError(parser.url(), t))
-                .thenApply(response -> parser.parseResponse(response.getResponseBodyAsStream()));
+                .thenApply(this::checkResponseStatus)
+                .thenApply(response -> parser.parseResponse(response));
+    }
+
+    private InputStream checkResponseStatus(Response response) {
+        if (response.getStatusCode() > 400) {
+            log.warn("http response error '{}:{}' when query {}", response.getStatusCode(), response.getStatusText(), response.getUri());
+            return null;
+        }
+        return response.getResponseBodyAsStream();
     }
 
 
