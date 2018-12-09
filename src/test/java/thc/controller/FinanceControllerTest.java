@@ -8,7 +8,7 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import thc.parser.HttpParseRequest;
 import thc.parser.finance.AastockStockQuoteRequest;
-import thc.parser.finance.EtnetStockQuoteRequest;
+import thc.parser.finance.YahooStockQuoteRequest;
 import thc.service.HttpParseService;
 
 import java.util.Optional;
@@ -39,8 +39,8 @@ public class FinanceControllerTest {
         controller.hkQuotes("941,939,2800,2828,5,883", "aastocks");
         verify(httpParseService, times(6)).process(any(AastockStockQuoteRequest.class));
 
-        controller.hkQuotes("941,939,2800,2828,5,883", "etnet");
-        verify(httpParseService, times(6)).process(any(EtnetStockQuoteRequest.class));
+        controller.hkQuotes("941,939,2800,2828,5,883", "yahoo");
+        verify(httpParseService, times(6)).process(any(YahooStockQuoteRequest.class));
     }
 
     @Test

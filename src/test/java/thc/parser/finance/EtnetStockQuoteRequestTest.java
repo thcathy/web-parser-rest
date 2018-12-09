@@ -3,6 +3,7 @@ package thc.parser.finance;
 import com.google.common.base.Stopwatch;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.asynchttpclient.Dsl;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import thc.service.HttpParseService;
 
 import static org.junit.Assert.*;
 
+@Ignore
 public class EtnetStockQuoteRequestTest {
 	private Logger log = LoggerFactory.getLogger(EtnetStockQuoteRequestTest.class);
 

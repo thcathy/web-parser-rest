@@ -35,7 +35,7 @@ public class FinanceController {
 	HttpParseService parseService;
 
 	enum StockQuoteSource {
-		AASTOCKS(AastockStockQuoteRequest.class), ETNET(EtnetStockQuoteRequest.class);
+		AASTOCKS(AastockStockQuoteRequest.class), YAHOO(YahooStockQuoteRequest.class);
 
 		final public Class sourceClass;
 
