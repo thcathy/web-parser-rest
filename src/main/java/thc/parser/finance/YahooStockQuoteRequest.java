@@ -20,8 +20,8 @@ public class YahooStockQuoteRequest implements HttpParseRequest<Optional<StockQu
 	protected static final Logger log = LoggerFactory.getLogger(YahooStockQuoteRequest.class);
 
 	private static String URL = "https://hk.finance.yahoo.com/quote/";
-	private static final SimpleDateFormat sourceTimeFormat = new SimpleDateFormat("hh:mma", Locale.US);
-	private static final SimpleDateFormat outputDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+	private final SimpleDateFormat sourceTimeFormat = new SimpleDateFormat("hh:mma", Locale.US);
+	private final SimpleDateFormat outputDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 
 	private final String code;
 
