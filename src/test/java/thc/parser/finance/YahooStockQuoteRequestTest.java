@@ -10,6 +10,8 @@ import thc.Utils.TestUtils;
 import thc.domain.StockQuote;
 import thc.service.HttpParseService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -48,7 +50,7 @@ public class YahooStockQuoteRequestTest {
 	}
 
     @Test
-    public void getStockQuote_Given2800_ShouldReturn2800StockQuote() {
+    public void getStockQuote_Given2800_ShouldReturn2800StockQuote() throws ParseException {
         Stopwatch timer = Stopwatch.createStarted();
 
         CompletableFuture<Optional<StockQuote>> quote = parserService.process(new YahooStockQuoteRequest("2800"));
@@ -66,6 +68,7 @@ public class YahooStockQuoteRequestTest {
         assertEquals(NA, q.getNAV());
         assertTrue(NumberUtils.isNumber(q.getYearLow()));
         assertTrue(NumberUtils.isNumber(q.getYearHigh()));
+        assertNotNull(new SimpleDateFormat("yyyy/MM/dd HH:mm").parse(q.getLastUpdate()));
 
         if (TestUtils.withIntraDayData()) {
             assertTrue(NumberUtils.isNumber(q.getLow()));

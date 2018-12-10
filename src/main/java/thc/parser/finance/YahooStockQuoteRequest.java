@@ -10,13 +10,18 @@ import thc.domain.StockQuote;
 import thc.parser.HttpParseRequest;
 
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Supplier;
 
 public class YahooStockQuoteRequest implements HttpParseRequest<Optional<StockQuote>> {
 	protected static final Logger log = LoggerFactory.getLogger(YahooStockQuoteRequest.class);
 
-	public static String URL = "https://hk.finance.yahoo.com/quote/";
+	private static String URL = "https://hk.finance.yahoo.com/quote/";
+	private static final SimpleDateFormat sourceTimeFormat = new SimpleDateFormat("hh:mma", Locale.US);
+	private static final SimpleDateFormat outputDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 
 	private final String code;
 
@@ -71,7 +76,8 @@ public class YahooStockQuoteRequest implements HttpParseRequest<Optional<StockQu
 
 			// last update
 			String[] time = doc.select("div[id~=QuoteHeader] span[data-reactid$=18]").text().split(" ");
-			quote.setLastUpdate(time[time.length - 2]);
+			Date parsedTime = sourceTimeFormat.parse(time[time.length - 2]);
+			quote.setLastUpdate(outputDateFormat.format(parsedTime));
 
 			// 52 high low
 			String[] yearHighLow = doc.select("span:contains(52 週波幅)").first().parent().nextElementSibling().text().split(" - ");
