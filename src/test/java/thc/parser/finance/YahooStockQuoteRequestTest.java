@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
+import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.*;
 import static thc.domain.StockQuote.NA;
 
@@ -31,7 +32,7 @@ public class YahooStockQuoteRequestTest {
         StockQuote q = quote.join().get();
 		assertEquals("941", q.getStockCode());
 		assertEquals("CHINA MOBILE", q.getStockName());
-		assertTrue(NumberUtils.isNumber(q.getPrice()));
+        assertThat(Double.valueOf(q.getPrice()), greaterThan(50.0));
 		assertTrue(NumberUtils.isNumber(q.getChangeAmount().replace("+", "").replace("-", "")));
 		assertTrue(q.getChange().endsWith("%"));
 		assertNotEquals(NA, q.getLastUpdate());
@@ -59,7 +60,7 @@ public class YahooStockQuoteRequestTest {
 
         assertEquals("2800", q.getStockCode());
         assertEquals("TRACKER FUND", q.getStockName());
-        assertTrue(NumberUtils.isNumber(q.getPrice()));
+        assertThat(Double.valueOf(q.getPrice()), greaterThan(25.0));
         assertTrue(NumberUtils.isNumber(q.getChangeAmount().replace("+", "").replace("-", "")));
         assertTrue(q.getChange().endsWith("%"));
         assertNotEquals(NA, q.getLastUpdate());
@@ -80,11 +81,22 @@ public class YahooStockQuoteRequestTest {
 
     @Test
     public void getStockQuote_Given7288_ShouldReturnCode7288() {
-        CompletableFuture<Optional<StockQuote>> quote = parserService.process(new AastockStockQuoteRequest("7288"));
+        CompletableFuture<Optional<StockQuote>> quote = parserService.process(new YahooStockQuoteRequest("7288"));
         StockQuote q = quote.join().get();
         log.debug("StockQuote: ", q);
 
         assertEquals("7288", q.getStockCode());
+        assertThat(Double.valueOf(q.getPrice()), greaterThan(6.0));
+    }
+
+    @Test
+    public void getStockQuote_Given3046_ShouldReturnCode3046() {
+        CompletableFuture<Optional<StockQuote>> quote = parserService.process(new YahooStockQuoteRequest("3046"));
+        StockQuote q = quote.join().get();
+        log.debug("StockQuote: ", q);
+
+        assertEquals("3046", q.getStockCode());
+        assertThat(Double.valueOf(q.getPrice()), greaterThan(20.0));
     }
 
 }

@@ -49,7 +49,9 @@ public class AastockStockQuoteRequest implements HttpParseRequest<Optional<Stock
 			StockQuote quote = new StockQuote(symbol.replaceFirst("^0+(?!$)", ""));
 
 			// price
-			quote.setPrice(doc.select("div[id=labelLast] span").first().text().substring(1));
+			var price = doc.select("div[id=labelLast] span").first().text();
+			price = NumberUtils.isNumber(price) ? price : price.substring(1);
+			quote.setPrice(price);
 
 			// stock name
 			quote.setStockName(doc.select("span[id$=StockName").first().text());
