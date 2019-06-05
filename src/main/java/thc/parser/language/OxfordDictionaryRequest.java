@@ -21,12 +21,12 @@ public class OxfordDictionaryRequest implements HttpParseRequest<Optional<Dictio
 	private static final Logger log = LoggerFactory.getLogger(OxfordDictionaryRequest.class);
 	private static final ObjectReader jsonReader = new ObjectMapper().configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true).readerFor(Map.class);
 
-	public static final String URL = "https://od-api.oxforddictionaries.com/api/v1/entries/en/{0}/regions={1}";
+	public static final String URL = "https://od-api.oxforddictionaries.com/api/v2/entries/{1}/{0}";
 	public static final String KEY_SEPARATOR = ",";
 	public static volatile String[] APP_KEY_LIST;
 	public static volatile String[] APP_ID_LIST;
-	public static final String REGION_GB = "gb";
-	public static final String REGION_US = "us";
+	public static final String REGION_GB = "en-gb";
+	public static final String REGION_US = "en-us";
 
 	private final String query;
 	private final String region;

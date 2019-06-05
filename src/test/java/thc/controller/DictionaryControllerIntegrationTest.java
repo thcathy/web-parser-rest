@@ -65,7 +65,7 @@ public class DictionaryControllerIntegrationTest {
                 .andExpect(jsonPath("word", is("toward")))
                 .andExpect(jsonPath("pronunciationUrl", startsWith("http://audio.oxforddictionaries.com/en/mp3/toward_gb")))
                 .andExpect(jsonPath("pronunciationLang", is("British English")))
-                .andExpect(jsonPath("IPA", is("twɔːd")));
+                .andExpect(jsonPath("IPA", is("təˈwɔːd")));
     }
 
     @Test
