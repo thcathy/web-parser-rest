@@ -108,7 +108,7 @@ public class FinanceControllerIntegrationTest {
         assertTrue(containList("916", constituents));
 
         constituents= financeController.indexConstituents("MSCIHK");
-        assertTrue(constituents.size() > 40);
+        assertTrue(constituents.size() > 35);
         assertTrue(containList("1299", constituents));
         assertTrue(containList("823", constituents));
         assertTrue(containList("16", constituents));

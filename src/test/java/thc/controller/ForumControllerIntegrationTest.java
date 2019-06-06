@@ -63,7 +63,7 @@ public class ForumControllerIntegrationTest {
 
 		log.info("list_MoviePage1_ShouldReturnDecendingForumThreadsNotOlderThanConfig took: {}", timer.stop());
 
-		assertTrue("Number of thread " + contents.size() + " < " + 50, contents.size() > 50);
+		assertTrue("Number of thread " + contents.size() + " < " + 40, contents.size() > 40);
 		boolean descSortedByDate = IntStream.range(0, contents.size()-1)
 				.allMatch(i -> contents.get(i).getCreatedDate().getTime() >= contents.get(i+1).getCreatedDate().getTime());
 		assertTrue("Contents are decending ordered by created date", descSortedByDate);
