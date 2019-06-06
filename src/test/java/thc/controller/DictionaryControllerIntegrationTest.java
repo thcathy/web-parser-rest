@@ -63,9 +63,9 @@ public class DictionaryControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("word", is("toward")))
-                .andExpect(jsonPath("pronunciationUrl", startsWith("http://audio.oxforddictionaries.com/en/mp3/toward_gb")))
+                .andExpect(jsonPath("pronunciationUrl", startsWith("https://dictionary.cambridge.org/media/english/us_pron/e/eus/eus74/eus74594.mp3")))
                 .andExpect(jsonPath("pronunciationLang", is("British English")))
-                .andExpect(jsonPath("IPA", is("təˈwɔːd")));
+                .andExpect(jsonPath("IPA", is("tɔrd")));
     }
 
     @Test
@@ -74,10 +74,10 @@ public class DictionaryControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("word", is("senior")))
-                .andExpect(jsonPath("pronunciationUrl", startsWith("http://audio.oxforddictionaries.com/en/mp3/senior_gb")))
+                .andExpect(jsonPath("pronunciationUrl", startsWith("https://dictionary.cambridge.org/media/english/uk_pron/u/uks/uksen/uksen__012.mp3")))
                 .andExpect(jsonPath("pronunciationLang", is("British English")))
-                .andExpect(jsonPath("definition", is("of or for older or more experienced people")))
-                .andExpect(jsonPath("IPA", is("ˈsiːnɪə")));
+                .andExpect(jsonPath("definition", is("N.A.")))
+                .andExpect(jsonPath("IPA", is("ˈsiː.ni.ə")));
     }
 
     @Test

@@ -38,12 +38,12 @@ public class DictionaryController {
     public ResponseEntity<DictionaryResult> query(@PathVariable String query) {
     	log.debug("process: {}", query);
 
-		Optional<DictionaryResult> result = queryOxfordDictionary(query, OxfordDictionaryRequest.REGION_GB);
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser(query).parse();
 		if (result.isPresent() && StringUtils.isNotEmpty(result.get().pronunciationUrl))
 			return ResponseEntity.ok(result.get());
 
-		//retry with cambridge dictionary
-		result = new CambridgeDictionaryParser(query).parse();
+		// retry with region US for wording in GB
+		result = queryOxfordDictionary(query, OxfordDictionaryRequest.REGION_GB);
 		if (result.isPresent() && StringUtils.isNotEmpty(result.get().pronunciationUrl))
 			return ResponseEntity.ok(result.get());
 
