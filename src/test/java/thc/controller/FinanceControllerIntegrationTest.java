@@ -92,7 +92,7 @@ public class FinanceControllerIntegrationTest {
         constituents= financeController.indexConstituents("HSCEI");
         assertTrue(constituents.size() > 30);
         assertTrue(containList("939", constituents));
-        assertTrue(containList("753", constituents));
+        assertTrue(containList("2318", constituents));
         assertTrue(containList("3968", constituents));
 
         constituents= financeController.indexConstituents("HCCI");
