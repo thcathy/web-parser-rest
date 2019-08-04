@@ -7,6 +7,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Flux;
 import thc.domain.ForumThread;
 
 import java.net.URL;
@@ -56,9 +57,9 @@ public abstract class ForumThreadParser {
 				results.add(new ForumThread(new URL(url).getHost() + "/" + parseURL(e), parseTitle(e), source, convertDate(parseDateStr(e))));
 			}
 		} catch (Exception e1) {
-			log.warn("Fail to parse url:" + url, e1);
-		}		
-		
+			throw new RuntimeException("Fail to parse url:" + url, e);
+		}
+
 		return results;
 	}
 		

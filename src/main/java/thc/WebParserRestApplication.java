@@ -17,9 +17,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import thc.parser.forum.TvboxnowThreadParser;
 import thc.parser.forum.UwantsThreadParser;
 import thc.parser.language.OxfordDictionaryRequest;
@@ -76,15 +73,15 @@ public class WebParserRestApplication {
 
     @Bean public HttpParseService httpParseService() { return new HttpParseService(httpClient()); }
 		
-	@Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurerAdapter() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/rest/**");
-            }
-        };
-    }
+	//@Bean
+    //public WebMvcConfigurer corsConfigurer() {
+    //    return new WebMvcConfigurerAdapter() {
+    //        @Override
+    //        public void addCorsMappings(CorsRegistry registry) {
+    //            registry.addMapping("/rest/**");
+    //        }
+    //    };
+    //}
 
     @Bean
 	public static AsyncHttpClient httpClient() {
