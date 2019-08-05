@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import thc.WebParserRestApplication;
 import thc.domain.ForumThread;
 
@@ -22,7 +21,6 @@ import java.util.stream.IntStream;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
 @ContextConfiguration(classes = WebParserRestApplication.class)
 public class ForumControllerIntegrationTest {
 	private Logger log = LoggerFactory.getLogger(ForumControllerIntegrationTest.class);
@@ -36,7 +34,7 @@ public class ForumControllerIntegrationTest {
 	public void list_MusicPage1_ShouldReturnDescendingForumThreadsNotOlderThanConfig() {
 		Stopwatch timer = Stopwatch.createStarted();
 		
-		List<ForumThread> contents = controller.list("MUSIC", 1);
+		List<ForumThread> contents = controller.list("MUSIC", 1).collectList().block();
 
 		log.info("list_MusicPage1_ShouldReturnDecendingForumThreadsNotOlderThanConfig took: {}", timer.stop());
 
@@ -59,7 +57,7 @@ public class ForumControllerIntegrationTest {
 	public void list_MoviePage1_ShouldReturnDescendingForumThreadsNotOlderThanConfig() {
 		Stopwatch timer = Stopwatch.createStarted();
 		
-		List<ForumThread> contents = controller.list("MOVIE", 1);
+		List<ForumThread> contents = controller.list("MOVIE", 1).collectList().block();
 
 		log.info("list_MoviePage1_ShouldReturnDecendingForumThreadsNotOlderThanConfig took: {}", timer.stop());
 

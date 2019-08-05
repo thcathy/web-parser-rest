@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Mono;
 import thc.domain.ForumThread;
 import thc.service.ForumQueryService;
 
@@ -21,6 +22,8 @@ public class ForumThreadParserTest {
         TvboxnowThreadParser.PASSWORD = System.getProperty("tvboxnow.password");
         UwantsThreadParser.USERNAME = System.getProperty("discuss.username");
         UwantsThreadParser.PASSWORD = System.getProperty("discuss.password");
+        DiscussThreadParser.USERNAME = System.getProperty("discuss.username");
+		DiscussThreadParser.PASSWORD = System.getProperty("discuss.password");
     }
 	
 	@Test
@@ -28,13 +31,15 @@ public class ForumThreadParserTest {
 		// Test Uwants
 		String uwantsSource = "Uwants";
 		ForumThreadParser uwants = new UwantsThreadParser("https://www.uwants.com/forumdisplay.php?fid=472&page=1", uwantsSource, "UTF-8");
+		//List<ForumThread> result = queryService.queryFlux(Flux.just(uwants)).collectList().block();
 		List<ForumThread> result = queryService.query(uwants);
         
 		checkForumThreadList(uwantsSource, "www.uwants.com", result);
 		
 		// Test Discuss
 		String discussSource = "Discuss";
-		ForumThreadParser discuss = new UwantsThreadParser("https://www.discuss.com.hk/forumdisplay.php?fid=101&page=2", discussSource, "UTF-8");
+		ForumThreadParser discuss = new DiscussThreadParser("https://www.discuss.com.hk/forumdisplay.php?fid=101&page=2", discussSource, "UTF-8");
+		//result = queryService.queryFlux(Flux.just(discuss)).collectList().block();
 		result = queryService.query(discuss);
 		checkForumThreadList(discussSource, "www.discuss.com.hk", result);
 		
@@ -43,6 +48,21 @@ public class ForumThreadParserTest {
 		ForumThreadParser tvb = new TvboxnowThreadParser("http://www.tvboxnow.com/forum-50-1.html", tvboxSource);
 		result = queryService.query(tvb);
         checkForumThreadList(tvboxSource, "www.tvboxnow.com", result);
+	}
+
+	@Test
+	public void testmono() {
+		var single = Mono.just("1");
+		var d1 = single.map(v -> {
+			System.out.println(v);
+			return v;
+		});
+		var d2= single.map(v -> {
+			System.out.println(v);
+			return v;
+		});
+		d1.block();
+		d2.block();
 	}
 
 	private void checkForumThreadList(String uwantsSource, String urlPrefix, List<ForumThread> result) {

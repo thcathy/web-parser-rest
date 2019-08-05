@@ -5,15 +5,12 @@ import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.reactive.function.client.ClientResponse;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import thc.domain.ForumThread;
 import thc.parser.forum.ForumThreadParser;
 import thc.util.HttpClientUtils;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -35,7 +32,7 @@ public class ForumQueryService {
     }
 
     public List<ForumThread> query(List<ForumThreadParser> parsers) {
-       loginForums(parsers);
+        loginForums(parsers);
 
         List<CompletableFuture<List<ForumThread>>> futures = parsers.stream()
                 .map(this::queryForum)
@@ -46,17 +43,20 @@ public class ForumQueryService {
                 .collect(Collectors.toList());
     }
 
-    public Flux<ForumThread> query(List<ForumThreadParser> parsers) {
-        Map<String, Mono<ClientResponse>> loginMono = new HashMap<>();
-        for (ForumThreadParser p : parsers) {
-            loginMono.put(p.loginUrl.toString(),
-                    WebClient.builder().build().get().uri(p.loginUrl.get()).exchange()
-            );
-        }
+    public Flux<ForumThread> queryFlux(Flux<ForumThreadParser> parsers) {
+        parsers = parsers.share();
 
-        for (ForumThreadParser p : parsers) {
-            loginMono.get(p.loginUrl.toString()).subscribe()
-        }
+        Mono<Map<String, Mono<Response>>> loginResponse = parsers.map(p -> p.loginUrl.orElse("https://www.google.com"))
+                .distinct()
+                .collectMap(k -> k, k -> Mono.fromFuture(asyncHttpClient.prepareGet(k).execute().toCompletableFuture()));
+
+        return parsers.zipWith(loginResponse)
+                .log()
+                .flatMap(result -> {
+                    var parser = result.getT1();
+                    var mono = result.getT2().get(parser.loginUrl.orElse("https://www.google.com"));
+                    return mono.flatMapMany(l -> queryForumFlux(parser));
+                });
     }
 
     private CompletableFuture<List<ForumThread>> queryForum(ForumThreadParser parser) {

@@ -7,7 +7,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import reactor.core.publisher.Flux;
 import thc.domain.ForumThread;
 
 import java.net.URL;
@@ -40,7 +39,7 @@ public abstract class ForumThreadParser {
 		if (url.contains("www.uwants.com")) 
 			return new UwantsThreadParser(String.format(url,page), "Uwants", "UTF-8");
 		else if (url.contains("www.discuss.com"))
-			return new UwantsThreadParser(String.format(url,page), "Discuss", "UTF-8");
+			return new DiscussThreadParser(String.format(url,page), "Discuss", "UTF-8");
 		else if (url.contains("www.tvboxnow.com"))
 			return new TvboxnowThreadParser(String.format(url,page), "Tvboxnow");			
 		else
@@ -48,7 +47,7 @@ public abstract class ForumThreadParser {
 	}
     
 	public List<ForumThread> parse(Response response) {
-		List<ForumThread> results = new ArrayList<ForumThread>();
+		List<ForumThread> results = new ArrayList<>();
 		
 		try {
 			Document doc = Jsoup.parse(response.getResponseBodyAsStream(), encoding, url);
@@ -56,10 +55,10 @@ public abstract class ForumThreadParser {
 				Element e = iter.next();
 				results.add(new ForumThread(new URL(url).getHost() + "/" + parseURL(e), parseTitle(e), source, convertDate(parseDateStr(e))));
 			}
-		} catch (Exception e1) {
+		} catch (Exception e) {
 			throw new RuntimeException("Fail to parse url:" + url, e);
 		}
-
+		log.debug("{} threads found from url {}", results.size(), url);
 		return results;
 	}
 		

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 import thc.domain.ForumThread;
 import thc.parser.forum.ForumThreadParser;
 import thc.service.ForumQueryService;
@@ -17,7 +18,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -61,28 +61,27 @@ public class ForumController {
 	}
 			
     @RequestMapping(value = "/rest/forum/list/{type}/{batch}", method = RequestMethod.GET)
-    public List<ForumThread> list(@PathVariable String type, @PathVariable int batch) {
-    	log.debug("hkQuotes: type [{}], batch [{}]", type, batch);
+    public Flux<ForumThread> list(@PathVariable String type, @PathVariable int batch) {
+    	log.debug("list: type [{}], batch [{}]", type, batch);
 
         ContentType contentType = ContentType.valueOf(type.toUpperCase());        
-    	List<ForumThreadParser> parsers = createParsersByType(contentType, batch);
-        List<ForumThread> allThreads = queryService.query(parsers);
+    	var parsers = createParsersByType(contentType, batch);
+        Flux<ForumThread> allThreads = queryService.queryFlux(parsers);
         return filterAndSortForumThread(allThreads);
     }
         
-    private List<ForumThreadParser> createParsersByType(ContentType type, int batch) {
-    	return type.urls.stream()
-    			.flatMap(url -> 
-                        forPages(batch).map(i -> ForumThreadParser.buildParser(url,i))
-    			)
-    			.collect(Collectors.toList());    			
+    private Flux<ForumThreadParser> createParsersByType(ContentType type, int batch) {
+		return Flux.fromIterable(type.urls)
+				.flatMap(url ->
+						Flux.range(fromPage(batch), toPage(batch))
+								.map(i -> ForumThreadParser.buildParser(url,i))
+				);
     }
     
-    private List<ForumThread> filterAndSortForumThread(List<ForumThread> threads) {
-        return threads.stream()
+    private Flux<ForumThread> filterAndSortForumThread(Flux<ForumThread> threads) {
+        return threads
                 .filter(f -> f.getCreatedDate().compareTo(earliestCreatedDate) >= 0)
-                .sorted((a,b)->b.getCreatedDate().compareTo(a.getCreatedDate()))
-                .collect(Collectors.toList());
+                .sort((a,b)->b.getCreatedDate().compareTo(a.getCreatedDate()));
     }
 
 	private int toPage(int batch) {

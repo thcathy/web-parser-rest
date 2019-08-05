@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import thc.parser.forum.DiscussThreadParser;
 import thc.parser.forum.TvboxnowThreadParser;
 import thc.parser.forum.UwantsThreadParser;
 import thc.parser.language.OxfordDictionaryRequest;
@@ -64,6 +65,8 @@ public class WebParserRestApplication {
         TvboxnowThreadParser.PASSWORD = tvboxnowPassword;
         UwantsThreadParser.USERNAME = discussUsername;
         UwantsThreadParser.PASSWORD = discussPassword;
+		DiscussThreadParser.USERNAME = discussUsername;
+		DiscussThreadParser.PASSWORD = discussPassword;
 		GoogleImageSearchRequest.setAPIKeys(googleAPIKey);
 		OxfordDictionaryRequest.APP_ID_LIST = Optional.ofNullable(oxfordDictionaryAppId).orElse("").split(OxfordDictionaryRequest.KEY_SEPARATOR);
 		OxfordDictionaryRequest.APP_KEY_LIST = Optional.ofNullable(oxfordDictionaryAppKey).orElse("").split(OxfordDictionaryRequest.KEY_SEPARATOR);
