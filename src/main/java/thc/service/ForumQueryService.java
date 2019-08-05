@@ -12,7 +12,6 @@ import thc.parser.forum.ForumThreadParser;
 import thc.util.HttpClientUtils;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -46,17 +45,14 @@ public class ForumQueryService {
     public Flux<ForumThread> queryFlux(Flux<ForumThreadParser> parsers) {
         parsers = parsers.share();
 
-        Mono<Map<String, Mono<Response>>> loginResponse = parsers.map(p -> p.loginUrl.orElse("https://www.google.com"))
+        var loginMonos = parsers.map(p -> p.loginUrl.orElse("https://www.google.com"))
                 .distinct()
-                .collectMap(k -> k, k -> Mono.fromFuture(asyncHttpClient.prepareGet(k).execute().toCompletableFuture()));
+                .collectMap(k -> k, k -> Mono.fromFuture(asyncHttpClient.prepareGet(k).execute().toCompletableFuture()))
+                .block();
 
-        return parsers.zipWith(loginResponse)
-                .log()
-                .flatMap(result -> {
-                    var parser = result.getT1();
-                    var mono = result.getT2().get(parser.loginUrl.orElse("https://www.google.com"));
-                    return mono.flatMapMany(l -> queryForumFlux(parser));
-                });
+        return parsers.flatMap(p ->
+            loginMonos.get(p.loginUrl.get()).flatMapMany(l -> queryForumFlux(p))
+        );
     }
 
     private CompletableFuture<List<ForumThread>> queryForum(ForumThreadParser parser) {

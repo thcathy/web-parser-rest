@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -69,6 +70,15 @@ public class ForumController {
         Flux<ForumThread> allThreads = queryService.queryFlux(parsers);
         return filterAndSortForumThread(allThreads);
     }
+
+	public List<ForumThread> oldlist(@PathVariable String type, @PathVariable int batch) {
+		log.debug("hkQuotes: type [{}], batch [{}]", type, batch);
+
+		ContentType contentType = ContentType.valueOf(type.toUpperCase());
+		List<ForumThreadParser> parsers = oldCreateParsersByType(contentType, batch);
+		List<ForumThread> allThreads = queryService.query(parsers);
+		return filterAndSortForumThread(allThreads);
+	}
         
     private Flux<ForumThreadParser> createParsersByType(ContentType type, int batch) {
 		return Flux.fromIterable(type.urls)
@@ -77,6 +87,21 @@ public class ForumController {
 								.map(i -> ForumThreadParser.buildParser(url,i))
 				);
     }
+
+	private List<ForumThreadParser> oldCreateParsersByType(ContentType type, int batch) {
+		return type.urls.stream()
+				.flatMap(url ->
+						forPages(batch).map(i -> ForumThreadParser.buildParser(url,i))
+				)
+				.collect(Collectors.toList());
+	}
+
+	private List<ForumThread> filterAndSortForumThread(List<ForumThread> threads) {
+		return threads.stream()
+				.filter(f -> f.getCreatedDate().compareTo(earliestCreatedDate) >= 0)
+				.sorted((a,b)->b.getCreatedDate().compareTo(a.getCreatedDate()))
+				.collect(Collectors.toList());
+	}
     
     private Flux<ForumThread> filterAndSortForumThread(Flux<ForumThread> threads) {
         return threads
