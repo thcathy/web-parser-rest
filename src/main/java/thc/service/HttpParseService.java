@@ -5,6 +5,7 @@ import org.asynchttpclient.BoundRequestBuilder;
 import org.asynchttpclient.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Mono;
 import thc.parser.HttpParseRequest;
 
 import java.io.InputStream;
@@ -30,6 +31,10 @@ public class HttpParseService {
                 .exceptionally(t -> nullResponseOnError(parser.url(), t))
                 .thenApply(this::checkResponseStatus)
                 .thenApply(response -> parser.parseResponse(response));
+    }
+
+    public Mono processFlux(HttpParseRequest parser) {
+        return Mono.fromFuture(process(parser));
     }
 
     private InputStream checkResponseStatus(Response response) {

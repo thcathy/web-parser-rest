@@ -1,22 +1,19 @@
 package thc.controller;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.cache.CacheMono;
+import reactor.core.publisher.Mono;
 import thc.domain.WebItem;
 import thc.parser.search.GoogleImageSearchRequest;
 import thc.service.HttpParseService;
 
-import javax.cache.CacheManager;
-import javax.cache.annotation.CacheResult;
-import javax.cache.configuration.MutableConfiguration;
-import javax.cache.expiry.Duration;
-import javax.cache.expiry.TouchedExpiryPolicy;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -29,26 +26,32 @@ public class SearchController {
 	@Autowired
 	HttpParseService parseService;
 
-	@CacheResult(cacheName = "image_search")
-    @RequestMapping(value = "/rest/search/image/{query}", method = GET)
-    public List<WebItem> searchImage(@PathVariable String query) {
-    	log.debug("searchImage: {}", query);
+	final protected Cache<String, Object> cache;
+
+	public SearchController() {
+		cache = Caffeine
+				.newBuilder()
+				.maximumSize(1000)
+				.expireAfterWrite(1, TimeUnit.DAYS)
+				.build();
+	}
+
+	@RequestMapping(value = "/rest/search/image/{query}", method = GET)
+	public Mono<List> searchImage(@PathVariable String query) {
+		log.debug("searchImage: {}", query);
+
+		GoogleImageSearchRequest request = new GoogleImageSearchRequest(query);
+
+		return CacheMono
+				.lookup(cache.asMap(), query)
+				.onCacheMissResume(parseService.processFlux(request));
+	}
+
+	public List<WebItem> oldSearchImage(@PathVariable String query) {
+		log.debug("searchImage: {}", query);
 
 		GoogleImageSearchRequest request = new GoogleImageSearchRequest(query);
 		return parseService.process(request).join();
-    }
-
-	@Component
-	public static class CachingSetup implements JCacheManagerCustomizer
-	{
-		@Override
-		public void customize(CacheManager cacheManager)
-		{
-			cacheManager.createCache("image_search", new MutableConfiguration<>()
-					.setExpiryPolicyFactory(TouchedExpiryPolicy.factoryOf(new Duration(TimeUnit.DAYS, 1)))
-					.setStoreByValue(false)
-					.setStatisticsEnabled(true));
-		}
 	}
 
 }

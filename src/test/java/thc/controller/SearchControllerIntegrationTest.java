@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import thc.WebParserRestApplication;
 import thc.domain.WebItem;
 
@@ -18,7 +17,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
 @ContextConfiguration(classes = WebParserRestApplication.class)
 public class SearchControllerIntegrationTest {
 	private Logger log = LoggerFactory.getLogger(SearchControllerIntegrationTest.class);
@@ -29,7 +27,7 @@ public class SearchControllerIntegrationTest {
 	public void searchImage_shouldReturnWebItems() throws Exception {
         Stopwatch timer = Stopwatch.createStarted();
 
-        List<WebItem> items = controller.searchImage("book+clipart");
+        List<WebItem> items = controller.searchImage("book+clipart").block();
         log.info("searchImage_shouldReturnWebItems took: {}", timer.stop());
 
         assertEquals(10, items.size());
@@ -38,7 +36,7 @@ public class SearchControllerIntegrationTest {
 
     @Test
     public void searchImage_givenRubbish_shouldReturnEmptyWebItemArray() throws Exception {
-        List<WebItem> items = controller.searchImage("lksdajflksdalkfjlkwejr clipart");
+        List<WebItem> items = controller.searchImage("lksdajflksdalkfjlkwejr clipart").block();
         assertEquals(0, items.size());
     }
 

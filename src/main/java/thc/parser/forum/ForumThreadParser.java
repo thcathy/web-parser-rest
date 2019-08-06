@@ -22,10 +22,10 @@ public abstract class ForumThreadParser {
 	public final String url;
 	public final String source;
 	public final String encoding;
-	public final Optional<String> loginUrl;	
+	public final String loginUrl;
 			
 	// Constructor
-	protected ForumThreadParser(String url, String source, String encoding, Optional<String> loginUrl) {
+	protected ForumThreadParser(String url, String source, String encoding, String loginUrl) {
 		this.url = url;
 		this.source = source;
 		this.loginUrl = loginUrl;

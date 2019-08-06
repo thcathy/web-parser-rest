@@ -6,7 +6,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.text.MessageFormat;
-import java.util.Optional;
 
 public class UwantsThreadParser extends ForumThreadParser {
 	static public final String LOGIN_URL = "https://www.uwants.com/logging.php?action=login&loginsubmit=yes&username={0}&password={1}";
@@ -14,7 +13,7 @@ public class UwantsThreadParser extends ForumThreadParser {
 	static public volatile String PASSWORD;
 
 	public UwantsThreadParser(String url, String source, String encoding) {
-		super(url, source, encoding, Optional.of(MessageFormat.format(LOGIN_URL, USERNAME, PASSWORD)));
+		super(url, source, encoding, MessageFormat.format(LOGIN_URL, USERNAME, PASSWORD));
 		validateAccount();
 	}
 
