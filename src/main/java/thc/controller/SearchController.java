@@ -43,7 +43,7 @@ public class SearchController {
 		GoogleImageSearchRequest request = new GoogleImageSearchRequest(query);
 
 		return CacheMono
-				.lookup(cache.asMap(), query)
+				.lookup(cache.asMap(), query, List.class)
 				.onCacheMissResume(parseService.processFlux(request));
 	}
 

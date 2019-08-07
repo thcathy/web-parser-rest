@@ -38,7 +38,7 @@ public class DictionaryController {
     public ResponseEntity<DictionaryResult> query(@PathVariable String query) {
     	log.debug("process: {}", query);
 
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser(query).parse();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser(query).parse().blockOptional();
 		if (result.isPresent() && StringUtils.isNotEmpty(result.get().pronunciationUrl))
 			return ResponseEntity.ok(result.get());
 

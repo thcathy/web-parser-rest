@@ -1,23 +1,18 @@
 package thc.parser.language;
 
-import org.asynchttpclient.AsyncHttpClient;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import thc.domain.DictionaryResult;
 
 import java.util.Optional;
 
-import static org.asynchttpclient.Dsl.asyncHttpClient;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
-public class CambridgeDictionaryParserTest {
-	AsyncHttpClient httpClient = asyncHttpClient(); // TODO: setup
+public class CambridgeDictionaryParserTestOld {
 
 	@Test
 	public void testParseBanana() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("banana").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("banana").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("bəˈnɑː.nə", result.get().IPA);
@@ -26,7 +21,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseOrange() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("orange").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("orange").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("ˈɒr.ɪndʒ",result.get().IPA);
@@ -35,7 +30,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseLemon() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("lemon").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("lemon").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("ˈlem.ən",result.get().IPA);
@@ -44,7 +39,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseStar() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("star").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("star").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("stɑː",result.get().IPA);
@@ -53,7 +48,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParsePeak() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("peak").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("peak").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("piːk",result.get().IPA);
@@ -62,7 +57,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseFit() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("fit").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("fit").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("fɪt",result.get().IPA);
@@ -71,7 +66,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParsePet() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("pet").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("pet").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("pet",result.get().IPA);
@@ -80,7 +75,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseCat() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("cat").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("cat").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("kæt",result.get().IPA);
@@ -89,7 +84,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseFrog() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("frog").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("frog").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("frɒɡ",result.get().IPA);
@@ -98,7 +93,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseCar() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("car").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("car").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("kɑː",result.get().IPA);
@@ -107,7 +102,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseTall() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("tall").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("tall").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("tɔːl",result.get().IPA);
@@ -116,7 +111,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseFoot() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("foot").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("foot").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("fʊt",result.get().IPA);
@@ -125,7 +120,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseRoom() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("room").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("room").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("ruːm",result.get().IPA);
@@ -134,7 +129,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseLuck() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("luck").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("luck").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("lʌk",result.get().IPA);
@@ -143,7 +138,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseBird() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("bird").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("bird").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("bɜːd",result.get().IPA);
@@ -152,7 +147,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseName() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("name").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("name").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("neɪm",result.get().IPA);
@@ -161,7 +156,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseKite() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("kite").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("kite").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("kaɪt",result.get().IPA);
@@ -170,7 +165,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseCow() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("cow").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("cow").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("kaʊ",result.get().IPA);
@@ -179,7 +174,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseToy() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("toy").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("toy").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("tɔɪ",result.get().IPA);
@@ -188,7 +183,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseRoad() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("road").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("road").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("rəʊd",result.get().IPA);
@@ -197,7 +192,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseTear() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("tear").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("tear").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("teə",result.get().IPA);
@@ -206,7 +201,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParsePair() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("pair").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("pair").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("peə",result.get().IPA);
@@ -215,7 +210,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParsePoor() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("poor").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("poor").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("pɔː",result.get().IPA);
@@ -224,7 +219,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseFire() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("fire").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("fire").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("faɪə",result.get().IPA);
@@ -233,7 +228,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParsePower() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("power").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("power").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("paʊə",result.get().IPA);
@@ -242,7 +237,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseThin() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("thin").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("thin").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("θɪn",result.get().IPA);
@@ -251,7 +246,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseShine() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("shine").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("shine").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("ʃaɪn",result.get().IPA);
@@ -260,7 +255,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseHead() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("head").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("head").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("hed",result.get().IPA);
@@ -269,7 +264,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseChurch() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("church").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("church").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("tʃɜːtʃ",result.get().IPA);
@@ -278,7 +273,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseWild() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("wild").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("wild").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("waɪld",result.get().IPA);
@@ -287,7 +282,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseSing() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("sing").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("sing").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("sɪŋ",result.get().IPA);
@@ -296,7 +291,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseVote() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("vote").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("vote").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("vəʊt",result.get().IPA);
@@ -305,7 +300,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseThey() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("they").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("they").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("ðeɪ",result.get().IPA);
@@ -314,7 +309,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseZinc() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("zinc").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("zinc").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("zɪŋk",result.get().IPA);
@@ -323,7 +318,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseMeasure() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("measure").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("measure").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("ˈmeʒ.ə",result.get().IPA);
@@ -332,7 +327,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseJoke() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("joke").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("joke").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("dʒəʊk",result.get().IPA);
@@ -341,7 +336,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseYet() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("yet").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("yet").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("jet",result.get().IPA);
@@ -350,7 +345,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseBusstop() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("bus-stop").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("bus-stop").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("ˈbʌs ˌstɒp",result.get().IPA);
@@ -359,7 +354,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseFebruary() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("february").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("february").old_parse();
 
 		assertTrue(result.isPresent());
 		assertEquals("ˈfeb.ru.r.i",result.get().IPA);
@@ -368,7 +363,7 @@ public class CambridgeDictionaryParserTest {
 
 	@Test
 	public void testParseFailGetContent() {
-		Optional<DictionaryResult> result = new CambridgeDictionaryParser("asdlkjfwerj").parse().blockOptional();
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("asdlkjfwerj").old_parse();
 
 		assertTrue(!result.isPresent());
 	}
