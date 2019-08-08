@@ -24,6 +24,7 @@ import thc.parser.language.OxfordDictionaryRequest;
 import thc.parser.search.GoogleImageSearchRequest;
 import thc.service.ForumQueryService;
 import thc.service.HttpParseService;
+import thc.service.RestParseService;
 
 import javax.annotation.PostConstruct;
 import javax.net.ssl.SSLException;
@@ -75,6 +76,8 @@ public class WebParserRestApplication {
     @Bean public ForumQueryService forumQueryService() { return new ForumQueryService(httpClient()); }
 
     @Bean public HttpParseService httpParseService() { return new HttpParseService(httpClient()); }
+
+    @Bean public RestParseService restParseService() { return new RestParseService(); }
 		
 	//@Bean
     //public WebMvcConfigurer corsConfigurer() {

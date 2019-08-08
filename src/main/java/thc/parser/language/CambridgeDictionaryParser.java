@@ -1,6 +1,5 @@
 package thc.parser.language;
 
-import org.asynchttpclient.AsyncHttpClient;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -18,18 +17,11 @@ public class CambridgeDictionaryParser {
 
 	public static final String URL = "https://dictionary.cambridge.org/dictionary/english/";
 
-	private AsyncHttpClient httpClient;
-
 	private String query;
 	private String audioLink;
 	private String ipa;
 
 	public CambridgeDictionaryParser(String query) { this.query = query; }
-
-	public CambridgeDictionaryParser httpClient(AsyncHttpClient httpClient) {
-		this.httpClient = httpClient;
-		return this;
-	}
 
 	public Optional<DictionaryResult> old_parse() {
 		if (!tryParseFromUrl(concatURL()))
