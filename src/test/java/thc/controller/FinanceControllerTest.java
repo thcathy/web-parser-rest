@@ -6,10 +6,12 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import reactor.core.publisher.Mono;
 import thc.parser.HttpParseRequest;
 import thc.parser.finance.AastockStockQuoteRequest;
 import thc.parser.finance.YahooStockQuoteRequest;
 import thc.service.HttpParseService;
+import thc.service.JsoupParseService;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -21,6 +23,9 @@ public class FinanceControllerTest {
     @Mock
     HttpParseService httpParseService;
 
+    @Mock
+    JsoupParseService jsoupParseService;
+
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
@@ -30,17 +35,18 @@ public class FinanceControllerTest {
     public void before() {
         controller = new FinanceController();
         controller.setParseService(httpParseService);
+        controller.setJsoupParseService(jsoupParseService);
     }
 
     @Test
     public void hkQuotes_withSpecificSource_useSpecificParser() {
-        when(httpParseService.process(any(HttpParseRequest.class))).thenReturn(CompletableFuture.completedFuture(Optional.empty()));
+        when(jsoupParseService.process(any())).thenReturn(Mono.just(Optional.empty()));
 
         controller.hkQuotes("941,939,2800,2828,5,883", "aastocks");
-        verify(httpParseService, times(6)).process(any(AastockStockQuoteRequest.class));
+        verify(jsoupParseService, times(6)).process(any(AastockStockQuoteRequest.class));
 
         controller.hkQuotes("941,939,2800,2828,5,883", "yahoo");
-        verify(httpParseService, times(6)).process(any(YahooStockQuoteRequest.class));
+        verify(jsoupParseService, times(6)).process(any(YahooStockQuoteRequest.class));
     }
 
     @Test

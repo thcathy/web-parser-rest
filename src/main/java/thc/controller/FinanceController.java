@@ -7,12 +7,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import thc.constant.FinancialConstants.IndexCode;
 import thc.domain.MonetaryBase;
 import thc.domain.StockQuote;
 import thc.parser.HttpParseRequest;
 import thc.parser.finance.*;
 import thc.service.HttpParseService;
+import thc.service.JsoupParseService;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -21,7 +24,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static thc.constant.FinancialConstants.IndexCode.HSCEI;
@@ -33,6 +35,9 @@ public class FinanceController {
 
 	@Autowired
 	HttpParseService parseService;
+
+	@Autowired
+	JsoupParseService jsoupParseService;
 
 	enum StockQuoteSource {
 		AASTOCKS(AastockStockQuoteRequest.class), YAHOO(YahooStockQuoteRequest.class);
@@ -96,59 +101,58 @@ public class FinanceController {
 	}
 
 	private List<CompletableFuture<Optional<BigDecimal>>> submitHistoryQuote(String code) {
-		return IntStream.rangeClosed(1, 3)
-				.mapToObj(i -> parseService.process(new HistoryQuoteRequest(code, i)))
-				.collect(Collectors.toList());
+		return null;
+		//return IntStream.rangeClosed(1, 3)
+		//		.mapToObj(i -> jsoupParseService.process(new HistoryQuoteRequest(code, i)).block())
+		//		.collect(Collectors.toList());
 	}
 
 	@RequestMapping(value = "/rest/quote/indexes", method = GET)
-	public List<StockQuote> indexQuotes() {
+	public Mono<List<StockQuote>> indexQuotes() {
 		log.info("request indexQuotes");
-		return parseService.process(new Money18IndexQuoteRequest()).join();
+		return parseService.processFlux(new Money18IndexQuoteRequest());
 	}
 
 	@RequestMapping(value= "/rest/index/constituents/{index}", method = GET)
-	public List<String> indexConstituents(@PathVariable String index) {
+	public Mono<List<String>> indexConstituents(@PathVariable String index) {
 		log.info("request index constituents of {}", index);
 		IndexCode indexCode = IndexCode.valueOf(index);
 
-		return parseService.process(indexCode).join();
+		return parseService.processFlux(indexCode);
 	}
 
 	@RequestMapping(value = "/rest/index/report/hsinet/{yyyymmdd}", method = GET)
-	public List<StockQuote> getHsiNetReports(@PathVariable String yyyymmdd) {
+	public Flux<StockQuote> getHsiNetReports(@PathVariable String yyyymmdd) {
 		log.info("request getHsiNetReportsClosestTo  [{}]", yyyymmdd);
 
-		return Arrays.asList(
-				    getIndexReport(HSI, yyyymmdd),
-				    getIndexReport(HSCEI, yyyymmdd)
-				);
+		return Flux.concat(getIndexReport(HSI, yyyymmdd), getIndexReport(HSCEI, yyyymmdd));
 	}
 
 	@RequestMapping(value = "/rest/hkma/report/{yyyymmdd}", method = GET)
-    public MonetaryBase getHKMAReport(@PathVariable String yyyymmdd) throws ParseException {
+    public Mono<MonetaryBase> getHKMAReport(@PathVariable String yyyymmdd) throws ParseException {
         log.info("request getHKMAReport [{}]", yyyymmdd);
 
-        return parseService.process(new HKMAMonetaryBaseRequest(yyyymmdd))
-				.join()
-				.orElse(MonetaryBase.empty());
+        return jsoupParseService.process(new HKMAMonetaryBaseRequest(yyyymmdd));
     }
 
     @RequestMapping(value = "/rest/quote/{code}/price/pre/{preYear}", method = GET)
-	public BigDecimal getHistoryPrice(@PathVariable String code, @PathVariable int preYear) {
-		return parseService.process(new HistoryQuoteRequest(code, preYear))
-				.join()
-				.orElse(new BigDecimal(0));
+	public Mono<BigDecimal> getHistoryPrice(@PathVariable String code, @PathVariable int preYear) {
+		return jsoupParseService.process(new HistoryQuoteRequest(code, preYear));
 	}
 
-	private StockQuote getIndexReport(IndexCode code, String yyyymmdd) {
+	private Mono<StockQuote> getIndexReport(IndexCode code, String yyyymmdd) {
 	    HSINetRequest request = new HSINetRequest(code, yyyymmdd);
-		return parseService.process(request)
-                .join()
-                .orElse(new StockQuote(StockQuote.NA));
+		return parseService.processFlux(request)
+				.map(Optional::get)
+				.onErrorReturn(new StockQuote(StockQuote.NA));
 	}
 
 	public void setParseService(HttpParseService parseService) {
 		this.parseService = parseService;
+	}
+
+	public FinanceController setJsoupParseService(JsoupParseService jsoupParseService) {
+		this.jsoupParseService = jsoupParseService;
+		return this;
 	}
 }

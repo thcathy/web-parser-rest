@@ -29,7 +29,7 @@ public class ISharesConstituentParserTest {
 	}
 
 	private List<String> queryConstituents(FinancialConstants.IndexCode index) {
-		return parserService.process(index).join();
+		return parserService.processFlux(index).block();
 	}
 
 	@Test

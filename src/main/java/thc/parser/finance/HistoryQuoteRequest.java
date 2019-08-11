@@ -1,22 +1,19 @@
 package thc.parser.finance;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import thc.parser.HttpParseRequest;
+import thc.parser.JsoupParseRequest;
 import thc.util.NumberUtils;
 
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.Calendar;
-import java.util.Optional;
 
 
-public class HistoryQuoteRequest implements HttpParseRequest<Optional<BigDecimal>> {
+public class HistoryQuoteRequest implements JsoupParseRequest<BigDecimal> {
 	private static Logger log = LoggerFactory.getLogger(HistoryQuoteRequest.class);
 
 	private static String QUOTE_URL = "https://hk.finance.yahoo.com/quote/{0}/history?period1={1,number,##}&period2={2,number,##}&interval=1d&filter=history&frequency=1d";
@@ -50,19 +47,22 @@ public class HistoryQuoteRequest implements HttpParseRequest<Optional<BigDecimal
 	}
 
 	@Override
-	public Optional<BigDecimal> parseResponse(InputStream responseInputStream) {
+	public BigDecimal parseResponse(Document doc) {
 		try
-		{	
-			Document doc = Jsoup.parse(responseInputStream, "UTF-8", "http://hk.finance.yahoo.com");
+		{
 			Elements spanInPriceTable = doc.select("table[data-test=historical-prices]").select("span");
 			if (spanInPriceTable.get(5).text().contains("收市價") && spanInPriceTable.size() > 13) {
-				return Optional.of(new BigDecimal(NumberUtils.extractDouble(spanInPriceTable.get(12).text())));
+				return new BigDecimal(NumberUtils.extractDouble(spanInPriceTable.get(12).text()));
 			}
 		} catch (Exception e) {
 			log.warn("Fail to get historial price from {}, Reason {}", url(), e.toString());
-			return Optional.empty();
 		}
-		return Optional.empty();
+		return defaultValue();
+	}
+
+	@Override
+	public BigDecimal defaultValue() {
+		return new BigDecimal(0.0);
 	}
 
 	private Object dateSecond(Calendar date) {

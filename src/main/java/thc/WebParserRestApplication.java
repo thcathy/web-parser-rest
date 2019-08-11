@@ -24,6 +24,7 @@ import thc.parser.language.OxfordDictionaryRequest;
 import thc.parser.search.GoogleImageSearchRequest;
 import thc.service.ForumQueryService;
 import thc.service.HttpParseService;
+import thc.service.JsoupParseService;
 import thc.service.RestParseService;
 
 import javax.annotation.PostConstruct;
@@ -78,6 +79,8 @@ public class WebParserRestApplication {
     @Bean public HttpParseService httpParseService() { return new HttpParseService(httpClient()); }
 
     @Bean public RestParseService restParseService() { return new RestParseService(); }
+
+    @Bean public JsoupParseService jsoupParseService() { return new JsoupParseService(); }
 		
 	//@Bean
     //public WebMvcConfigurer corsConfigurer() {

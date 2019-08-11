@@ -18,7 +18,7 @@ public class EtnetIndexConstituentParser {
 	public static List<String> parse(InputStream response) {
 		List<String> results = new ArrayList<String>();
 		try
-		{			
+		{
 			Document doc = Jsoup.parse(response, "UTF-8", "http://www.etnet.com.hk");
 			for (Iterator<Element> i = doc.select("a[href^=realtime/quote.php?code=]").iterator(); i.hasNext();) {				
 				Element e = i.next();

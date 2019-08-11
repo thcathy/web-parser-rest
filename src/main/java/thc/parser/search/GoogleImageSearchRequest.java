@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class GoogleImageSearchRequest implements HttpParseRequest<List<WebItem>> {
+public class GoogleImageSearchRequest implements HttpParseRequest<List> {
 	protected static final Logger log = LoggerFactory.getLogger(GoogleImageSearchRequest.class);
 
 	private static final ObjectReader jsonReader = new ObjectMapper().configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true).readerFor(Map.class);

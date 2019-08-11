@@ -33,7 +33,7 @@ public class HttpParseService {
                 .thenApply(response -> parser.parseResponse(response));
     }
 
-    public Mono processFlux(HttpParseRequest parser) {
+    public <U> Mono<U> processFlux(HttpParseRequest<U> parser) {
         return Mono.fromFuture(process(parser));
     }
 

@@ -3,22 +3,19 @@ package thc.parser.finance;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import thc.domain.StockQuote;
-import thc.parser.HttpParseRequest;
+import thc.parser.JsoupParseRequest;
 
-import java.io.InputStream;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Supplier;
 
-public class AastockStockQuoteRequest implements HttpParseRequest<Optional<StockQuote>> {
+public class AastockStockQuoteRequest implements JsoupParseRequest<StockQuote> {
 	protected static final Logger log = LoggerFactory.getLogger(AastockStockQuoteRequest.class);
 	
-	public static String URL = "http://www.aastocks.com/en/stocks/quote/detail-quote.aspx";
+	public static String URL = "http://www.aastocks.com/en/stocks/quote/detail-quote.aspx?symbol=";
 
 	private final String symbol;
 
@@ -27,7 +24,7 @@ public class AastockStockQuoteRequest implements HttpParseRequest<Optional<Stock
 	}
 
 	@Override
-	public String url() { return URL; }
+	public String url() { return URL + symbol; }
 
 	@Override
 	public Map<String, String> headers() {
@@ -37,15 +34,9 @@ public class AastockStockQuoteRequest implements HttpParseRequest<Optional<Stock
 	}
 
 	@Override
-	public Map<String, String> queryParams() {
-		return ImmutableMap.of("symbol", symbol);
-	}
-
-	@Override
-	public Optional<StockQuote> parseResponse(InputStream responseInputStream) {
+	public StockQuote parseResponse(Document doc) {
 		try
 		{
-			Document doc = Jsoup.parse(responseInputStream, "UTF-8", URL);
 			StockQuote quote = new StockQuote(symbol.replaceFirst("^0+(?!$)", ""));
 
 			// price
@@ -83,14 +74,19 @@ public class AastockStockQuoteRequest implements HttpParseRequest<Optional<Stock
 			quote.setYearHigh(yearHighLow[1]);
 
 			log.info("parsed quote: {}", quote);
-            return Optional.ofNullable(quote);
+			return quote;
 		} catch (Exception e) {
 			log.error("Cannot parse stock code", e);
 		}
-        return Optional.empty();
+        return defaultValue();
 	}
 
-    private static String parseValue(Supplier<String> f) {
+	@Override
+	public StockQuote defaultValue() {
+		return new StockQuote(StockQuote.NA);
+	}
+
+	private static String parseValue(Supplier<String> f) {
         try {
             return f.get();
         } catch (Exception e) {
