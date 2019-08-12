@@ -116,7 +116,7 @@ public class FinanceControllerIntegrationTest {
     }
 
     @Test
-    public void hsinetReport_queryOnHoliday_shouldReturnNAStockQuote() throws ParseException {
+    public void hsinetReport_queryOnHoliday_shouldReturnNAStockQuote() {
         List<StockQuote> reports = financeController.getHsiNetReports("20160701").collectList().block();
 
         assertEquals(2, reports.size());

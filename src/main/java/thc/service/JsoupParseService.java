@@ -5,6 +5,7 @@ import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 import thc.parser.JsoupParseRequest;
 
 import java.util.Map;
@@ -17,7 +18,9 @@ public class JsoupParseService {
             Connection connection = Jsoup.connect(parser.url()).validateTLSCertificates(false);
             setHeaders(connection, parser.headers());
             return parser.parseResponse(connection.get());
-    }).onErrorResume((e) -> {
+    })
+                .subscribeOn(Schedulers.elastic())
+                .onErrorResume((e) -> {
             log.warn("Error when process jsoup request: {}, {}", e.toString(), parser.url());
             return Mono.just(parser.defaultValue());
         });
