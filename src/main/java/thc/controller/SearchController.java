@@ -10,11 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.cache.CacheMono;
 import reactor.core.publisher.Mono;
-import thc.domain.WebItem;
 import thc.parser.search.GoogleImageSearchRequest;
 import thc.service.HttpParseService;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -37,21 +35,14 @@ public class SearchController {
 	}
 
 	@RequestMapping(value = "/rest/search/image/{query}", method = GET)
-	public Mono<List> searchImage(@PathVariable String query) {
+	public Mono searchImage(@PathVariable String query) {
 		log.debug("searchImage: {}", query);
 
 		GoogleImageSearchRequest request = new GoogleImageSearchRequest(query);
 
 		return CacheMono
-				.lookup(cache.asMap(), query, List.class)
-				.onCacheMissResume(parseService.processFlux(request));
-	}
-
-	public List<WebItem> oldSearchImage(@PathVariable String query) {
-		log.debug("searchImage: {}", query);
-
-		GoogleImageSearchRequest request = new GoogleImageSearchRequest(query);
-		return parseService.process(request).join();
+				.lookup(cache.asMap(), query)
+				.onCacheMissResume(Mono.fromFuture(parseService.process(request)));
 	}
 
 }

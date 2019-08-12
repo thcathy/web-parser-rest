@@ -24,10 +24,10 @@ public class SearchControllerIntegrationTest {
     @Autowired SearchController controller;
 
 	@Test
-	public void searchImage_shouldReturnWebItems() throws Exception {
+	public void searchImage_shouldReturnWebItems() {
         Stopwatch timer = Stopwatch.createStarted();
 
-        List<WebItem> items = controller.searchImage("book+clipart").block();
+        List<WebItem> items = (List<WebItem>) controller.searchImage("book+clipart").block();
         log.info("searchImage_shouldReturnWebItems took: {}", timer.stop());
 
         assertEquals(10, items.size());
@@ -35,8 +35,8 @@ public class SearchControllerIntegrationTest {
     }
 
     @Test
-    public void searchImage_givenRubbish_shouldReturnEmptyWebItemArray() throws Exception {
-        List<WebItem> items = controller.searchImage("lksdajflksdalkfjlkwejr clipart").block();
+    public void searchImage_givenRubbish_shouldReturnEmptyWebItemArray() {
+        List<WebItem> items = (List<WebItem>) controller.searchImage("lksdajflksdalkfjlkwejr clipart").block();
         assertEquals(0, items.size());
     }
 

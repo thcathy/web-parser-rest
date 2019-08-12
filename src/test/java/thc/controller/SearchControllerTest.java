@@ -36,13 +36,13 @@ public class SearchControllerTest {
         when(parseService.process(any())).thenReturn(CompletableFuture.supplyAsync(() -> webItemList));
         when(parseService.processFlux(any())).thenCallRealMethod();
 
-        var result = controller.searchImage("any").block();
+        var result = (List<WebItem>) controller.searchImage("any").block();
         assertThat(result.size()).isEqualTo(1);
-        assertThat(((WebItem)result.get(0)).url).isEqualTo("url");
+        assertThat((result.get(0)).url).isEqualTo("url");
 
-        var result2 = controller.searchImage("any").block();
+        var result2 = (List<WebItem>) controller.searchImage("any").block();
         assertThat(result2.size()).isEqualTo(1);
-        assertThat(((WebItem)result2.get(0)).url).isEqualTo("url");
+        assertThat((result2.get(0)).url).isEqualTo("url");
         Mockito.verify(parseService, times(1)).process(any());
     }
 

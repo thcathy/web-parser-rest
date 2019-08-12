@@ -12,10 +12,6 @@ public interface JsoupParseRequest<U> {
         return Collections.emptyMap();
     }
 
-    default Map<String, String> queryParams() {
-        return Collections.emptyMap();
-    }
-
     U parseResponse(Document doc);
 
     U defaultValue();

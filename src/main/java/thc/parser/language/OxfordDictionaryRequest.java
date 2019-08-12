@@ -1,9 +1,6 @@
 package thc.parser.language;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +16,6 @@ import java.util.Optional;
 
 public class OxfordDictionaryRequest implements RestParseRequest<DictionaryResult> {
 	private static final Logger log = LoggerFactory.getLogger(OxfordDictionaryRequest.class);
-	private static final ObjectReader jsonReader = new ObjectMapper().configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true).readerFor(Map.class);
 
 	public static final String URL = "https://od-api.oxforddictionaries.com/api/v2/entries/{1}/{0}";
 	public static final String KEY_SEPARATOR = ",";
@@ -30,10 +26,6 @@ public class OxfordDictionaryRequest implements RestParseRequest<DictionaryResul
 
 	private final String query;
 	private final String region;
-
-	public OxfordDictionaryRequest(String query) {
-		this(query, REGION_GB);
-	}
 
 	public OxfordDictionaryRequest(String query, String region) {
 		this.query = query;

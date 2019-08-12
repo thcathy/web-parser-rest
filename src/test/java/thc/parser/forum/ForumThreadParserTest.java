@@ -51,28 +51,6 @@ public class ForumThreadParserTest {
         checkForumThreadList(tvboxSource, "www.tvboxnow.com", result);
 	}
 
-	@Test
-	public void parse_GivenRightURL_ShouldReturnSomeForumThread_old() {
-		// Test Uwants
-		String uwantsSource = "Uwants";
-		ForumThreadParser uwants = new UwantsThreadParser("https://www.uwants.com/forumdisplay.php?fid=472&page=1", uwantsSource, "UTF-8");
-		List<ForumThread> result = queryService.query(uwants);
-
-		checkForumThreadList(uwantsSource, "www.uwants.com", result);
-
-		// Test Discuss
-		String discussSource = "Discuss";
-		ForumThreadParser discuss = new DiscussThreadParser("https://www.discuss.com.hk/forumdisplay.php?fid=101&page=2", discussSource, "UTF-8");
-		result = queryService.query(discuss);
-		checkForumThreadList(discussSource, "www.discuss.com.hk", result);
-
-		// Test Tvbox
-		String tvboxSource = "Tvboxnow";
-		ForumThreadParser tvb = new TvboxnowThreadParser("http://www.tvboxnow.com/forum-50-1.html", tvboxSource);
-		result = queryService.query(tvb);
-		checkForumThreadList(tvboxSource, "www.tvboxnow.com", result);
-	}
-
 	private void checkForumThreadList(String uwantsSource, String urlPrefix, List<ForumThread> result) {
 		Assert.assertTrue("Return should not empty", result.size() > 0);
 				
