@@ -1,26 +1,22 @@
 <configuration>
 
-	<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>log/web-parser-rest.log</file>
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<!-- daily rollover -->
-			<fileNamePattern>log/web-parser-rest.%d{yyyy-MM-dd}.log</fileNamePattern>
-			<maxHistory>30</maxHistory>
-		</rollingPolicy>
-
-		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-		</encoder>
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n
+			</Pattern>
+		</layout>
 	</appender>
 
-	<appender name="async" class="ch.qos.logback.classic.AsyncAppender">
-		<appender-ref ref="file" />
-	</appender>
-
+	<logger name="me.thc" level="debug" additivity="false">
+		<appender-ref ref="CONSOLE"/>
+	</logger>
 	<logger name="org.apache" level="info" />
 	<logger name="org.springframework" level="info" />
+	<logger name="org.asynchttpclient" level="info" />
 
 	<root level="info">
-		<appender-ref ref="async" />
+		<appender-ref ref="CONSOLE"/>
 	</root>
+
 </configuration>
