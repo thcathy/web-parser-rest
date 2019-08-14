@@ -63,6 +63,6 @@ Use it at your own risk.**
 
 ## Major Dependency
 * [Spring boot](http://projects.spring.io/spring-boot/): application framework
+* [Spring webflux](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html): web server
 * [Async Http Client](https://github.com/AsyncHttpClient/async-http-client): http client
 * [Jsoup](https://jsoup.org/): HTML Parser
-* [Springfox](http://springfox.github.io/springfox/): JSON API documentation
