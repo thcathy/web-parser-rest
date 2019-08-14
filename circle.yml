@@ -30,8 +30,8 @@ jobs:
           when: always
       - run:
           command: ./gradlew jacocoTestReport
-            - codecov/upload:
-                file: ./build/reports/jacoco/test/jacocoTestReport.xml
+      - codecov/upload:
+          file: ./build/reports/jacoco/test/jacocoTestReport.xml
       - store_test_results:
           path: ~/junit
       - store_artifacts:
