@@ -28,6 +28,10 @@ jobs:
             mkdir -p ~/junit/
             find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/junit/ \;
           when: always
+      - run:
+          command: ./gradlew jacocoTestReport
+            - codecov/upload:
+                file: ./build/reports/jacoco/test/jacocoTestReport.xml
       - store_test_results:
           path: ~/junit
       - store_artifacts:

@@ -11,7 +11,7 @@ version = '2.0.0'
 sourceCompatibility = 10
 targetCompatibility = 10
 
-jar {
+bootJar {
     archiveName = 'web-parser-rest.jar'
 }
 
@@ -25,27 +25,22 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    implementation 'com.google.code.gson:gson:2.8.5'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
-    
-    compile group: 'org.jsoup', name: 'jsoup', version: '1.9.2'
-    compile group: 'org.asynchttpclient', name: 'async-http-client', version: '2.6.0'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
+    implementation group: 'org.jsoup', name: 'jsoup', version: '1.9.2'
+    implementation group: 'org.asynchttpclient', name: 'async-http-client', version: '2.6.0'
+    implementation 'com.github.ben-manes.caffeine:caffeine:2.7.0'
+    implementation group: 'io.projectreactor.addons', name: 'reactor-extra', version: '3.2.3.RELEASE'
 
-    compile group: 'org.ehcache', name: 'ehcache', version: '3.0.0'
-    compile group: 'javax.cache', name: 'cache-api', version: '1.1.0'
-    compile 'com.github.ben-manes.caffeine:caffeine:2.7.0'
-    compile group: 'io.projectreactor.addons', name: 'reactor-extra', version: '3.2.3.RELEASE'
+    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.5'
+    implementation group: 'com.google.guava', name: 'guava', version: '19.0'
 
-    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
-    compile group: 'commons-io', name: 'commons-io', version: '2.5'
-    compile group: 'com.google.guava', name: 'guava', version: '19.0'
-
-    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8'
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
-    testCompile group: 'org.springframework', name: 'springloaded', version: '1.2.6.RELEASE'
+    testImplementation group: 'org.springframework', name: 'springloaded', version: '1.2.6.RELEASE'
 }
 
 test {
@@ -58,4 +53,11 @@ test {
     systemProperty "googleapi.key", System.getenv("googleapi_key")
     systemProperty "oxford.dictionary.appId", System.getenv("oxforddictionary_appId")
     systemProperty "oxford.dictionary.appKey", System.getenv("oxforddictionary_appKey")
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
 }
