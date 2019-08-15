@@ -1,25 +1,21 @@
 package thc.parser.language;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Mono;
 import thc.domain.DictionaryResult;
-import thc.parser.HttpParseRequest;
+import thc.parser.RestParseRequest;
 
-import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.Map;
 import java.util.Optional;
 
-public class OxfordDictionaryRequest implements HttpParseRequest<Optional<DictionaryResult>> {
+public class OxfordDictionaryRequest implements RestParseRequest<DictionaryResult> {
 	private static final Logger log = LoggerFactory.getLogger(OxfordDictionaryRequest.class);
-	private static final ObjectReader jsonReader = new ObjectMapper().configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true).readerFor(Map.class);
 
 	public static final String URL = "https://od-api.oxforddictionaries.com/api/v2/entries/{1}/{0}";
 	public static final String KEY_SEPARATOR = ",";
@@ -30,10 +26,6 @@ public class OxfordDictionaryRequest implements HttpParseRequest<Optional<Dictio
 
 	private final String query;
 	private final String region;
-
-	public OxfordDictionaryRequest(String query) {
-		this(query, REGION_GB);
-	}
 
 	public OxfordDictionaryRequest(String query, String region) {
 		this.query = query;
@@ -57,16 +49,14 @@ public class OxfordDictionaryRequest implements HttpParseRequest<Optional<Dictio
 	}
 
 	@Override
-	public Optional<DictionaryResult> parseResponse(InputStream response) {
-		if (response == null) return Optional.empty();
+	public Mono<DictionaryResult> parseResponse(JsonNode node) {
 		try {
-            JsonNode node = jsonReader.readTree(response);
 			ArrayNode results = (ArrayNode) node.get("results").get(0).get("lexicalEntries");
 			Optional<JsonNode> result = matchQueryToResult(results);
-			return result.map(this::toDictionayResult);
+			return Mono.justOrEmpty(result.map(this::toDictionayResult));
 		} catch (Exception e) {
-			log.error("Fail parse response", e);
-			return Optional.empty();
+			log.error("Fail parse response: {}", e.toString());
+			return Mono.empty();
 		}
 	}
 
@@ -140,13 +130,13 @@ public class OxfordDictionaryRequest implements HttpParseRequest<Optional<Dictio
 				Optional.ofNullable(
 						src.has("entries") ? src.get("entries").get(0) : null
 				)
-				.flatMap(o -> Optional.ofNullable(o.has("senses") ? o.get("senses") :  null))
-				.flatMap(x -> Optional.ofNullable(
-						x.get(0).has("definitions")
-							? x.get(0).get("definitions") : null)
-				)
-				.flatMap(x -> Optional.ofNullable(x.get(0).asText()))
-				.orElse("");
+						.flatMap(o -> Optional.ofNullable(o.has("senses") ? o.get("senses") :  null))
+						.flatMap(x -> Optional.ofNullable(
+								x.get(0).has("definitions")
+										? x.get(0).get("definitions") : null)
+						)
+						.flatMap(x -> Optional.ofNullable(x.get(0).asText()))
+						.orElse("");
 
 		return new DictionaryResult(
 				src.get("text").asText(),

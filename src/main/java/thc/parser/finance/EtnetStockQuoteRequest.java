@@ -1,23 +1,21 @@
 package thc.parser.finance;
 
 import com.google.common.collect.ImmutableMap;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import thc.domain.StockQuote;
-import thc.parser.HttpParseRequest;
+import thc.parser.JsoupParseRequest;
 
-import java.io.InputStream;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class EtnetStockQuoteRequest implements HttpParseRequest<Optional<StockQuote>> {
+public class EtnetStockQuoteRequest implements JsoupParseRequest<StockQuote> {
 	protected static final Logger log = LoggerFactory.getLogger(EtnetStockQuoteRequest.class);
 
-	private static final String URL = "http://www.etnet.com.hk/www/tc/stocks/realtime/quote.php";
+	private static final String URL = "http://www.etnet.com.hk/www/tc/stocks/realtime/quote.php?code=";
 	private final String code;
 
 	public EtnetStockQuoteRequest(String code) {
@@ -26,26 +24,22 @@ public class EtnetStockQuoteRequest implements HttpParseRequest<Optional<StockQu
 
 	@Override
 	public String url() {
-		return URL;
+		return URL + code;
 	}
 
 	@Override
 	public Map<String, String> headers() {
-		return ImmutableMap.of(
-				"Referer",URL,
-				"Host", "www.aastocks.com");
+		return ImmutableMap.of("Referer",URL);
 	}
 
 	@Override
-	public Map<String, String> queryParams() {
-		return ImmutableMap.of("code", code);
+	public StockQuote defaultValue() {
+		return new StockQuote(StockQuote.NA);
 	}
 
 	@Override
-	public Optional<StockQuote> parseResponse(InputStream responseInputStream) {
+	public StockQuote parseResponse(Document doc) {
 		try {
-			Document doc = Jsoup.parse(responseInputStream, "UTF-8", "http://www.etnet.com.hk");
-						
 			StockQuote q = new StockQuote(doc.select("input[id=quotesearch]").attr("value").replaceFirst("^0+(?!$)", ""));
 			q.setPrice(doc.select("div[id^=StkDetailMainBox] span[class^=Price ]").text().replaceAll("[\\D]+$",""));
 			
@@ -69,10 +63,10 @@ public class EtnetStockQuoteRequest implements HttpParseRequest<Optional<StockQu
 			
 			log.info("parsed quote: {}", q);
 			
-			return Optional.of(q);
+			return q;
 		} catch (Exception e) {
 			log.warn("Cannot get quote from Etnet" , e);
-			return Optional.empty();
+			return defaultValue();
 		}	
 	}
 

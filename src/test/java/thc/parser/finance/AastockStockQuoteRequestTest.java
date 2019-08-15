@@ -2,16 +2,12 @@ package thc.parser.finance;
 
 import com.google.common.base.Stopwatch;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.asynchttpclient.Dsl;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import thc.Utils.TestUtils;
 import thc.domain.StockQuote;
-import thc.service.HttpParseService;
-
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
+import thc.service.JsoupParseService;
 
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.*;
@@ -20,14 +16,13 @@ import static thc.domain.StockQuote.NA;
 public class AastockStockQuoteRequestTest {
 	private Logger log = LoggerFactory.getLogger(AastockStockQuoteRequestTest.class);
 
-    HttpParseService parserService = new HttpParseService(Dsl.asyncHttpClient());
+    JsoupParseService parserService = new JsoupParseService();
 
 	@Test
 	public void getStockQuote_Given941_ShouldReturn941StockQuote() {
         Stopwatch timer = Stopwatch.createStarted();
 
-        CompletableFuture<Optional<StockQuote>> quote = parserService.process(new AastockStockQuoteRequest("941"));
-        StockQuote q = quote.join().get();
+        StockQuote q = parserService.process(new AastockStockQuoteRequest("941")).block();
 		assertEquals("941", q.getStockCode());
 		assertEquals("CHINA MOBILE", q.getStockName());
 		assertThat(Double.valueOf(q.getPrice()), greaterThan(50.0));
@@ -52,8 +47,7 @@ public class AastockStockQuoteRequestTest {
     public void getStockQuote_Given2800_ShouldReturn2800StockQuote() {
         Stopwatch timer = Stopwatch.createStarted();
 
-        CompletableFuture<Optional<StockQuote>> quote = parserService.process(new AastockStockQuoteRequest("2800"));
-        StockQuote q = quote.join().get();
+        StockQuote q = parserService.process(new AastockStockQuoteRequest("2800")).block();
         log.debug("StockQuote: ", q);
 
         assertEquals("2800", q.getStockCode());
@@ -78,8 +72,7 @@ public class AastockStockQuoteRequestTest {
 
     @Test
     public void getStockQuote_Given7288_ShouldReturnCode7288() {
-        CompletableFuture<Optional<StockQuote>> quote = parserService.process(new AastockStockQuoteRequest("7288"));
-        StockQuote q = quote.join().get();
+        StockQuote q = parserService.process(new AastockStockQuoteRequest("7288")).block();
         log.debug("StockQuote: ", q);
 
         assertEquals("7288", q.getStockCode());
@@ -87,8 +80,7 @@ public class AastockStockQuoteRequestTest {
 
     @Test
     public void getStockQuote_Given3046_ShouldReturnCode3046() {
-        CompletableFuture<Optional<StockQuote>> quote = parserService.process(new AastockStockQuoteRequest("3046"));
-        StockQuote q = quote.join().get();
+        StockQuote q = parserService.process(new AastockStockQuoteRequest("3046")).block();
         log.debug("StockQuote: ", q);
 
         assertEquals("3046", q.getStockCode());

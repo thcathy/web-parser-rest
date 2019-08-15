@@ -7,19 +7,19 @@ import org.jsoup.select.Elements;
 
 import java.text.MessageFormat;
 
-public class UwantsThreadParser extends ForumThreadParser {
-	static public final String LOGIN_URL = "https://www.uwants.com/logging.php?action=login&loginsubmit=yes&username={0}&password={1}";
+public class DiscussThreadParser extends ForumThreadParser {
+	static public final String LOGIN_URL = "https://www.discuss.com.hk/logging.php?action=login&loginsubmit=yes&username={0}&password={1}";
 	static public volatile String USERNAME;
 	static public volatile String PASSWORD;
 
-	public UwantsThreadParser(String url, String source, String encoding) {
+	public DiscussThreadParser(String url, String source, String encoding) {
 		super(url, source, encoding, MessageFormat.format(LOGIN_URL, USERNAME, PASSWORD));
 		validateAccount();
 	}
 
 	private void validateAccount() {
 		if (StringUtils.isBlank(USERNAME) || StringUtils.isBlank(PASSWORD))
-			throw new IllegalArgumentException("Cannot create UwantsThreadRetriever without username or password");
+			throw new IllegalArgumentException("Cannot create DiscussThreadParser without username or password");
 	}
 
 	@Override

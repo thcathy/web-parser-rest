@@ -2,21 +2,18 @@ package thc.parser.finance;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import thc.domain.StockQuote;
-import thc.parser.HttpParseRequest;
+import thc.parser.JsoupParseRequest;
 
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.function.Supplier;
 
-public class YahooStockQuoteRequest implements HttpParseRequest<Optional<StockQuote>> {
+public class YahooStockQuoteRequest implements JsoupParseRequest<StockQuote> {
 	protected static final Logger log = LoggerFactory.getLogger(YahooStockQuoteRequest.class);
 
 	private static String URL = "https://hk.finance.yahoo.com/quote/";
@@ -35,13 +32,10 @@ public class YahooStockQuoteRequest implements HttpParseRequest<Optional<StockQu
 	}
 
 	@Override
-	public Optional<StockQuote> parseResponse(InputStream responseInputStream) {
+	public StockQuote parseResponse(Document doc) {
 		try
 		{
-			Document doc = Jsoup.parse(responseInputStream, "UTF-8", URL);
 			StockQuote quote = new StockQuote(code);
-
-			String[] titleArray = doc.select("title").text().split(" ");
 
 			// price
 			quote.setPrice(doc.select("div[id~=QuoteHeader] span[data-reactid$=14]").first().text());
@@ -85,11 +79,16 @@ public class YahooStockQuoteRequest implements HttpParseRequest<Optional<StockQu
 			quote.setYearHigh(yearHighLow[1]);
 
 			log.info("parsed quote: {}", quote);
-            return Optional.ofNullable(quote);
+            return quote;
 		} catch (Exception e) {
 			log.error("Cannot parse stock code", e);
 		}
-        return Optional.empty();
+        return defaultValue();
+	}
+
+	@Override
+	public StockQuote defaultValue() {
+		return new StockQuote(StockQuote.NA);
 	}
 
     private static String parseValue(Supplier<String> f) {
@@ -101,5 +100,4 @@ public class YahooStockQuoteRequest implements HttpParseRequest<Optional<StockQu
             return StockQuote.NA;
         }
     }
-
 }

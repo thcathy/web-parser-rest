@@ -2,14 +2,13 @@ package thc.parser.finance;
 
 import com.google.common.base.Stopwatch;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.asynchttpclient.Dsl;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import thc.Utils.TestUtils;
 import thc.domain.StockQuote;
-import thc.service.HttpParseService;
+import thc.service.JsoupParseService;
 
 import static org.junit.Assert.*;
 
@@ -17,13 +16,13 @@ import static org.junit.Assert.*;
 public class EtnetStockQuoteRequestTest {
 	private Logger log = LoggerFactory.getLogger(EtnetStockQuoteRequestTest.class);
 
-	HttpParseService parserService = new HttpParseService(Dsl.asyncHttpClient());
+	JsoupParseService parserService = new JsoupParseService();
 
 	@Test
 	public void getStockQuote_Given941_ShouldReturn941StockQuote() {
 		Stopwatch timer = Stopwatch.createStarted();
 
-		StockQuote q = parserService.process(new EtnetStockQuoteRequest("941")).join().get();
+		StockQuote q = parserService.process(new EtnetStockQuoteRequest("941")).block();
 
 		log.info("StockQuote: ", q);
 		assertEquals("941", q.getStockCode());

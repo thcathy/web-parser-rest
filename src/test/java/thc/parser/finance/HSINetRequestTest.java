@@ -37,14 +37,14 @@ public class HSINetRequestTest {
 	@Test
 	public void parse_givenVeryOldDate_ShouldNotFound() {
 		HSINetRequest request = new HSINetRequest(HSI, "20160102");
-		Optional<StockQuote> result = parserService.process(request).join();
+		Optional<StockQuote> result = parserService.processFlux(request).block();
 		assertFalse(result.isPresent());
 	}
 
 	private Optional<Boolean> getLatestIndexReport(FinancialConstants.IndexCode code) {
 		return TenPreviousDayStream()
 				.map(t -> new HSINetRequest(code, t))
-				.map(r -> parserService.process(r).join())
+				.map(r -> parserService.processFlux(r).block())
 				.map(quote -> quote.isPresent() && quote.get().getPriceDoubleValue() > 1)
 				.filter(x -> x)
 				.findFirst();

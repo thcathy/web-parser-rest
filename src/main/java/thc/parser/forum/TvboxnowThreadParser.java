@@ -6,7 +6,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.text.MessageFormat;
-import java.util.Optional;
 
 public class TvboxnowThreadParser extends ForumThreadParser {
 	static public final String LOGIN_URL = "http://www.tvboxnow.com/logging.php?action=login&loginsubmit=yes&username={0}&password={1}";
@@ -14,7 +13,7 @@ public class TvboxnowThreadParser extends ForumThreadParser {
 	static public volatile String PASSWORD;
 	
 	public TvboxnowThreadParser(String url, String source) {
-		super(url, source, "UTF-8", Optional.of(MessageFormat.format(LOGIN_URL, USERNAME, PASSWORD)));
+		super(url, source, "UTF-8", MessageFormat.format(LOGIN_URL, USERNAME, PASSWORD));
 		validateAccount();
 	}
 

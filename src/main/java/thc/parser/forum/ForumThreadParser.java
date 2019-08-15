@@ -22,10 +22,10 @@ public abstract class ForumThreadParser {
 	public final String url;
 	public final String source;
 	public final String encoding;
-	public final Optional<String> loginUrl;	
+	public final String loginUrl;
 			
 	// Constructor
-	protected ForumThreadParser(String url, String source, String encoding, Optional<String> loginUrl) {
+	protected ForumThreadParser(String url, String source, String encoding, String loginUrl) {
 		this.url = url;
 		this.source = source;
 		this.loginUrl = loginUrl;
@@ -39,7 +39,7 @@ public abstract class ForumThreadParser {
 		if (url.contains("www.uwants.com")) 
 			return new UwantsThreadParser(String.format(url,page), "Uwants", "UTF-8");
 		else if (url.contains("www.discuss.com"))
-			return new UwantsThreadParser(String.format(url,page), "Discuss", "UTF-8");
+			return new DiscussThreadParser(String.format(url,page), "Discuss", "UTF-8");
 		else if (url.contains("www.tvboxnow.com"))
 			return new TvboxnowThreadParser(String.format(url,page), "Tvboxnow");			
 		else
@@ -47,7 +47,7 @@ public abstract class ForumThreadParser {
 	}
     
 	public List<ForumThread> parse(Response response) {
-		List<ForumThread> results = new ArrayList<ForumThread>();
+		List<ForumThread> results = new ArrayList<>();
 		
 		try {
 			Document doc = Jsoup.parse(response.getResponseBodyAsStream(), encoding, url);
@@ -55,10 +55,10 @@ public abstract class ForumThreadParser {
 				Element e = iter.next();
 				results.add(new ForumThread(new URL(url).getHost() + "/" + parseURL(e), parseTitle(e), source, convertDate(parseDateStr(e))));
 			}
-		} catch (Exception e1) {
-			log.warn("Fail to parse url:" + url, e1);
-		}		
-		
+		} catch (Exception e) {
+			throw new RuntimeException("Fail to parse url:" + url, e);
+		}
+		log.debug("{} threads found from url {}", results.size(), url);
 		return results;
 	}
 		

@@ -17,15 +17,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import thc.parser.forum.DiscussThreadParser;
 import thc.parser.forum.TvboxnowThreadParser;
 import thc.parser.forum.UwantsThreadParser;
 import thc.parser.language.OxfordDictionaryRequest;
 import thc.parser.search.GoogleImageSearchRequest;
 import thc.service.ForumQueryService;
 import thc.service.HttpParseService;
+import thc.service.JsoupParseService;
+import thc.service.RestParseService;
 
 import javax.annotation.PostConstruct;
 import javax.net.ssl.SSLException;
@@ -67,6 +67,8 @@ public class WebParserRestApplication {
         TvboxnowThreadParser.PASSWORD = tvboxnowPassword;
         UwantsThreadParser.USERNAME = discussUsername;
         UwantsThreadParser.PASSWORD = discussPassword;
+		DiscussThreadParser.USERNAME = discussUsername;
+		DiscussThreadParser.PASSWORD = discussPassword;
 		GoogleImageSearchRequest.setAPIKeys(googleAPIKey);
 		OxfordDictionaryRequest.APP_ID_LIST = Optional.ofNullable(oxfordDictionaryAppId).orElse("").split(OxfordDictionaryRequest.KEY_SEPARATOR);
 		OxfordDictionaryRequest.APP_KEY_LIST = Optional.ofNullable(oxfordDictionaryAppKey).orElse("").split(OxfordDictionaryRequest.KEY_SEPARATOR);
@@ -75,16 +77,20 @@ public class WebParserRestApplication {
     @Bean public ForumQueryService forumQueryService() { return new ForumQueryService(httpClient()); }
 
     @Bean public HttpParseService httpParseService() { return new HttpParseService(httpClient()); }
+
+    @Bean public RestParseService restParseService() { return new RestParseService(); }
+
+    @Bean public JsoupParseService jsoupParseService() { return new JsoupParseService(); }
 		
-	@Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurerAdapter() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/rest/**");
-            }
-        };
-    }
+	//@Bean
+    //public WebMvcConfigurer corsConfigurer() {
+    //    return new WebMvcConfigurerAdapter() {
+    //        @Override
+    //        public void addCorsMappings(CorsRegistry registry) {
+    //            registry.addMapping("/rest/**");
+    //        }
+    //    };
+    //}
 
     @Bean
 	public static AsyncHttpClient httpClient() {
