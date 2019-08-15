@@ -5,12 +5,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import reactor.core.publisher.Mono;
 import thc.domain.WebItem;
 import thc.parser.search.GoogleImageSearchRequest;
-import thc.service.HttpParseService;
+import thc.service.RestParseService;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.any;
@@ -18,7 +19,7 @@ import static org.mockito.Mockito.when;
 
 public class SearchControllerTest {
     @Mock
-    HttpParseService parseService;
+    RestParseService parseService;
 
     SearchController controller;
 
@@ -33,8 +34,7 @@ public class SearchControllerTest {
     @Test
     public void httpReturnIsCached() {
         var webItemList = List.of(new WebItem("url", "", 100, 100, ""));
-        when(parseService.process(any())).thenReturn(CompletableFuture.supplyAsync(() -> webItemList), CompletableFuture.supplyAsync(() -> null));
-        when(parseService.processFlux(any())).thenCallRealMethod();
+        when(parseService.process(any())).thenReturn(Mono.just(webItemList), Mono.just(Collections.EMPTY_LIST));
 
         var result = (List<WebItem>) controller.searchImage("any").block();
         assertThat(result.size()).isEqualTo(1);

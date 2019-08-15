@@ -5,9 +5,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
-import thc.WebParserRestApplication;
 import thc.domain.WebItem;
-import thc.service.HttpParseService;
+import thc.service.RestParseService;
 
 import java.util.Iterator;
 import java.util.List;
@@ -18,7 +17,7 @@ import static org.junit.Assert.*;
 public class GoogleImageSearchRequestTest {
 	private Logger log = LoggerFactory.getLogger(GoogleImageSearchRequestTest.class);
 
-	HttpParseService parserService = new HttpParseService(WebParserRestApplication.httpClient());
+	RestParseService parserService = new RestParseService();
 
 	static {
 		GoogleImageSearchRequest.setAPIKeys(System.getProperty("googleapi.key"));
@@ -28,7 +27,7 @@ public class GoogleImageSearchRequestTest {
 	public void query_shouldReturnWebItems() {
 		Stopwatch timer = Stopwatch.createStarted();
 
-		List<WebItem> items = parserService.process(new GoogleImageSearchRequest("book+clipart")).join();
+		List<WebItem> items = (List<WebItem>) parserService.process(new GoogleImageSearchRequest("book+clipart")).block();
 
 		assertEquals(10, items.size());
 		items.forEach(this::checkItem);
@@ -50,7 +49,7 @@ public class GoogleImageSearchRequestTest {
 
 	@Test
 	public void parse_givenFailedResponse_shouldReturnEmptyList() {
-		List result = new GoogleImageSearchRequest("").parseResponse(null);
+		List result = new GoogleImageSearchRequest("").parseResponse(null).block();
 		assertTrue(CollectionUtils.isEmpty(result));
 	}
 

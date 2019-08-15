@@ -13,5 +13,9 @@ public interface RestParseRequest<U> {
         return Collections.emptyMap();
     }
 
+    default Map<String, String> queryParams() {
+        return Collections.emptyMap();
+    }
+
     Mono<U> parseResponse(JsonNode node);
 }

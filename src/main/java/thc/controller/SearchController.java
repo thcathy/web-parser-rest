@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.cache.CacheMono;
 import reactor.core.publisher.Mono;
 import thc.parser.search.GoogleImageSearchRequest;
-import thc.service.HttpParseService;
+import thc.service.RestParseService;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -23,7 +23,7 @@ public class SearchController {
 	private static Logger log = LoggerFactory.getLogger(SearchController.class);
 
 	@Autowired
-	HttpParseService parseService;
+	RestParseService parseService;
 
 	final protected Cache<String, Object> cache;
 
@@ -43,7 +43,7 @@ public class SearchController {
 
 		return CacheMono
 				.lookup(cache.asMap(), query, List.class)
-				.onCacheMissResume(() -> parseService.processFlux(request));
+				.onCacheMissResume(() -> parseService.process(request));
 	}
 
 }
