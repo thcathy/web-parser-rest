@@ -24,7 +24,7 @@ public class ForumQueryService {
         var loginMonos = parsers.map(p -> p.loginUrl)
                 .distinct()
                 .collectMap(k -> k, k -> Mono.fromFuture(asyncHttpClient.prepareGet(k).execute().toCompletableFuture()))
-                .publishOn(Schedulers.elastic())
+                .subscribeOn(Schedulers.elastic())
                 .block();
 
         return parsers.flatMap(p ->
