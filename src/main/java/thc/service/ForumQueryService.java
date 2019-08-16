@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
 import thc.domain.ForumThread;
 import thc.parser.forum.ForumThreadParser;
 
@@ -19,17 +18,18 @@ public class ForumQueryService {
     }
 
     public Flux<ForumThread> queryFlux(Flux<ForumThreadParser> parsers) {
-        parsers = parsers.share();
+        final var sharedParsers = parsers.share();
 
-        var loginMonos = parsers.map(p -> p.loginUrl)
+        var loginMaps = sharedParsers.map(p -> p.loginUrl)
                 .distinct()
-                .collectMap(k -> k, k -> Mono.fromFuture(asyncHttpClient.prepareGet(k).execute().toCompletableFuture()))
-                .subscribeOn(Schedulers.elastic())
-                .block();
+                .collectMap(k -> k, k -> Mono.fromFuture(asyncHttpClient.prepareGet(k).execute().toCompletableFuture()));
 
-        return parsers.flatMap(p ->
-            loginMonos.get(p.loginUrl).flatMapMany(l -> queryForumFlux(p))
+        return loginMaps.flatMapMany(m ->
+                sharedParsers.flatMap(
+                        p -> m.get(p.loginUrl).flatMapMany(l -> queryForumFlux(p))
+                )
         );
+
     }
 
     private Flux<ForumThread> queryForumFlux(ForumThreadParser parser) {
