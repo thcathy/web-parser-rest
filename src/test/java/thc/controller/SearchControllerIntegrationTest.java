@@ -29,7 +29,11 @@ public class SearchControllerIntegrationTest {
 
         List<WebItem> items = (List<WebItem>) controller.searchImage("book+clipart").block();
         log.info("searchImage_shouldReturnWebItems took: {}", timer.stop());
+        items.forEach(this::checkItem);
 
+        assertEquals(10, items.size());
+
+        items = (List<WebItem>) controller.searchImage("book+clipart").block();
         assertEquals(10, items.size());
         items.forEach(this::checkItem);
     }

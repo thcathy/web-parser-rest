@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 import thc.domain.ForumThread;
 import thc.parser.forum.ForumThreadParser;
 
@@ -23,6 +24,7 @@ public class ForumQueryService {
         var loginMonos = parsers.map(p -> p.loginUrl)
                 .distinct()
                 .collectMap(k -> k, k -> Mono.fromFuture(asyncHttpClient.prepareGet(k).execute().toCompletableFuture()))
+                .publishOn(Schedulers.elastic())
                 .block();
 
         return parsers.flatMap(p ->
