@@ -35,6 +35,7 @@ public class AastockStockQuoteRequest implements JsoupParseRequest<StockQuote> {
 
 	@Override
 	public StockQuote parseResponse(Document doc) {
+		log.info("parse response from url: {}", url());
 		try
 		{
 			StockQuote quote = new StockQuote(symbol.replaceFirst("^0+(?!$)", ""));
@@ -45,10 +46,10 @@ public class AastockStockQuoteRequest implements JsoupParseRequest<StockQuote> {
 			quote.setPrice(price);
 
 			// stock name
-			quote.setStockName(doc.select("span[id$=StockName").first().text());
+			quote.setStockName(doc.select("span[id$=StockName]").first().text());
 
 			// change
-			quote.setChangeAmount(doc.select("div:containsOwn(Change").first().nextElementSibling().nextElementSibling().text());
+			quote.setChangeAmount(doc.select("div:containsOwn(Change)").first().nextElementSibling().nextElementSibling().text());
 			quote.setChange(doc.select("div:containsOwn(Change(%))").first().nextElementSibling().nextElementSibling().text());
 
 			// day high day low
