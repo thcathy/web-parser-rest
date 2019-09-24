@@ -1,12 +1,13 @@
 package thc.parser.finance;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import thc.domain.MonetaryBase;
 import thc.service.JsoupParseService;
 
 import static org.junit.Assert.assertEquals;
 
-
+@Ignore
 public class HKMAMonetaryBaseRequestTest {
 	JsoupParseService parseService = new JsoupParseService();
 
