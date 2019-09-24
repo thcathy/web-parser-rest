@@ -47,7 +47,7 @@ public class CambridgeDictionaryParserTest {
 		Optional<DictionaryResult> result = new CambridgeDictionaryParser("star").parse().blockOptional();
 
 		assertTrue(result.isPresent());
-		assertEquals("stɑː",result.get().IPA);
+		assertEquals("stɑːr",result.get().IPA);
 		assertTrue(result.get().pronunciationUrl.endsWith("//dictionary.cambridge.org/media/english/uk_pron/u/uks/uksta/ukstand022.mp3"));
 	}
 
@@ -101,7 +101,7 @@ public class CambridgeDictionaryParserTest {
 		Optional<DictionaryResult> result = new CambridgeDictionaryParser("car").parse().blockOptional();
 
 		assertTrue(result.isPresent());
-		assertEquals("kɑː",result.get().IPA);
+		assertEquals("kɑːr",result.get().IPA);
 		assertTrue(result.get().pronunciationUrl.endsWith("//dictionary.cambridge.org/media/english/uk_pron/u/ukc/ukcap/ukcapit027.mp3"));
 	}
 
@@ -200,7 +200,7 @@ public class CambridgeDictionaryParserTest {
 		Optional<DictionaryResult> result = new CambridgeDictionaryParser("tear").parse().blockOptional();
 
 		assertTrue(result.isPresent());
-		assertEquals("teə",result.get().IPA);
+		assertEquals("teər",result.get().IPA);
 		//assertTrue(result.get().pronunciationUrl.endsWith("//dictionary.cambridge.org/media/british/us_pron/t/tea/tear_/tear_03_00.mp3"));
 	}
 
@@ -209,7 +209,7 @@ public class CambridgeDictionaryParserTest {
 		Optional<DictionaryResult> result = new CambridgeDictionaryParser("pair").parse().blockOptional();
 
 		assertTrue(result.isPresent());
-		assertEquals("peə",result.get().IPA);
+		assertEquals("peər",result.get().IPA);
 		//assertTrue(result.get().pronunciationUrl.endsWith("//dictionary.cambridge.org/media/british/us_pron/p/pai/pair_/pair.mp3"));
 	}
 
@@ -218,7 +218,7 @@ public class CambridgeDictionaryParserTest {
 		Optional<DictionaryResult> result = new CambridgeDictionaryParser("poor").parse().blockOptional();
 
 		assertTrue(result.isPresent());
-		assertEquals("pɔː",result.get().IPA);
+		assertEquals("pɔːr",result.get().IPA);
 		//assertTrue(result.get().pronunciationUrl.endsWith("//dictionary.cambridge.org/media/british/us_pron/p/poo/poor_/poor.mp3"));
 	}
 
@@ -227,7 +227,7 @@ public class CambridgeDictionaryParserTest {
 		Optional<DictionaryResult> result = new CambridgeDictionaryParser("fire").parse().blockOptional();
 
 		assertTrue(result.isPresent());
-		assertEquals("faɪə",result.get().IPA);
+		assertEquals("faɪər",result.get().IPA);
 		//assertTrue(result.get().pronunciationUrl.endsWith("//dictionary.cambridge.org/media/british/us_pron/f/fir/fire_/fire.mp3"));
 	}
 
@@ -236,7 +236,7 @@ public class CambridgeDictionaryParserTest {
 		Optional<DictionaryResult> result = new CambridgeDictionaryParser("power").parse().blockOptional();
 
 		assertTrue(result.isPresent());
-		assertEquals("paʊə",result.get().IPA);
+		assertEquals("paʊər",result.get().IPA);
 		//assertTrue(result.get().pronunciationUrl.endsWith("//dictionary.cambridge.org/media/british/us_pron/p/pow/power/power.mp3"));
 	}
 
@@ -326,7 +326,7 @@ public class CambridgeDictionaryParserTest {
 		Optional<DictionaryResult> result = new CambridgeDictionaryParser("measure").parse().blockOptional();
 
 		assertTrue(result.isPresent());
-		assertEquals("ˈmeʒ.ə",result.get().IPA);
+		assertEquals("ˈmeʒ.ər",result.get().IPA);
 		//assertTrue(result.get().pronunciationUrl.endsWith("//dictionary.cambridge.org/media/british/us_pron/m/mea/measu/measure.mp3"));
 	}
 
@@ -362,7 +362,7 @@ public class CambridgeDictionaryParserTest {
 		Optional<DictionaryResult> result = new CambridgeDictionaryParser("february").parse().blockOptional();
 
 		assertTrue(result.isPresent());
-		assertEquals("ˈfeb.ru.r.i",result.get().IPA);
+		assertEquals("ˈfeb.ru.ər.i",result.get().IPA);
 		//assertTrue(result.get().pronunciationUrl.endsWith("//dictionary.cambridge.org/media/british/us_pron/e/eus/eus71/eus71794.mp3"));
 	}
 

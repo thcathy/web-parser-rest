@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import thc.WebParserRestApplication;
+import thc.constant.ContentConstants;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -37,8 +38,10 @@ public class DictionaryControllerIntegrationTest {
     public void query_notAWord_shouldReturn404() {
         Stopwatch timer = Stopwatch.createStarted();
 
-        var result = controller.query("--------").blockOptional();
-        assertThat(result.isPresent()).isFalse();
+        var result = controller.query("--------").block();
+        assertThat(result.word).isEqualTo("--------");
+        assertThat(result.pronunciationUrl).isNullOrEmpty();
+        assertThat(result.IPA).isEqualTo(ContentConstants.NOT_AVAILABLE);
 
         log.info("query_shouldReturnResult took: {}", timer.stop());
     }
@@ -58,7 +61,7 @@ public class DictionaryControllerIntegrationTest {
         assertThat(result.word).isEqualTo("senior");
         assertThat(result.pronunciationUrl).isEqualTo("https://dictionary.cambridge.org/media/english/uk_pron/u/uks/uksen/uksen__012.mp3");
         assertThat(result.pronunciationLang).isEqualTo("British English");
-        assertThat(result.IPA).isEqualTo("ˈsiː.ni.ə");
+        assertThat(result.IPA).isEqualTo("ˈsiː.ni.ər");
     }
 
     @Test
@@ -67,7 +70,7 @@ public class DictionaryControllerIntegrationTest {
         assertThat(result.word).isEqualTo("center");
         assertThat(result.pronunciationUrl).isEqualTo("https://dictionary.cambridge.org/media/english/uk_pron/u/ukc/ukcen/ukcensu007.mp3");
         assertThat(result.pronunciationLang).isEqualTo("British English");
-        assertThat(result.IPA).isEqualTo("ˈsen.tə");
+        assertThat(result.IPA).isEqualTo("ˈsen.tər");
     }
 
     @Test
@@ -76,7 +79,7 @@ public class DictionaryControllerIntegrationTest {
         assertThat(result.word).isEqualTo("anymore");
         assertThat(result.pronunciationUrl).isEqualTo("https://dictionary.cambridge.org/media/english/uk_pron/u/uka/ukant/ukantis017.mp3");
         assertThat(result.pronunciationLang).isEqualTo("British English");
-        assertThat(result.IPA).isEqualTo("ˌen.iˈmɔː");
+        assertThat(result.IPA).isEqualTo("ˌen.iˈmɔːr");
     }
 
     @Test

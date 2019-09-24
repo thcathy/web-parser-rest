@@ -42,12 +42,17 @@ public class DictionaryController {
 
 		return CacheMono
 				.lookup(cache.asMap(), query, DictionaryResult.class)
-				.onCacheMissResume(() ->
-						new CambridgeDictionaryParser(query).parse()
-								.filter(this::hasPronunciationUrl)
-								.switchIfEmpty(queryOxfordDictionary(query, OxfordDictionaryRequest.REGION_GB))
-								.filter(this::hasPronunciationUrl)
-								.switchIfEmpty(queryOxfordDictionary(query, OxfordDictionaryRequest.REGION_US)));
+				.onCacheMissResume(() -> queryOnlineSources(query));
+	}
+
+	private Mono<DictionaryResult> queryOnlineSources(String query) {
+		return new CambridgeDictionaryParser(query).parse()
+				.filter(this::hasPronunciationUrl)
+				.switchIfEmpty(queryOxfordDictionary(query, OxfordDictionaryRequest.REGION_GB))
+				.filter(this::hasPronunciationUrl)
+				.switchIfEmpty(queryOxfordDictionary(query, OxfordDictionaryRequest.REGION_US))
+				.filter(this::hasPronunciationUrl)
+				.defaultIfEmpty(new DictionaryResult(query));
 	}
 
 	private boolean hasPronunciationUrl(DictionaryResult result) {
@@ -64,4 +69,3 @@ public class DictionaryController {
 		}
 	}
 }
-

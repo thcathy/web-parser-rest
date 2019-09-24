@@ -26,7 +26,7 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
-    implementation group: 'org.jsoup', name: 'jsoup', version: '1.9.2'
+    implementation group: 'org.jsoup', name: 'jsoup', version: '1.12.1'
     implementation group: 'org.asynchttpclient', name: 'async-http-client', version: '2.6.0'
     implementation 'com.github.ben-manes.caffeine:caffeine:2.7.0'
     implementation group: 'io.projectreactor.addons', name: 'reactor-extra', version: '3.2.3.RELEASE'

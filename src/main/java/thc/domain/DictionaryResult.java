@@ -3,6 +3,8 @@ package thc.domain;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.util.StringUtils;
 
+import static thc.constant.ContentConstants.NOT_AVAILABLE;
+
 public class DictionaryResult {
     public final String word;
     public final String pronunciationUrl;
@@ -16,6 +18,10 @@ public class DictionaryResult {
         this.pronunciationLang = pronunciationLang;
         this.IPA = IPA;
         this.definition = definition;
+    }
+
+    public DictionaryResult(String word) {
+        this(word, null, NOT_AVAILABLE, NOT_AVAILABLE, NOT_AVAILABLE);
     }
 
     @Override

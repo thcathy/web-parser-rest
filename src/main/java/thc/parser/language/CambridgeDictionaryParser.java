@@ -22,11 +22,9 @@ public class CambridgeDictionaryParser {
 	public CambridgeDictionaryParser(String query) { this.query = query; }
 
 	public Mono<DictionaryResult> parse() {
-		return Mono.first(
-				parseMono(concatURL()),
-				parseMono(concatURL2()),
-				parseMono(concatURL3())
-		);
+		return parseMono(concatURL())
+				.switchIfEmpty(parseMono(concatURL2()))
+				.switchIfEmpty(parseMono(concatURL3()));
 	}
 
 	private Mono<DictionaryResult> parseMono(String url) {
@@ -34,17 +32,22 @@ public class CambridgeDictionaryParser {
 	}
 
 	private Mono<DictionaryResult> parserFromUrl(String url) {
+		log.info("query url: {}", url);
 		try {
-			Document doc = Jsoup.connect(url).get();
-			Elements audioLinkSource = doc.select("span.audio_play_button");
-			audioLink = "https://dictionary.cambridge.org" + audioLinkSource.get(0).attr("data-src-mp3");
-			ipa = doc.select("span.ipa").get(0).ownText();
+			Document doc = Jsoup.connect(url)
+					.userAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36")
+					.timeout(60000)
+					.get();
+			
+			Elements audioLinkSource = doc.select("amp-audio source[type*=mpeg]");
+			audioLink = "https://dictionary.cambridge.org" + audioLinkSource.get(0).attr("src");
+			ipa = doc.select("span.pron.dpron span").get(0).text();
 			if (hasText(ipa) && hasText(audioLink)) {
 				return Mono.just(new DictionaryResult(
 						query, audioLink,"British English", ipa,"N.A."));
 			}
 		} catch (Exception e) {
-			log.warn("cannot get reader when process [{}], reason [{}]", new Object[]{query, e.toString()});
+			log.warn("cannot process [{}], reason [{}]", query, e.toString());
 		}
 		return Mono.empty();
 	}
