@@ -23,7 +23,7 @@ public class ForumQueryService {
 
         var loginMaps = sharedParsers.map(p -> p.loginUrl)
                 .distinct()
-                .collectMap(k -> k, k -> Mono.fromFuture(asyncHttpClient.prepareGet(k).execute().toCompletableFuture()));
+                .collectMap(k -> k, k -> login(k));
 
         return loginMaps.flatMapMany(m ->
                 sharedParsers.flatMap(
