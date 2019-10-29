@@ -1,10 +1,5 @@
 package thc.parser.finance;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
-import org.jsoup.nodes.Document;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import thc.domain.StockQuote;
 import thc.parser.JsoupParseRequest;
 
@@ -12,6 +7,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.function.Supplier;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
+import org.jsoup.nodes.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class YahooStockQuoteRequest implements JsoupParseRequest<StockQuote> {
 	protected static final Logger log = LoggerFactory.getLogger(YahooStockQuoteRequest.class);
@@ -42,8 +43,7 @@ public class YahooStockQuoteRequest implements JsoupParseRequest<StockQuote> {
 
 			// stock name
 			String title = doc.select("title").text();
-			title.substring(title.indexOf("："), title.indexOf(" 的摘要"));
-			quote.setStockName(title.substring(title.indexOf("：") + 1, title.indexOf(" 的摘要")));
+			quote.setStockName(title.substring(0, title.indexOf("(")-1).trim());
 
 			// change
 			String[] changes = doc.select("div[id~=QuoteHeader] span[data-reactid$=35]").text().split(" ");
