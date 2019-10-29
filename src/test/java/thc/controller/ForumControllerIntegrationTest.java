@@ -1,6 +1,12 @@
 package thc.controller;
 
-import com.google.common.base.Stopwatch;
+import thc.WebParserRestApplication;
+import thc.domain.ForumThread;
+
+import java.util.Date;
+import java.util.List;
+import java.util.stream.IntStream;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
@@ -11,12 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import thc.WebParserRestApplication;
-import thc.domain.ForumThread;
 
-import java.util.Date;
-import java.util.List;
-import java.util.stream.IntStream;
+import com.google.common.base.Stopwatch;
 
 import static org.junit.Assert.assertTrue;
 
@@ -28,7 +30,7 @@ public class ForumControllerIntegrationTest {
 	@Autowired ForumController controller;	
 	@Value("${forum.threadEarliestDay}") int threadShouldNotOlderDay;
 
-	private static int MIN_NUM_OF_THREADS = 150;
+	private static int MIN_NUM_OF_THREADS = 120;
 
 	@Test
 	public void list_MusicPage1_ShouldReturnDescendingForumThreadsNotOlderThanConfig() {
