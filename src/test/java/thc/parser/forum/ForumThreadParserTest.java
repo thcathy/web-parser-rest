@@ -37,11 +37,10 @@ public class ForumThreadParserTest {
 		checkForumThreadList(uwantsSource, "www.uwants.com", result);
 		
 		// Test Discuss
-		String discussSource = "Discuss";
-		ForumThreadParser discuss = new DiscussThreadParser("https://www.discuss.com.hk/forumdisplay.php?fid=101&page=2", discussSource, "UTF-8");
-		result = queryService.queryFlux(Flux.just(discuss)).collectList().block();
-		//result = queryService.query(discuss);
-		checkForumThreadList(discussSource, "www.discuss.com.hk", result);
+		//String discussSource = "Discuss";
+		//ForumThreadParser discuss = new DiscussThreadParser("https://www.discuss.com.hk/forumdisplay.php?fid=101&page=2", discussSource, "UTF-8");
+		//result = queryService.queryFlux(Flux.just(discuss)).collectList().block();
+		//checkForumThreadList(discussSource, "www.discuss.com.hk", result);
 		
 		// Test Tvbox
 		String tvboxSource = "Tvboxnow";
