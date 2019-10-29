@@ -1,6 +1,7 @@
 package thc.service;
 
 import org.asynchttpclient.AsyncHttpClient;
+import org.asynchttpclient.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
@@ -32,9 +33,17 @@ public class ForumQueryService {
 
     }
 
+    private Mono<Response> login(String url) {
+        log.debug("login: {}", url);
+        return Mono.fromFuture(asyncHttpClient.prepareGet(url).execute().toCompletableFuture())
+                .doOnError(e -> log.error("error when login", e));
+    }
+
     private Flux<ForumThread> queryForumFlux(ForumThreadParser parser) {
+        log.debug("query url: {}", parser.url);
         return Mono.fromFuture(asyncHttpClient.prepareGet(parser.url).execute().toCompletableFuture())
-                .flatMapIterable(response -> parser.parse(response));
+                .flatMapIterable(response -> parser.parse(response))
+                .doOnError(e -> log.error("error when query", e));
     }
 
 }
