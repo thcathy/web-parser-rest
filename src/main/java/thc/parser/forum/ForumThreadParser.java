@@ -55,10 +55,14 @@ public abstract class ForumThreadParser {
 				Element e = iter.next();
 				results.add(new ForumThread(new URL(url).getHost() + "/" + parseURL(e), parseTitle(e), source, convertDate(parseDateStr(e))));
 			}
+			if (results.size() < 1) {
+				log.info("no element found: {}", doc.text());
+			}
 		} catch (Exception e) {
 			throw new RuntimeException("Fail to parse url:" + url, e);
 		}
 		log.debug("{} threads found from url {}", results.size(), url);
+
 		return results;
 	}
 		
