@@ -50,6 +50,15 @@ public class ForumThreadParserTest {
         checkForumThreadList(tvboxSource, "www.tvboxnow.com", result);
 	}
 
+	@Test
+	public void tryDiscuss() {
+		// Test Discuss
+		String discussSource = "Discuss";
+		ForumThreadParser discuss = new DiscussThreadParser("https://www.discuss.com.hk/forumdisplay.php?fid=101&page=2", discussSource, "UTF-8");
+		List<ForumThread> result = queryService.queryFlux(Flux.just(discuss)).collectList().block();
+		checkForumThreadList(discussSource, "www.discuss.com.hk", result);
+	}
+
 	private void checkForumThreadList(String uwantsSource, String urlPrefix, List<ForumThread> result) {
 		Assert.assertTrue("Return should not empty", result.size() > 0);
 				

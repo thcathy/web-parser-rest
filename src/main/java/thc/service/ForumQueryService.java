@@ -36,6 +36,9 @@ public class ForumQueryService {
     private Mono<Response> login(String url) {
         log.debug("login: {}", url);
         return Mono.fromFuture(asyncHttpClient.prepareGet(url).execute().toCompletableFuture())
+                .doOnSuccess(r -> {
+                    log.info(r.getResponseBody());
+                })
                 .doOnError(e -> log.error("error when login", e));
     }
 
