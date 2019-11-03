@@ -10,10 +10,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import thc.Utils.TestUtils;
 import thc.WebParserRestApplication;
-import thc.domain.MonetaryBase;
 import thc.domain.StockQuote;
 
-import java.text.ParseException;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -122,16 +120,6 @@ public class FinanceControllerIntegrationTest {
         assertEquals(2, reports.size());
         assertEquals(StockQuote.NA, reports.get(0).getStockCode());
         assertEquals(StockQuote.NA, reports.get(1).getStockCode());
-    }
-
-    @Test
-    public void getHKMAReport_giveFutureDate_shouldReturnEmptyReport() throws ParseException {
-        MonetaryBase report = financeController.getHKMAReport("21000701").block();
-        assertEquals(0, report.exchangeFund, 0.01);
-        assertEquals(0, report.closingBalance, 0.01);
-        assertEquals(0, report.notes, 0.01);
-        assertEquals(0, report.indebtedness, 0.01);
-
     }
 
     private boolean containList(String s, List<String> constituents) {

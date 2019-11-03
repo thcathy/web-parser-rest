@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import thc.constant.FinancialConstants.IndexCode;
-import thc.domain.MonetaryBase;
 import thc.domain.StockQuote;
 import thc.parser.JsoupParseRequest;
 import thc.parser.finance.*;
@@ -18,7 +17,6 @@ import thc.service.HttpParseService;
 import thc.service.JsoupParseService;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -114,14 +112,7 @@ public class FinanceController {
 
 		return Flux.concat(getIndexReport(HSI, yyyymmdd), getIndexReport(HSCEI, yyyymmdd));
 	}
-
-	@RequestMapping(value = "/rest/hkma/report/{yyyymmdd}", method = GET)
-	public Mono<MonetaryBase> getHKMAReport(@PathVariable String yyyymmdd) throws ParseException {
-		log.info("request getHKMAReport [{}]", yyyymmdd);
-
-		return jsoupParseService.process(new HKMAMonetaryBaseRequest(yyyymmdd));
-	}
-
+	
 	@RequestMapping(value = "/rest/quote/{code}/price/pre/{preYear}", method = GET)
 	public Mono<BigDecimal> getHistoryPrice(@PathVariable String code, @PathVariable int preYear) {
 		return jsoupParseService.process(new HistoryQuoteRequest(code, preYear));
