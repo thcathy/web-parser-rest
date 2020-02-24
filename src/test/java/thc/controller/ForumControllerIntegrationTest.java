@@ -1,29 +1,25 @@
 package thc.controller;
 
-import thc.WebParserRestApplication;
+import com.google.common.base.Stopwatch;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import thc.domain.ForumThread;
 
 import java.util.Date;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import com.google.common.base.Stopwatch;
-
 import static org.junit.Assert.assertTrue;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = WebParserRestApplication.class)
+@Ignore
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(classes = WebParserRestApplication.class)
 public class ForumControllerIntegrationTest {
 	private Logger log = LoggerFactory.getLogger(ForumControllerIntegrationTest.class);
 	
