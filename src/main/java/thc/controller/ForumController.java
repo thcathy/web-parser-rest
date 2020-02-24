@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import thc.domain.ForumThread;
 import thc.parser.forum.ForumThreadParser;
@@ -19,7 +18,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-@RestController
+//@RestController
+@Deprecated
 public class ForumController {	
 	private static Logger log = LoggerFactory.getLogger(ForumController.class);
 	private Date earliestCreatedDate;

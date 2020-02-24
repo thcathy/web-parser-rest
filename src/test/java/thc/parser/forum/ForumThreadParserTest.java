@@ -3,6 +3,7 @@ package thc.parser.forum;
 import org.apache.commons.lang3.StringUtils;
 import org.asynchttpclient.Dsl;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import thc.service.ForumQueryService;
 
 import java.util.List;
 
+@Ignore
 public class ForumThreadParserTest {
 	private static Logger log = LoggerFactory.getLogger(ForumThreadParserTest.class);
 	

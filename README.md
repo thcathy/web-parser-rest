@@ -13,7 +13,6 @@ Finance | GET `/rest/quote/full/{code}?source=<yahoo,aastock>` | **code**: Hong 
 Finance | GET `/rest/quote/realtime/list/{codes}?source=<yahoo,aastock>` | **codes**: comma separated  HK stock codes <br>**source (optional)**: specific source to get stock quote | Real time quote of HK stocks (faster)
 Finance | GET `/rest/index/constituents/{index}` | **index**: HSI / HSCEI / HCCI / MSCIChina / MSCIHK | Constituents of major HK Indexes
 Finance | GET `/rest/index/report/hsinet/{yyyymmdd}` | **yyyymmdd**: date of report | [Hang Seng Index Performance Summary ](https://www.hsi.com.hk)
-Forum | GET `/rest/forum/list/{type}/{batch}` | **type**: MUSIC / MOVIE <br> **batch**: int from 1 | Music / Movie from popular Hong Kong Forums<br>*(Forum account may needed)*
 Dictionary | GET `/rest/dictionary/{query}` | **query**: word to query | Get pronunciation, IPA, definition from Oxford or Cambridge Dictionary API
 
 ## Starting server
