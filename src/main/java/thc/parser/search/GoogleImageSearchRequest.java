@@ -30,6 +30,10 @@ public class GoogleImageSearchRequest implements RestParseRequest<List> {
 		this.query = query;
 	}
 
+	synchronized String getNextKeys() {
+		return keys.next();
+	}
+
 	@Override
 	public String url() { return URL; }
 
@@ -40,7 +44,7 @@ public class GoogleImageSearchRequest implements RestParseRequest<List> {
 				"imgSize","medium",
 				"imgType","clipart",
 				"num", String.valueOf(NUM_RESULT),
-				"key",keys.next(),
+				"key",getNextKeys(),
 				"cx", "011552421082581973471:0ge1n0sksf4",
 				"filter", "1",
 				"safe", "medium",
