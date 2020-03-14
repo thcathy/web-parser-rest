@@ -36,6 +36,11 @@ public class HistoryQuoteRequest implements JsoupParseRequest<BigDecimal> {
 	public HistoryQuoteRequest(String code, Calendar fromDate, Calendar toDate) {
 		this.code = code;
 		this.fromDate = fromDate;
+
+		if (fromDate.equals(toDate)) {
+			toDate = (Calendar) toDate.clone();
+			toDate.add(Calendar.DATE, 1);
+		}
 		this.toDate = toDate;
 	}
 
