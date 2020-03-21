@@ -80,7 +80,7 @@ public class YahooStockQuoteRequestTest {
         log.debug("StockQuote: ", q);
 
         assertEquals("7288", q.getStockCode());
-        assertThat(Double.valueOf(q.getPrice()), greaterThan(6.0));
+        assertThat(Double.valueOf(q.getPrice()), greaterThan(2.0));
     }
 
     @Test
