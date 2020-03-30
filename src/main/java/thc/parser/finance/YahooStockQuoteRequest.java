@@ -1,5 +1,10 @@
 package thc.parser.finance;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
+import org.jsoup.nodes.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import thc.domain.StockQuote;
 import thc.parser.JsoupParseRequest;
 
@@ -7,12 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.function.Supplier;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
-import org.jsoup.nodes.Document;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class YahooStockQuoteRequest implements JsoupParseRequest<StockQuote> {
 	protected static final Logger log = LoggerFactory.getLogger(YahooStockQuoteRequest.class);
@@ -39,14 +38,14 @@ public class YahooStockQuoteRequest implements JsoupParseRequest<StockQuote> {
 			StockQuote quote = new StockQuote(code);
 
 			// price
-			quote.setPrice(doc.select("div[id~=QuoteHeader] span[data-reactid$=34]").first().text());
+			quote.setPrice(doc.select("div[id~=QuoteHeader] span[data-reactid$=32]").first().text());
 
 			// stock name
 			String title = doc.select("title").text();
 			quote.setStockName(title.substring(0, title.indexOf("(")-1).trim());
 
 			// change
-			String[] changes = doc.select("div[id~=QuoteHeader] span[data-reactid$=35]").text().split(" ");
+			String[] changes = doc.select("div[id~=QuoteHeader] span[data-reactid$=33]").text().split(" ");
 			if (changes.length == 2) {
 				quote.setChangeAmount(changes[0]);
 				quote.setChange(changes[1].substring(1, changes[1].length() - 1));
@@ -69,7 +68,7 @@ public class YahooStockQuoteRequest implements JsoupParseRequest<StockQuote> {
 			quote.setNAV(parseValue(() -> doc.select("span:contains(每股盈利)").first().parent().nextElementSibling().text()));
 
 			// last update
-			String[] time = doc.select("div[id~=QuoteHeader] span[data-reactid$=37]").text().split(" ");
+			String[] time = doc.select("div[id~=QuoteHeader] span[data-reactid$=35]").text().split(" ");
 			Date parsedTime = sourceTimeFormat.parse(time[time.length - 2]);
 			quote.setLastUpdate(outputDateFormat.format(parsedTime));
 
