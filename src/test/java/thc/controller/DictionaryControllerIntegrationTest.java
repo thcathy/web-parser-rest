@@ -2,6 +2,7 @@ package thc.controller;
 
 import com.google.common.base.Stopwatch;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -47,6 +48,7 @@ public class DictionaryControllerIntegrationTest {
     }
 
     @Test
+    @Ignore // the url is wrong in https://dictionary.cambridge.org/dictionary/english/toward
     public void queryToward_shouldReturnResult() {
         var result = controller.query("toward").block();
         assertThat(result.word).isEqualTo("toward");
