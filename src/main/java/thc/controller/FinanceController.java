@@ -36,7 +36,8 @@ public class FinanceController {
 	JsoupParseService jsoupParseService;
 
 	enum StockQuoteSource {
-		AASTOCKS(AastockStockQuoteRequest.class), YAHOO(YahooStockQuoteRequest.class);
+		//AASTOCKS(AastockStockQuoteRequest.class), YAHOO(YahooStockQuoteRequest.class);
+		AASTOCKS(AastockStockQuoteRequest.class);
 
 		final public Class sourceClass;
 

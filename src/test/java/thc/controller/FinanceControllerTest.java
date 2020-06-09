@@ -9,7 +9,6 @@ import org.mockito.junit.MockitoRule;
 import reactor.core.publisher.Mono;
 import thc.parser.JsoupParseRequest;
 import thc.parser.finance.AastockStockQuoteRequest;
-import thc.parser.finance.YahooStockQuoteRequest;
 import thc.service.HttpParseService;
 import thc.service.JsoupParseService;
 
@@ -44,8 +43,9 @@ public class FinanceControllerTest {
         controller.hkQuotes("941,939,2800,2828,5,883", "aastocks").collectList().block();
         verify(jsoupParseService, times(6)).process(any(AastockStockQuoteRequest.class));
 
-        controller.hkQuotes("941,939,2800,2828,5,883", "yahoo").collectList().block();
-        verify(jsoupParseService, times(6)).process(any(YahooStockQuoteRequest.class));
+        // TODO: replace yahoo quote
+        //controller.hkQuotes("941,939,2800,2828,5,883", "yahoo").collectList().block();
+        //verify(jsoupParseService, times(6)).process(any(YahooStockQuoteRequest.class));
     }
 
     @Test
