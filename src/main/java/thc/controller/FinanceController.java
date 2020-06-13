@@ -36,8 +36,7 @@ public class FinanceController {
 	JsoupParseService jsoupParseService;
 
 	enum StockQuoteSource {
-		//AASTOCKS(AastockStockQuoteRequest.class), YAHOO(YahooStockQuoteRequest.class);
-		AASTOCKS(AastockStockQuoteRequest.class);
+		AASTOCKS(AastockStockQuoteRequest.class), MONEY18(Money18StockQuoteRequest.class);
 
 		final public Class sourceClass;
 
@@ -59,7 +58,13 @@ public class FinanceController {
 	private Mono<StockQuote> queryStockQuote(String code, String source) {
 		try {
 			Class stockQuoteClass = getStockQuoteClass(source);
-			return jsoupParseService.process((JsoupParseRequest<StockQuote>) stockQuoteClass.getConstructors()[0].newInstance(code));
+			var stockQuoteInstance = stockQuoteClass.getConstructors()[0].newInstance(code);
+			if (stockQuoteInstance instanceof JsoupParseRequest) {
+				return jsoupParseService.process((JsoupParseRequest<StockQuote>) stockQuoteInstance);
+			} else if (stockQuoteInstance instanceof Money18StockQuoteRequest){
+				return parseService.processFlux((Money18StockQuoteRequest) stockQuoteInstance);
+			}
+			throw new RuntimeException("Cannot cast stock quote class: " + stockQuoteClass.toString());
 		} catch (Exception e) {
 			log.error("Error in query stock quote for code: {} with source: {}", code, source, e);
 			return Mono.empty();
