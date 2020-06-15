@@ -57,7 +57,7 @@ public class Money18StockQuoteRequest implements HttpParseRequest<StockQuote> {
 			//quote.setYield();
 			//quote.setNAV();
 
-			quote.setLastUpdate(parseString(maps, List.of("real", "ltt")).split(" ")[1]);
+			quote.setLastUpdate(parseString(maps, List.of("real", "ltt")));
 			quote.setYearLow(parseDouble(maps, List.of("daily", "wk52Low")));
 			quote.setYearHigh(parseDouble(maps, List.of("daily", "wk52High")));
 
