@@ -1,6 +1,7 @@
 package thc.controller;
 
 import com.google.common.base.Stopwatch;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = WebParserRestApplication.class)
+@Ignore
 public class SearchControllerIntegrationTest {
 	private Logger log = LoggerFactory.getLogger(SearchControllerIntegrationTest.class);
 
