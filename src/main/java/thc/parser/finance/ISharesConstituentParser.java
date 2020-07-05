@@ -35,7 +35,7 @@ public class ISharesConstituentParser {
 			Map<String, ?> value = jsonReader.readValue(response);
 			List<List<String>> data = (List<List<String>>) value.get("aaData");
 			List<String> results = data.stream()					
-									.filter(l -> l.get(11).equals("Hong Kong Exchanges And Clearing Ltd"))
+									.filter(l -> l.contains("Hong Kong Exchanges And Clearing Ltd"))
 									.map(l -> l.get(0))
 									.collect(Collectors.toList());
 			return results;
