@@ -8,7 +8,7 @@ A server provide restful API to parse resources from websites.
 Type | API | Parameters | Contents
 :--- | :--- |:--- |:--- 
 Search | GET `/rest/search/image/{query}` | **query**: string to search | Search Image from seach engine <br>*(Google api key may needed)*
-Finance | GET `/rest/quote/indexes` | | Real time quote of major indexes in HK and China
+Finance | GET `/rest/quote/indexes` | | Real time quote of major indexes in the world
 Finance | GET `/rest/quote/full/{code}?source=<money18,aastock>` | **code**: Hong Kong Stock code e.g. 0005 <br>**source (optional)**: specific source to get stock quote | Real time quote of HK stocks with PE and NAV
 Finance | GET `/rest/quote/realtime/list/{codes}?source=<money18,aastock>` | **codes**: comma separated  HK stock codes <br>**source (optional)**: specific source to get stock quote | Real time quote of HK stocks (faster)
 Finance | GET `/rest/index/constituents/{index}` | **index**: HSI / HSCEI / HCCI / MSCIChina / MSCIHK | Constituents of major HK Indexes
