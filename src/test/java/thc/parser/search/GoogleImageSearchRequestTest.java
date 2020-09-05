@@ -1,38 +1,47 @@
 package thc.parser.search;
 
-import com.google.common.base.Stopwatch;
+import com.google.common.collect.Iterables;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
+import reactor.core.publisher.Mono;
 import thc.domain.WebItem;
 import thc.service.RestParseService;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 public class GoogleImageSearchRequestTest {
 	private Logger log = LoggerFactory.getLogger(GoogleImageSearchRequestTest.class);
 
-	RestParseService parserService = new RestParseService();
+	@Mock
+	RestParseService parseService;
 
-	static {
+	@Before
+	public void setup() {
+		MockitoAnnotations.initMocks(this);
+		GoogleImageSearchRequest.keys = Iterables.cycle("key").iterator();
 		GoogleImageSearchRequest.setAPIKeys(System.getProperty("googleapi.key"));
 	}
 
 	@Test
 	public void query_shouldReturnWebItems() {
-		Stopwatch timer = Stopwatch.createStarted();
+		var webItemList = List.of(new WebItem("url", "", 100, 100, ""));
+		when(parseService.process(any())).thenReturn(Mono.just(webItemList), Mono.just(Collections.EMPTY_LIST));
 
-		List<WebItem> items = (List<WebItem>) parserService.process(new GoogleImageSearchRequest("book+clipart")).block();
-
-		assertEquals(10, items.size());
-		items.forEach(this::checkItem);
-
-        log.info("query_shouldReturnWebItems took: {}", timer.stop());
+		List<WebItem> items = (List<WebItem>) parseService.process(
+				new GoogleImageSearchRequest("book+clipart").setStart(1)
+		).block();
+		assertEquals(1, items.size());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -53,12 +62,11 @@ public class GoogleImageSearchRequestTest {
 		assertTrue(CollectionUtils.isEmpty(result));
 	}
 
-	private void checkItem(WebItem webItem) {
-		log.info("WebItem: {}", webItem);
-		assertTrue(webItem.url.startsWith("http"));
-		assertTrue(webItem.mime.startsWith("image"));
-		assertTrue(webItem.imageHeight > 10);
-		assertTrue(webItem.imageWidth > 10);
-		assertThat(webItem.thumbnailUrl, containsString("https://"));
+	@Test
+	public void givenAllImageSize_shouldNotSetImageSizeInParam() {
+		var request = new GoogleImageSearchRequest("").setImgSize("all");
+		assertFalse(request.queryParams().containsKey("imgSize"));
 	}
+
+
 }

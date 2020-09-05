@@ -36,13 +36,27 @@ public class SearchControllerTest {
         var webItemList = List.of(new WebItem("url", "", 100, 100, ""));
         when(parseService.process(any())).thenReturn(Mono.just(webItemList), Mono.just(Collections.EMPTY_LIST));
 
-        var result = (List<WebItem>) controller.searchImage("any").block();
+        var result = (List<WebItem>) controller.searchImage("any", null, 1).block();
         assertThat(result.size()).isEqualTo(1);
         assertThat((result.get(0)).url).isEqualTo("url");
 
-        var result2 = (List<WebItem>) controller.searchImage("any").block();
+        var result2 = (List<WebItem>) controller.searchImage("any", null, 1).block();
         assertThat(result2.size()).isEqualTo(1);
         assertThat((result2.get(0)).url).isEqualTo("url");
     }
+
+    @Test
+    public void differentQueryIsNotCached() {
+        var webItemList = List.of(new WebItem("url", "", 100, 100, ""));
+        when(parseService.process(any())).thenReturn(Mono.just(webItemList), Mono.just(Collections.EMPTY_LIST));
+
+        var result = (List<WebItem>) controller.searchImage("any", null, 1).block();
+        assertThat(result.size()).isEqualTo(1);
+        assertThat((result.get(0)).url).isEqualTo("url");
+
+        var result2 = (List<WebItem>) controller.searchImage("any", null, 11).block();
+        assertThat(result2.size()).isEqualTo(0);
+    }
+
 
 }
