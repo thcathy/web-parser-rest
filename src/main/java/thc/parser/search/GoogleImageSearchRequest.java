@@ -8,10 +8,7 @@ import reactor.core.publisher.Mono;
 import thc.domain.WebItem;
 import thc.parser.RestParseRequest;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -20,14 +17,28 @@ public class GoogleImageSearchRequest implements RestParseRequest<List> {
 
 	public static final String KEY_SEPARATOR = ",";
 	public static final String URL = "https://www.googleapis.com/customsearch/v1";
+	public static final String CUSTOM_SEARCH_KEY = "011552421082581973471:0ge1n0sksf4";
 	public static final int NUM_RESULT = 10;
+	public static final String IMAGE_SIZE_ALL = "all";
 	public static volatile Iterator<String> keys;
 
 	private final String query;
+	private String imgSize = "medium";
+	private int start = 1;
 
 	public GoogleImageSearchRequest(String query) {
 		if (keys == null) throw new IllegalArgumentException("Cannot create google image search request without key");
 		this.query = query;
+	}
+
+	public GoogleImageSearchRequest setImgSize(String imgSize) {
+		this.imgSize = imgSize;
+		return this;
+	}
+
+	public GoogleImageSearchRequest setStart(int start) {
+		this.start = start;
+		return this;
 	}
 
 	synchronized String getNextKeys() {
@@ -39,17 +50,18 @@ public class GoogleImageSearchRequest implements RestParseRequest<List> {
 
 	@Override
 	public Map<String, String> queryParams() {
-		return Map.of(
-				"q", query,
-				"imgSize","medium",
-				"imgType","clipart",
-				"num", String.valueOf(NUM_RESULT),
-				"key",getNextKeys(),
-				"cx", "011552421082581973471:0ge1n0sksf4",
-				"filter", "1",
-				"safe", "medium",
-				"searchType", "image"
-		);
+		var params = new HashMap<String, String>();
+		params.put("q", query);
+		params.put("imgType", "clipart");
+		params.put("num", String.valueOf(NUM_RESULT));
+		params.put("key", getNextKeys());
+		params.put("cx", CUSTOM_SEARCH_KEY);
+		params.put("filter", "1");
+		params.put("safe", "medium");
+		params.put("searchType", "image");
+		params.put("start", String.valueOf(start));
+		if (!IMAGE_SIZE_ALL.equals(imgSize)) params.put("imgSize", imgSize);
+		return params;
 	}
 
 	public static void setAPIKeys(String keys) {

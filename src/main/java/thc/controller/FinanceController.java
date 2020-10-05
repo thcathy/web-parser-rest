@@ -101,7 +101,14 @@ public class FinanceController {
 	@RequestMapping(value = "/rest/quote/indexes", method = GET)
 	public Mono<List<StockQuote>> indexQuotes() {
 		log.info("request indexQuotes");
-		return parseService.processFlux(new Money18IndexQuoteRequest());
+		var worldIndexes = parseService.processFlux(new Money18WorldIndexQuoteRequest());
+		var localIndexes = parseService.processFlux(new Money18LocalIndexQuoteRequest());
+		return worldIndexes.zipWith(
+				localIndexes,
+				(a, b) -> {
+					a.addAll(b);
+					return a;
+		});
 	}
 
 	@RequestMapping(value= "/rest/index/constituents/{index}", method = GET)

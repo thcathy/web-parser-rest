@@ -1,6 +1,6 @@
 package thc.controller;
 
-import com.google.common.base.Stopwatch;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -18,6 +18,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = WebParserRestApplication.class)
+@Ignore
 public class SearchControllerIntegrationTest {
 	private Logger log = LoggerFactory.getLogger(SearchControllerIntegrationTest.class);
 
@@ -25,22 +26,14 @@ public class SearchControllerIntegrationTest {
 
 	@Test
 	public void searchImage_shouldReturnWebItems() {
-        Stopwatch timer = Stopwatch.createStarted();
-
-        List<WebItem> items = (List<WebItem>) controller.searchImage("book+clipart").block();
-        log.info("searchImage_shouldReturnWebItems took: {}", timer.stop());
+        List<WebItem> items = (List<WebItem>) controller.searchImage("book+clipart", null, 1).block();
         items.forEach(this::checkItem);
-
         assertEquals(10, items.size());
-
-        items = (List<WebItem>) controller.searchImage("book+clipart").block();
-        assertEquals(10, items.size());
-        items.forEach(this::checkItem);
     }
 
     @Test
     public void searchImage_givenRubbish_shouldReturnEmptyWebItemArray() {
-        List<WebItem> items = (List<WebItem>) controller.searchImage("lksdajflksdalkfjlkwejr clipart").block();
+        List<WebItem> items = (List<WebItem>) controller.searchImage("lksdajflksdalkfjlkwejr clipart", null, 1).block();
         assertEquals(0, items.size());
     }
 

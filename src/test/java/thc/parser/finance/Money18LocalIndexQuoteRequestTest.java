@@ -16,8 +16,8 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static thc.domain.StockQuote.NA;
 
-public class Money18IndexQuoteRequestTest {
-	private Logger log = LoggerFactory.getLogger(Money18IndexQuoteRequestTest.class);
+public class Money18LocalIndexQuoteRequestTest {
+	private Logger log = LoggerFactory.getLogger(Money18LocalIndexQuoteRequestTest.class);
 
     HttpParseService parserService = new HttpParseService(WebParserRestApplication.httpClient());
 
@@ -25,7 +25,7 @@ public class Money18IndexQuoteRequestTest {
 	public void shouldReturnAllIndexQuotes() {
 		Stopwatch timer = Stopwatch.createStarted();
 		
-        List<StockQuote> quotes = parserService.process(new Money18IndexQuoteRequest()).join();
+        List<StockQuote> quotes = parserService.process(new Money18LocalIndexQuoteRequest()).join();
         
 	    log.info("shouldReturnAllIndexQuotes took: " + timer.stop());
         

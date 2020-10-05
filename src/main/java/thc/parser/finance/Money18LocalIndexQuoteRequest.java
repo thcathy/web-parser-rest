@@ -24,10 +24,10 @@ import java.util.stream.Stream;
 
 import static thc.domain.StockQuote.NA;
 
-public class Money18IndexQuoteRequest implements HttpParseRequest<List<StockQuote>> {
+public class Money18LocalIndexQuoteRequest implements HttpParseRequest<List<StockQuote>> {
 	private static final String URL = "http://money18.on.cc/js/real/index/index_all_r.js";
 
-	protected static final Logger log = LoggerFactory.getLogger(Money18IndexQuoteRequest.class);
+	protected static final Logger log = LoggerFactory.getLogger(Money18LocalIndexQuoteRequest.class);
 	private static final ObjectReader jsonReader = new ObjectMapper().configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true).readerFor(Map.class);
 
 	@Override
@@ -45,7 +45,7 @@ public class Money18IndexQuoteRequest implements HttpParseRequest<List<StockQuot
 		try {
 			String[] indexes = IOUtils.toString(response, StandardCharsets.ISO_8859_1.name()).split(";");
 			return Arrays.stream(indexes)
-					.flatMap(Money18IndexQuoteRequest::toStockQuote)
+					.flatMap(Money18LocalIndexQuoteRequest::toStockQuote)
 					.collect(Collectors.toList());
 		} catch (Exception e) {
 			log.error("cannot parse response", e);
