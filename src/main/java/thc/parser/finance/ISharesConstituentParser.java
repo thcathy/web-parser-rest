@@ -14,21 +14,6 @@ import java.util.stream.Collectors;
 public class ISharesConstituentParser {
 	private static final Logger log = LoggerFactory.getLogger(ISharesConstituentParser.class);
 	private static final ObjectReader jsonReader = new ObjectMapper().readerFor(Map.class);
-	
-	public static List<String> parseMSCIChina(InputStream response) {
-		try {
-			Map<String, ?> value = jsonReader.readValue(response);
-			List<List<String>> data = (List<List<String>>) value.get("aaData");
-			List<String> results = data.stream()
-									.filter(l -> l.get(2).equals("XHKG"))
-									.map(l -> l.get(0))
-									.collect(Collectors.toList());
-			return results;
-		} catch (Exception e) {
-			log.error("Fail to retrieve constituents of MSCI HK Constituents",e);
-			return Collections.emptyList();
-		}	
-	}
 
 	public static List<String> parseMSCIHK(InputStream response) {
 		try {
