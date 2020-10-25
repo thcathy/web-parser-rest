@@ -26,7 +26,7 @@ public class Money18StockQuoteRequestTest {
         StockQuote q = parserService.process(new Money18StockQuoteRequest("941")).get();
 		assertEquals("941", q.getStockCode());
 		assertEquals("CHINA MOBILE", q.getStockName());
-		assertThat(Double.valueOf(q.getPrice()), greaterThan(50.0));
+		assertThat(Double.valueOf(q.getPrice()), greaterThan(10.0));
 		assertTrue(NumberUtils.isNumber(q.getChangeAmount().replace("+", "").replace("-", "")));
 		assertTrue(q.getChange().endsWith("%"));
 		assertNotEquals(NA, q.getLastUpdate());
