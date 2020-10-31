@@ -53,15 +53,13 @@ jobs:
       - attach_workspace:
           at: ~/
       - setup_remote_docker:
-          version: 19.03.13
+          version: 18.09.3
       - run: |
           TAG=1.0.$CIRCLE_BUILD_NUM
           docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker buildx build \
+          docker buildx build --push \
               --platform linux/arm/v7,linux/arm64/v8,linux/amd64 \
               --tag thcathy/web-parser-rest:latest --tag thcathy/web-parser-rest:$TAG .
-          docker push thcathy/web-parser-rest:latest
-          docker push thcathy/web-parser-rest:$TAG
 
 workflows:
   version: 2
