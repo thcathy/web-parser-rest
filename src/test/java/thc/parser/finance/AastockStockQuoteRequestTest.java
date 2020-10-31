@@ -78,13 +78,4 @@ public class AastockStockQuoteRequestTest {
         assertEquals("7288", q.getStockCode());
     }
 
-    @Test
-    public void getStockQuote_Given3046_ShouldReturnCode3046() {
-        StockQuote q = parserService.process(new AastockStockQuoteRequest("3046")).block();
-        log.debug("StockQuote: ", q);
-
-        assertEquals("3046", q.getStockCode());
-        assertThat(Double.valueOf(q.getPrice()), greaterThan(20.0));
-    }
-
 }
