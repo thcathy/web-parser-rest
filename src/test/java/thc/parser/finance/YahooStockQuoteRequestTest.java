@@ -83,13 +83,4 @@ public class YahooStockQuoteRequestTest {
         assertThat(Double.valueOf(q.getPrice()), greaterThan(2.0));
     }
 
-    @Test
-    public void getStockQuote_Given3046_ShouldReturnCode3046() {
-        StockQuote q = parserService.process(new YahooStockQuoteRequest("3046")).block();
-        log.debug("StockQuote: ", q);
-
-        assertEquals("3046", q.getStockCode());
-        assertThat(Double.valueOf(q.getPrice()), greaterThan(20.0));
-    }
-
 }
