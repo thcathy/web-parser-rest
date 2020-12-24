@@ -78,4 +78,12 @@ public class AastockStockQuoteRequestTest {
         assertEquals("7288", q.getStockCode());
     }
 
+    @Test
+    public void getStockQuote_GivenCBBCCode_ShouldReturnQuote() {
+        StockQuote q = parserService.process(new AastockStockQuoteRequest("59684")).block();
+        log.debug("StockQuote: ", q);
+
+        assertEquals("59684", q.getStockCode());
+    }
+
 }

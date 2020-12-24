@@ -10,6 +10,8 @@ import thc.WebParserRestApplication;
 import thc.domain.StockQuote;
 import thc.service.HttpParseService;
 
+import java.util.concurrent.ExecutionException;
+
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.*;
 import static thc.domain.StockQuote.NA;
@@ -71,6 +73,14 @@ public class Money18StockQuoteRequestTest {
     public void getStockQuote_Given7288_ShouldReturnCode7288() throws Exception {
         StockQuote q = parserService.process(new Money18StockQuoteRequest("7288")).get();
         assertEquals("7288", q.getStockCode());
+    }
+
+    @Test
+    public void getStockQuote_GivenCBBCCode_ShouldReturnQuote() throws ExecutionException, InterruptedException {
+        StockQuote q = parserService.process(new Money18StockQuoteRequest("59684")).get();
+        log.debug("StockQuote: ", q);
+
+        assertEquals("59684", q.getStockCode());
     }
 
 }

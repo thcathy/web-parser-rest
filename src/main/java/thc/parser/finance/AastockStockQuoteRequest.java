@@ -70,9 +70,11 @@ public class AastockStockQuoteRequest implements JsoupParseRequest<StockQuote> {
 			quote.setLastUpdate(doc.select("span:containsOwn(Updated:)").first().child(0).text());
 
 			// 52 high low
-			String[] yearHighLow = doc.select("td:containsOwn(52 Week)").first().nextElementSibling().text().split(" - ");
-			quote.setYearLow(yearHighLow[0]);
-			quote.setYearHigh(yearHighLow[1]);
+			if (doc.select("td:containsOwn(52 Week)").size() > 0) {
+				String[] yearHighLow = doc.select("td:containsOwn(52 Week)").first().nextElementSibling().text().split(" - ");
+				quote.setYearLow(yearHighLow[0]);
+				quote.setYearHigh(yearHighLow[1]);
+			}
 
 			log.info("parsed quote: {}", quote);
 			return quote;
