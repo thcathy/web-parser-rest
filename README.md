@@ -21,7 +21,7 @@ Dictionary | GET `/rest/dictionary/{query}` | **query**: word to query | Get pro
 ./gradlew assemble (for windows ./gradlew.bat assemble)
 java -jar build/libs/web-parser-rest.jar 
 ```
-access http://localhost:8091/swagger-ui.html
+access http://localhost:8080/swagger-ui.html
 
 ### Start by Docker
 #### Simple start
@@ -30,7 +30,7 @@ access http://localhost:8091/swagger-ui.html
 #### Start with different port
 ```
 docker run -d --name web-parser-rest \
-  -p <port_you_want>:8091 \
+  -p <port_you_want>:8080 \
   thcathy/web-parser-rest
 ```
 
