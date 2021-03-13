@@ -1,13 +1,13 @@
 package thc.parser.finance;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import thc.service.JsoupParseService;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class HistoryQuoteRequestTest {
 	JsoupParseService parseService = new JsoupParseService();
@@ -15,7 +15,7 @@ public class HistoryQuoteRequestTest {
 	@Test
     public void getPreviousYearQuote_GivenLastYear0001_ShouldReturnPriceOver50() {
 		BigDecimal result = parseService.process(new HistoryQuoteRequest("00001", 1)).block();
-		assertTrue(result.doubleValue() > 50);
+		Assertions.assertThat(result.doubleValue()).isGreaterThan(40l);
 	}
 	
 	@Test
