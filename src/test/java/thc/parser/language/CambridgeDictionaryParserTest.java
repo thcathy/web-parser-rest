@@ -1,19 +1,14 @@
 package thc.parser.language;
 
-import org.asynchttpclient.AsyncHttpClient;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import thc.domain.DictionaryResult;
 
 import java.util.Optional;
 
-import static org.asynchttpclient.Dsl.asyncHttpClient;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class CambridgeDictionaryParserTest {
-	AsyncHttpClient httpClient = asyncHttpClient(); // TODO: setup
 
 	@Test
 	public void testParseBanana() {

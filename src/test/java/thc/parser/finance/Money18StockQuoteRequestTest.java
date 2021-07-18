@@ -47,7 +47,7 @@ public class Money18StockQuoteRequestTest {
         Stopwatch timer = Stopwatch.createStarted();
 
         StockQuote q = parserService.process(new Money18StockQuoteRequest("2800")).get();
-        log.debug("StockQuote: ", q);
+        log.debug("StockQuote: {}", q);
 
         assertEquals("2800", q.getStockCode());
         assertEquals("TRACKER FUND", q.getStockName());
@@ -77,7 +77,7 @@ public class Money18StockQuoteRequestTest {
     public void getStockQuote_GivenCBBCCode_ShouldReturnQuote() throws Exception {
         String cbbcCode = TestUtils.getOneCBBCCodeFromHKEX();
         StockQuote q = parserService.process(new Money18StockQuoteRequest(cbbcCode)).get();
-        log.debug("StockQuote: ", q);
+        log.debug("StockQuote: {}", q);
 
         assertEquals(cbbcCode, q.getStockCode());
     }

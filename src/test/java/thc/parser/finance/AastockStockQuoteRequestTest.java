@@ -48,7 +48,7 @@ public class AastockStockQuoteRequestTest {
         Stopwatch timer = Stopwatch.createStarted();
 
         StockQuote q = parserService.process(new AastockStockQuoteRequest("2800")).block();
-        log.debug("StockQuote: ", q);
+        log.debug("StockQuote: {}", q);
 
         assertEquals("2800", q.getStockCode());
         assertEquals("TRACKER FUND", q.getStockName());
@@ -73,7 +73,7 @@ public class AastockStockQuoteRequestTest {
     @Test
     public void getStockQuote_Given7288_ShouldReturnCode7288() {
         StockQuote q = parserService.process(new AastockStockQuoteRequest("7288")).block();
-        log.debug("StockQuote: ", q);
+        log.debug("StockQuote: {}", q);
 
         assertEquals("7288", q.getStockCode());
     }
@@ -82,7 +82,7 @@ public class AastockStockQuoteRequestTest {
     public void getStockQuote_GivenCBBCCode_ShouldReturnQuote() throws Exception {
 	    String cbbcCode = TestUtils.getOneCBBCCodeFromHKEX();
         StockQuote q = parserService.process(new AastockStockQuoteRequest(cbbcCode)).block();
-        log.debug("StockQuote: ", q);
+        log.debug("StockQuote: {}", q);
 
         assertEquals(cbbcCode, q.getStockCode());
         assertNotEquals("NA", q.getPrice());

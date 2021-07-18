@@ -51,7 +51,7 @@ public class YahooStockQuoteRequestTest {
         Stopwatch timer = Stopwatch.createStarted();
 
         StockQuote q = parserService.process(new YahooStockQuoteRequest("2800")).block();
-        log.debug("StockQuote: ", q);
+        log.debug("StockQuote: {}", q);
 
         assertEquals("2800", q.getStockCode());
         assertEquals("TRACKER FUND", q.getStockName());
@@ -77,7 +77,7 @@ public class YahooStockQuoteRequestTest {
     @Test
     public void getStockQuote_Given7288_ShouldReturnCode7288() {
         StockQuote q = parserService.process(new YahooStockQuoteRequest("7288")).block();
-        log.debug("StockQuote: ", q);
+        log.debug("StockQuote: {}", q);
 
         assertEquals("7288", q.getStockCode());
         assertThat(Double.valueOf(q.getPrice()), greaterThan(2.0));
