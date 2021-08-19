@@ -17,9 +17,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import thc.parser.forum.DiscussThreadParser;
-import thc.parser.forum.TvboxnowThreadParser;
-import thc.parser.forum.UwantsThreadParser;
 import thc.parser.language.OxfordDictionaryRequest;
 import thc.parser.search.GoogleImageSearchRequest;
 import thc.service.ForumQueryService;
@@ -52,10 +49,6 @@ public class WebParserRestApplication {
 	@Autowired
 	private Environment env;
 
-	@Value("${tvboxnow.username}") String tvboxnowUsername;
-	@Value("${tvboxnow.password}") String tvboxnowPassword;
-	@Value("${discuss.username}") String discussUsername;
-	@Value("${discuss.password}") String discussPassword;
 	@Value("${googleapi.key}") String googleAPIKey;
 	@Value("${oxford.dictionary.appId}") String oxfordDictionaryAppId;
 	@Value("${oxford.dictionary.appKey}") String oxfordDictionaryAppKey;
@@ -63,12 +56,6 @@ public class WebParserRestApplication {
 
     @PostConstruct
     public void configure() {
-		TvboxnowThreadParser.USERNAME = tvboxnowUsername;
-        TvboxnowThreadParser.PASSWORD = tvboxnowPassword;
-        UwantsThreadParser.USERNAME = discussUsername;
-        UwantsThreadParser.PASSWORD = discussPassword;
-		DiscussThreadParser.USERNAME = discussUsername;
-		DiscussThreadParser.PASSWORD = discussPassword;
 		GoogleImageSearchRequest.setAPIKeys(googleAPIKey);
 		OxfordDictionaryRequest.APP_ID_LIST = Optional.ofNullable(oxfordDictionaryAppId).orElse("").split(OxfordDictionaryRequest.KEY_SEPARATOR);
 		OxfordDictionaryRequest.APP_KEY_LIST = Optional.ofNullable(oxfordDictionaryAppKey).orElse("").split(OxfordDictionaryRequest.KEY_SEPARATOR);

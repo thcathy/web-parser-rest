@@ -14,6 +14,7 @@ import thc.service.ForumQueryService;
 import java.util.List;
 
 @Ignore
+@Deprecated
 public class ForumThreadParserTest {
 	private static Logger log = LoggerFactory.getLogger(ForumThreadParserTest.class);
 	

@@ -43,8 +43,6 @@ docker run -d --name web-parser-rest \
 
 ## Configuration
 **All configurations are optional.**
-* `discuss.username / discuss.password`: Account access www.discuss.com.hk
-* `tvboxnow.username / tvboxnow.password`: Account access www.tvboxnow.com
 * `googleapi.key`: Google API key for image search (support multiple keys separated by comma)
 * `oxford.dictionary.appId / oxford.dictionary.appKey` : Oxford Dictionary API id and key (get key from https://developer.oxforddictionaries.com/)
 
@@ -52,7 +50,7 @@ docker run -d --name web-parser-rest \
 e.g. `java -jar build/libs/web-parser-rest.jar -D<key>=<value>`
 
 ### Pass configurations by docker env
-e.g. `docker run -d --name web-parser-rest -e discuss.username=**** -e discuss.password=**** thcathy/web-parser-rest`
+e.g. `docker run -d --name web-parser-rest -e googleapi.key=xxxxxx thcathy/web-parser-rest`
 
 ## Disclaimer
 

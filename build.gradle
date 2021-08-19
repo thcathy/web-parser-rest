@@ -45,19 +45,11 @@ dependencies {
 
 test {
     testLogging.showStandardStreams = true
-    
-    systemProperty "tvboxnow.username", System.getenv("tvboxnow_username")
-    systemProperty "tvboxnow.password", System.getenv("tvboxnow_password")
-    systemProperty "discuss.username", System.getenv("discuss_username")
-    systemProperty "discuss.password", System.getenv("discuss_password")
-    systemProperty "googleapi.key", System.getenv("googleapi_key")
-    systemProperty "oxford.dictionary.appId", System.getenv("oxforddictionary_appId")
-    systemProperty "oxford.dictionary.appKey", System.getenv("oxforddictionary_appKey")
 }
 
 jacocoTestReport {
     reports {
-        xml.enabled true
-        html.enabled false
+        xml.enabled false
+        html.enabled true
     }
 }
