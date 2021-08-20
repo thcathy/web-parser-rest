@@ -30,7 +30,7 @@ public class GoogleImageSearchRequestTest {
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
 		GoogleImageSearchRequest.keys = Iterables.cycle("key").iterator();
-		GoogleImageSearchRequest.setAPIKeys(System.getProperty("googleapi.key"));
+		GoogleImageSearchRequest.setAPIKeys(System.getenv("googleapi.key"));
 	}
 
 	@Test
