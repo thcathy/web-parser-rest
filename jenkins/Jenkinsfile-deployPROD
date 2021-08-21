@@ -1,0 +1,38 @@
+pipeline {
+  agent {
+    docker {
+      image 'ansible/ansible-runner'
+    }
+  }
+  parameters {
+      string(name: 'docker_image_tag', defaultValue: '', description: 'Docker image tag?')
+  }
+
+  environment {
+    googleapi_key = credentials('googleapi_key')
+    jasypt_encryptor_password = credentials('JASYPT_ENCRYPTOR_PASSWORD')
+  }
+
+  stages {
+    stage("deploy and verify PROD") {
+      environment {
+        DEPLOY_USER = 'thcathy'
+        docker_image_tag = "${version}-${env.BUILD_NUMBER}"
+      }
+      agent {
+        docker {
+          image 'ansible/ansible-runner'
+        }
+      }
+      steps {
+        ansiblePlaybook(
+          inventory: 'ansible/inventory_prod',
+          limit: 'prod',
+          extras: "-e docker_image_tag=${docker_image_tag} -e jasypt_encryptor_password=${jasypt_encryptor_password}",
+          playbook: 'ansible/deploy.yml',
+          credentialsId: 'Jenkins-master'
+        )
+      }
+    }
+  }
+}
