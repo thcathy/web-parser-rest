@@ -5,6 +5,9 @@ pipeline {
       image 'cimg/openjdk:13.0'
     }
   }
+  triggers {
+    cron('15 4 * * 6')
+  }
 
   environment {
     googleapi_key = credentials('googleapi_key')
@@ -39,6 +42,7 @@ pipeline {
     }
 
     stage("Docker build") {
+      when { not { triggeredBy 'TimerTrigger' } }
       environment {
         DOCKER_LOGIN = credentials('DOCKER_LOGIN')
         docker_image_tag = "${version}-${env.BUILD_NUMBER}"
@@ -52,6 +56,10 @@ pipeline {
     }
 
     stage("deploy and verify UAT") {
+      when {
+        branch = 'master'
+        not { triggeredBy 'TimerTrigger' }
+      }
       environment {
         DEPLOY_USER = 'thcathy'
         docker_image_tag = "${version}-${env.BUILD_NUMBER}"
