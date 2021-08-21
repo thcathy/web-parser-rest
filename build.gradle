@@ -7,7 +7,7 @@ apply plugin: 'jacoco'
 apply plugin: 'io.spring.dependency-management'
 
 group 'squote'
-version = '2.0.0'
+version = '2.0.1'
 sourceCompatibility = 10
 targetCompatibility = 10
 

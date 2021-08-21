@@ -15,13 +15,12 @@ pipeline {
     stage('build and test') {
       steps {
         script {
-                    def version = sh (
-                        script: "./gradlew properties -q | grep \"version:\" | awk '{print \$2}'",
-                        returnStdout: true
-                    ).trim()
-                    sh "echo Building project in version: $version"
-
-                }
+            def version = sh (
+                script: "./gradlew properties -q | grep \"version:\" | awk '{print \$2}'",
+                returnStdout: true
+            ).trim()
+            sh "echo Building project in version: $version"
+        }
         sh 'chmod +x gradlew'
         sh './gradlew clean dependencies check jacocoTestReport assemble'
         publishHTML (target: [

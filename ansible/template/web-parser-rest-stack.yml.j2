@@ -22,7 +22,7 @@ services:
     environment:
       JASYPT_ENCRYPTOR_PASSWORD: {{ jasypt_encryptor_password }}
     healthcheck:
-      test: ["CMD-SHELL", "curl -sS https://homeserver.funfunspell.com/web-parser-rest/rest/index/constituents/HSI || exit 1"]
+      test: ["CMD-SHELL", "curl -sS http://localhost:8080/rest/index/constituents/HSI || exit 1"]
       interval: 30s
       timeout: 30s
       retries: 5
