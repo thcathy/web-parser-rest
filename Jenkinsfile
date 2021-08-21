@@ -7,29 +7,36 @@ pipeline {
   }
 
   environment {
+    googleapi_key = credentials('googleapi_key')
     jasypt_encryptor_password = credentials('JASYPT_ENCRYPTOR_PASSWORD')
-    docker_image_tag = "${readMavenPom().getVersion()}-${env.BUILD_NUMBER}"
   }
 
   stages {
     stage('build and test') {
       steps {
+        script {
+                    def version = sh (
+                        script: "./gradlew properties -q | grep \"version:\" | awk '{print \$2}'",
+                        returnStdout: true
+                    ).trim()
+                    sh "echo Building project in version: $version"
+
+                }
         sh 'chmod +x gradlew'
-        sh './gradlew dependencies'
-        sh './gradlew check'
+        sh './gradlew clean dependencies check jacocoTestReport assemble'
         publishHTML (target: [
-          reportDir: 'build/site/jacoco/',
+          reportDir: 'build/reports/jacoco/test/html',
           reportFiles: 'index.html',
           reportName: "JaCoCo Report"
         ])
-        junit '.*/build/test-results/.*xml'
-        sh './gradlew assemble'
+        junit 'build/test-results/test/*.xml'
       }
     }
 
     stage("Docker build") {
       environment {
         DOCKER_LOGIN = credentials('DOCKER_LOGIN')
+        docker_image_tag = "${version}-${env.BUILD_NUMBER}"
       }
       steps {
         sh "docker build -t thcathy/web-parser-rest:latest -t thcathy/web-parser-rest:${docker_image_tag} -f Dockerfile ."
@@ -45,6 +52,7 @@ pipeline {
       }
       environment {
         DEPLOY_USER = 'thcathy'
+        docker_image_tag = "${version}-${env.BUILD_NUMBER}"
       }
       agent {
         docker {

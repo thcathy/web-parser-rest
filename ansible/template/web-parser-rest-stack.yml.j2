@@ -8,19 +8,24 @@ services:
       replicas: 1
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.web-parser-rest.rule=PathPrefix(`/web-parser-rest`)"
-        - "traefik.http.routers.web-parser-rest.middlewares=web-parser-rest-prefix@docker"
-        - "traefik.http.routers.web-parser-rest.tls.certresolver=myresolver"
-        - "traefik.http.routers.web-parser-rest.entrypoints=websecure"
-        - "traefik.http.services.web-parser-rest.loadbalancer.server.port=8080"
-        - "traefik.http.middlewares.web-parser-rest-prefix.stripprefix.prefixes=/web-parser-rest"
-        - "traefik.docker.network=traefik_traefik-public"
+        - "traefik.http.routers.{{ app_name }}.rule=PathPrefix(`/{{ app_name }}`)"
+        - "traefik.http.routers.{{ app_name }}.middlewares={{ app_name }}-prefix@docker"
+        - "traefik.http.routers.{{ app_name }}.tls.certresolver=myresolver"
+        - "traefik.http.routers.{{ app_name }}.entrypoints=websecure"
+        - "traefik.http.services.{{ app_name }}.loadbalancer.server.port=8080"
+        - "traefik.http.middlewares.{{ app_name }}-prefix.stripprefix.prefixes=/{{ app_name }}"
+        - "traefik.docker.network={{ traefik_network }}"
       update_config:
         delay: 10s
         failure_action: rollback
         order: start-first
     environment:
       JASYPT_ENCRYPTOR_PASSWORD: {{ jasypt_encryptor_password }}
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sS https://homeserver.funfunspell.com/web-parser-rest/rest/index/constituents/HSI || exit 1"]
+      interval: 30s
+      timeout: 30s
+      retries: 5
     logging:
         driver: "json-file"
         options:
@@ -31,5 +36,5 @@ services:
 
 networks:
   overlay:
-  traefik_traefik-public:
+  {{ traefik_network }}:
     external: true

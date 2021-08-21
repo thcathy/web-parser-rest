@@ -9,7 +9,7 @@
 
     - name: create docker stack yml
       template:
-        src: template/squote-stack.yml.j2
+        src: template/web-parser-rest-stack.yml.j2
         dest: "{{ deploy_folder }}/{{ app_name }}-stack.yml"
 
     - name: start docker stack
@@ -19,22 +19,5 @@
       register: stack_deploy
     - debug: msg="{{ stack_deploy }}"
 
-    - name: check server is respsonding
-      uri:
-        url: "https://{{ inventory_hostname }}/{{ app_name }}/rest/stock/indexquotes"
-        return_content: yes
-        status_code: 200
-        body_format: json
-      register: result
-      until: result.status == 200
-      retries: 5
-      delay: 30
-      tags: verify
-    - name: check rest response
-      fail:
-        msg: "{{ result }}"
-      when: result.json[0].stockCode is not defined
-
-    - name: clean up docker stack in UAT
-      command: "docker stack rm {{ app_name }}"
-      when: app_name|lower is match(".*uat")
+    - name: Include task list in play
+      include_tasks: tasks/verify_server.yml

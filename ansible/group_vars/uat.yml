@@ -1,5 +1,4 @@
 ---
-app_name: myquote-uat
-traefik_rule: PathPrefix(`/myquote-uat`)
+deploy_folder: ~/ffs-uat
 
 

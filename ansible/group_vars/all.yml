@@ -1,4 +1,5 @@
 ---
+app_name: web-parser-rest
 ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
-deploy_folder: ~/ffs-uat
+traefik_network:  traefik_traefik-public
 

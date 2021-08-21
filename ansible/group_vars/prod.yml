@@ -1,5 +1,4 @@
 ---
-app_name: squote
-traefik_rule: "PathPrefix(`/squote`)"
+deploy_folder: ~/docker
 
 
