@@ -1,0 +1,5 @@
+---
+app_name: myquote-uat
+traefik_rule: PathPrefix(`/myquote-uat`)
+
+

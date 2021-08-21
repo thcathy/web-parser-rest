@@ -1,0 +1,5 @@
+---
+app_name: squote
+traefik_rule: "PathPrefix(`/squote`)"
+
+

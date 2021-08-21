@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  web-parser-rest:
+    image: thcathy/web-parser-rest:{{ docker_image_tag }}
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.web-parser-rest.rule=PathPrefix(`/web-parser-rest`)"
+        - "traefik.http.routers.web-parser-rest.middlewares=web-parser-rest-prefix@docker"
+        - "traefik.http.routers.web-parser-rest.tls.certresolver=myresolver"
+        - "traefik.http.routers.web-parser-rest.entrypoints=websecure"
+        - "traefik.http.services.web-parser-rest.loadbalancer.server.port=8080"
+        - "traefik.http.middlewares.web-parser-rest-prefix.stripprefix.prefixes=/web-parser-rest"
+        - "traefik.docker.network=traefik_traefik-public"
+      update_config:
+        delay: 10s
+        failure_action: rollback
+        order: start-first
+    environment:
+      JASYPT_ENCRYPTOR_PASSWORD: {{ jasypt_encryptor_password }}
+    logging:
+        driver: "json-file"
+        options:
+            max-file: 2
+            max-size: 10m
+    networks:
+      - overlay
+
+networks:
+  overlay:
+  traefik_traefik-public:
+    external: true

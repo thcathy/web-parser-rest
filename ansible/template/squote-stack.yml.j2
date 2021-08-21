@@ -1,0 +1,60 @@
+version: '3.7'
+
+services:
+  squote-mongo:
+    image: mongo:4.0
+    deploy:
+      mode: replicated
+      replicas: 1
+    volumes:
+      - squote-mongo-data:/data/db
+    networks:
+      - overlay
+    logging:
+      driver: "json-file"
+      options:
+        max-file: 2
+        max-size: 100m
+  squote:
+    image: thcathy/squote:{{ docker_image_tag }}
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.{{ app_name }}.rule={{ traefik_rule }}"
+        - "traefik.http.routers.{{ app_name }}.middlewares={{ app_name }}-prefix@docker"
+        - "traefik.http.routers.{{ app_name }}.tls.certresolver=myresolver"
+        - "traefik.http.routers.{{ app_name }}.entrypoints=websecure"
+        - "traefik.http.services.{{ app_name }}.loadbalancer.server.port=8080"
+        - "traefik.http.middlewares.{{ app_name }}-prefix.stripprefix.prefixes=/{{ app_name }}"
+        - "traefik.docker.network=traefik_traefik-public"
+      update_config:
+        delay: 10s
+        failure_action: rollback
+        order: start-first
+    environment:
+      MONGO_HOST: squote-mongo:27017
+      APISERVER_HOST: {{ apiserver_host }}
+      JASYPT_ENCRYPTOR_PASSWORD: {{ jasypt_encryptor_password }}
+    networks:
+      - overlay
+      - traefik_traefik-public
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sS http://localhost:8080/rest/stock/indexquotes/ || exit 1"]
+      interval: 30s
+      timeout: 30s
+      retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-file: 2
+        max-size: 10m
+
+volumes:
+  squote-mongo-data:
+
+networks:
+  overlay:
+  traefik_traefik-public:
+    external: true
