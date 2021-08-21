@@ -57,7 +57,7 @@ pipeline {
 
     stage("deploy and verify UAT") {
       when {
-        branch = 'master'
+        branch 'master'
         not { triggeredBy 'TimerTrigger' }
       }
       environment {

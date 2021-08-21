@@ -15,9 +15,7 @@ pipeline {
 
   stages {
     stage("deploy and verify PROD") {
-      when {
-        branch = 'master'
-      }
+      when { branch 'master' }
       environment {
         DEPLOY_USER = 'thcathy'
         docker_image_tag = "${version}-${env.BUILD_NUMBER}"
