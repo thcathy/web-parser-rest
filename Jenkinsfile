@@ -12,23 +12,29 @@ pipeline {
   }
 
   stages {
+    stage('get version in build.gradle') {
+        steps {
+            script {
+                env.version = sh (
+                    script: "./gradlew properties -q | grep \"version:\" | awk '{print \$2}'",
+                    returnStdout: true
+                ).trim()
+                sh "echo Building project in version: $version"
+            }
+        }
+    }
     stage('build and test') {
       steps {
         script {
-            def version = sh (
-                script: "./gradlew properties -q | grep \"version:\" | awk '{print \$2}'",
-                returnStdout: true
-            ).trim()
-            sh "echo Building project in version: $version"
+            sh 'chmod +x gradlew'
+            sh './gradlew clean dependencies check jacocoTestReport assemble'
+            publishHTML (target: [
+              reportDir: 'build/reports/jacoco/test/html',
+              reportFiles: 'index.html',
+              reportName: "JaCoCo Report"
+            ])
+            junit 'build/test-results/test/*.xml'
         }
-        sh 'chmod +x gradlew'
-        sh './gradlew clean dependencies check jacocoTestReport assemble'
-        publishHTML (target: [
-          reportDir: 'build/reports/jacoco/test/html',
-          reportFiles: 'index.html',
-          reportName: "JaCoCo Report"
-        ])
-        junit 'build/test-results/test/*.xml'
       }
     }
 
@@ -46,9 +52,6 @@ pipeline {
     }
 
     stage("deploy and verify UAT") {
-      when {
-        branch 'master'
-      }
       environment {
         DEPLOY_USER = 'thcathy'
         docker_image_tag = "${version}-${env.BUILD_NUMBER}"

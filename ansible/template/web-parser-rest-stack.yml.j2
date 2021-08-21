@@ -33,6 +33,7 @@ services:
             max-size: 10m
     networks:
       - overlay
+      - {{ traefik_network }}
 
 networks:
   overlay:
