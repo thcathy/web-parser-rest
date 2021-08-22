@@ -36,7 +36,6 @@ pipeline {
               reportFiles: 'index.html',
               reportName: "JaCoCo Report"
             ])
-            junit 'build/test-results/test/*.xml'
         }
       }
     }
@@ -78,6 +77,12 @@ pipeline {
           credentialsId: 'Jenkins-master'
         )
       }
+    }
+  }
+
+  post {
+    always {
+      junit 'build/test-results/test/*.xml'
     }
   }
 
