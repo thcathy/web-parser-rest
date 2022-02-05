@@ -38,19 +38,19 @@ public class YahooStockQuoteRequest implements JsoupParseRequest<StockQuote> {
 			StockQuote quote = new StockQuote(code);
 
 			// price
-			quote.setPrice(doc.select("div[id~=quote-header-info] span[data-reactid$=31]").first().text());
+			quote.setPrice(doc.select("div[id~=quote-header-info] [data-field$=regularMarketPrice]").first().text());
 
 			// stock name
 			String title = doc.select("title").text();
 			quote.setStockName(title.substring(0, title.indexOf("(")-1).trim());
 
 			// change
-			String[] changes = doc.select("div[id~=quote-header-info] span[data-reactid$=32]").text().split(" ");
-			if (changes.length == 2) {
-				quote.setChangeAmount(changes[0]);
-				quote.setChange(changes[1].substring(1, changes[1].length() - 1));
-			}
-
+			quote.setChangeAmount(doc.select("div[id~=quote-header-info] [data-field$=regularMarketChange]").first().text());
+			quote.setChange(
+					doc.select("div[id~=quote-header-info] [data-field$=regularMarketChangePercent]").first().text()
+							.replace("(","")
+							.replace(")","")
+			);
 
 			// day high day low
 			String[] range = doc.select("span:contains(今日波幅)").first().parent().nextElementSibling().text().split(" ");
