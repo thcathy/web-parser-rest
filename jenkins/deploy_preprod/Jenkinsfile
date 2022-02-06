@@ -14,8 +14,7 @@ pipeline {
   }
 
   stages {
-    stage("deploy and verify PROD") {
-      when { branch 'master' }
+    stage("deploy and verify PREPROD") {
       environment {
         DEPLOY_USER = 'thcathy'
       }
