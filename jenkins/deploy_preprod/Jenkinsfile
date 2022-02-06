@@ -1,6 +1,8 @@
 pipeline {
   agent {
-    label 'docker'
+    docker {
+      image 'cimg/openjdk:13.0'
+    }
   }
   parameters {
     imageTag(name: 'DOCKER_IMAGE', image: 'thcathy/web-parser-rest')
