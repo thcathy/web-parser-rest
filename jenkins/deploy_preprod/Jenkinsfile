@@ -6,7 +6,7 @@ pipeline {
   }
   parameters {
       imageTag(name: 'DOCKER_IMAGE', description: '',
-                   image: 'thcathy/web-parser-rest', defaultTag: 'latest',
+                   image: 'thcathy/web-parser-rest', filter: '*', defaultTag: 'latest',
                    registry: 'https://registry-1.docker.io', credentialId: '', tagOrder: 'NATURAL')
   }
 
