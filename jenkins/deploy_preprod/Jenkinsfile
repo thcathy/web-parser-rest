@@ -1,8 +1,6 @@
 pipeline {
   agent {
-    docker {
-      image 'ansible/ansible-runner'
-    }
+    label 'docker'
   }
   parameters {
     imageTag(name: 'DOCKER_IMAGE', image: 'thcathy/web-parser-rest')
