@@ -5,7 +5,9 @@ pipeline {
     }
   }
   parameters {
-      string(name: 'docker_image_tag', defaultValue: '', description: 'Docker image tag?')
+      imageTag(name: 'DOCKER_IMAGE', description: '',
+                   image: 'thcathy/web-parser-rest', defaultTag: 'latest',
+                   registry: 'https://registry-1.docker.io', credentialId: '', tagOrder: 'NATURAL')
   }
 
   environment {
@@ -18,7 +20,6 @@ pipeline {
       when { branch 'master' }
       environment {
         DEPLOY_USER = 'thcathy'
-        docker_image_tag = "${version}-${env.BUILD_NUMBER}"
       }
       agent {
         docker {
@@ -29,7 +30,7 @@ pipeline {
         ansiblePlaybook(
           inventory: 'ansible/inventory_preprod',
           limit: 'preprod',
-          extras: "-e docker_image_tag=${docker_image_tag} -e jasypt_encryptor_password=${jasypt_encryptor_password}",
+          extras: "-e docker_image_tag=${DOCKER_IMAGE_TAG} -e jasypt_encryptor_password=${jasypt_encryptor_password}",
           playbook: 'ansible/deploy.yml',
           credentialsId: 'Jenkins-master'
         )
