@@ -2,6 +2,9 @@
 - hosts: all
   
   tasks:
+    - debug: var=vars
+    - debug: var=hostvars
+
     - name: check traefik is running
       shell: docker stack ps traefik | grep traefik
       register: traefik_status

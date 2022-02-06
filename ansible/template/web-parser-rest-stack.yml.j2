@@ -8,7 +8,7 @@ services:
       replicas: 1
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.{{ app_name }}.rule=PathPrefix(`/{{ app_name }}`)"
+        - "traefik.http.routers.{{ app_name }}.rule=Host(`{{ inventory_hostname }}`) && PathPrefix(`/{{ app_name }}`)"
         - "traefik.http.routers.{{ app_name }}.middlewares={{ app_name }}-prefix@docker"
         - "traefik.http.routers.{{ app_name }}.tls.certresolver=myresolver"
         - "traefik.http.routers.{{ app_name }}.entrypoints=websecure"
