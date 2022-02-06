@@ -7,7 +7,7 @@
     body_format: json
   register: result
   until: result.status == 200
-  retries: 5
+  retries: 20
   delay: 30
   tags: verify
 - name: check rest response
