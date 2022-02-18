@@ -24,6 +24,5 @@
 
 	<root level="info">
 		<appender-ref ref="async" />
-		<appender-ref ref="stdout" />
 	</root>
 </configuration>
