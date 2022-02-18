@@ -26,11 +26,8 @@ services:
       interval: 30s
       timeout: 30s
       retries: 5
-    logging:
-        driver: "json-file"
-        options:
-            max-file: 2
-            max-size: 10m
+    volumes:
+      - logs:/logs
     networks:
       - overlay
       - {{ traefik_network }}
@@ -39,3 +36,6 @@ networks:
   overlay:
   {{ traefik_network }}:
     external: true
+
+volumes:
+  logs:
