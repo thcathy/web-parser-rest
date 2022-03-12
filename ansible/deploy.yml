@@ -28,7 +28,7 @@
       until: image_tag_output.stdout is search(docker_image_tag + "$")
       retries: 10
       delay: 30
-    - debug: mag="{{ image_tag_output }}"
+    - debug: msg="{{ image_tag_output }}"
 
     - name: Include task list in play
       include_tasks: tasks/verify_server.yml
