@@ -8,7 +8,7 @@ services:
       replicas: 1
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.{{ app_name }}.rule="{{ traefik_router_rule }}"
+        - "traefik.http.routers.{{ app_name }}.rule={{ traefik_router_rule }}"
         - "traefik.http.routers.{{ app_name }}.middlewares={{ app_name }}-prefix@docker"
         - "traefik.http.routers.{{ app_name }}.tls.certresolver=myresolver"
         - "traefik.http.routers.{{ app_name }}.entrypoints=websecure"
