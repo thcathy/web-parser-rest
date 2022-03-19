@@ -1,4 +1,3 @@
 ---
 deploy_folder: ~/docker
-traefik_router_rule: Host(`{{ server_host }}`)
 
