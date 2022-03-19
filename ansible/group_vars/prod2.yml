@@ -1,4 +1,5 @@
 ---
-deploy_folder: ~/docker
+deploy_folder: ~/ffs
 traefik_router_rule: Host(`{{ server_host }}`)
+
 

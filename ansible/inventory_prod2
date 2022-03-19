@@ -1,0 +1,3 @@
+[prod2]
+oc-prod2.funfunspell.com ansible_user=ubuntu
+

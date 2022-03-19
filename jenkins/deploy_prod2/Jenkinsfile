@@ -11,10 +11,11 @@ pipeline {
   environment {
     googleapi_key = credentials('googleapi_key')
     jasypt_encryptor_password = credentials('JASYPT_ENCRYPTOR_PASSWORD')
+    server_host = credentials('server_host_prod2')
   }
 
   stages {
-    stage("deploy and verify PREPROD") {
+    stage("deploy and verify") {
       environment {
         DEPLOY_USER = 'thcathy'
       }
@@ -25,9 +26,9 @@ pipeline {
       }
       steps {
         ansiblePlaybook(
-          inventory: 'ansible/inventory_preprod',
-          limit: 'preprod',
-          extras: "-e docker_image_tag=${DOCKER_IMAGE_TAG} -e jasypt_encryptor_password=${jasypt_encryptor_password}",
+          inventory: 'ansible/inventory_prod2',
+          limit: 'prod2',
+          extras: "-e docker_image_tag=${DOCKER_IMAGE_TAG} -e jasypt_encryptor_password=${jasypt_encryptor_password} -e server_host=${server_host}",
           playbook: 'ansible/deploy.yml',
           credentialsId: 'Jenkins-master'
         )
