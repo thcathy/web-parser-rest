@@ -13,7 +13,7 @@ import reactor.cache.CacheMono;
 import reactor.core.publisher.Mono;
 import thc.domain.DictionaryResult;
 import thc.parser.language.CambridgeDictionaryParser;
-import thc.parser.language.OxfordDictionaryRequest;
+import thc.parser.language.DictionaryAPIRequest;
 import thc.service.RestParseService;
 
 import java.util.concurrent.TimeUnit;
@@ -48,9 +48,7 @@ public class DictionaryController {
 	private Mono<DictionaryResult> queryOnlineSources(String query) {
 		return new CambridgeDictionaryParser(query).parse()
 				.filter(this::hasPronunciationUrl)
-				.switchIfEmpty(queryOxfordDictionary(query, OxfordDictionaryRequest.REGION_GB))
-				.filter(this::hasPronunciationUrl)
-				.switchIfEmpty(queryOxfordDictionary(query, OxfordDictionaryRequest.REGION_US))
+				.switchIfEmpty(queryDictionaryAPI(query))
 				.filter(this::hasPronunciationUrl)
 				.defaultIfEmpty(new DictionaryResult(query));
 	}
@@ -59,12 +57,11 @@ public class DictionaryController {
 		return StringUtils.isNotEmpty(result.pronunciationUrl);
 	}
 
-	private Mono<DictionaryResult> queryOxfordDictionary(String query, String region) {
-		OxfordDictionaryRequest request = new OxfordDictionaryRequest(query, region);
+	private Mono<DictionaryResult> queryDictionaryAPI(String query) {
 		try {
-			return parseService.process(request);
+			return parseService.process(new DictionaryAPIRequest(query));
 		} catch (Exception e) {
-			log.warn("Exception when process oxford dictionary for {} in region", query, region, e);
+			log.warn("Exception when process dictionary API for {}", query, e);
 			return Mono.empty();
 		}
 	}

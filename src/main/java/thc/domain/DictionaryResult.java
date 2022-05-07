@@ -6,10 +6,10 @@ import org.springframework.util.StringUtils;
 import static thc.constant.ContentConstants.NOT_AVAILABLE;
 
 public class DictionaryResult {
-    public final String word;
-    public final String pronunciationUrl;
-    public final String pronunciationLang;
-    public final String IPA;
+    public final String word;   // meta > id
+    public final String pronunciationUrl;   //
+    public final String pronunciationLang; // "en"
+    public final String IPA;    // hwi > prs > mw
     public final String definition;
 
     public DictionaryResult(String word, String pronunciationUrl, String pronunciationLang, String IPA, String definition) {
