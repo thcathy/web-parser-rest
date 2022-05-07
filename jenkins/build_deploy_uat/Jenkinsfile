@@ -11,6 +11,7 @@ pipeline {
 
   environment {
     googleapi_key = credentials('googleapi_key')
+    dictionaryapi_key = credentials('dictionaryapi_key')
     jasypt_encryptor_password = credentials('JASYPT_ENCRYPTOR_PASSWORD')
   }
 
