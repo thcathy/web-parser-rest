@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import thc.parser.language.OxfordDictionaryRequest;
+import thc.parser.language.DictionaryAPIRequest;
 import thc.parser.search.GoogleImageSearchRequest;
 import thc.service.ForumQueryService;
 import thc.service.HttpParseService;
@@ -26,7 +26,6 @@ import thc.service.RestParseService;
 
 import javax.annotation.PostConstruct;
 import javax.net.ssl.SSLException;
-import java.util.Optional;
 
 import static org.asynchttpclient.Dsl.asyncHttpClient;
 import static org.asynchttpclient.Dsl.config;
@@ -50,15 +49,13 @@ public class WebParserRestApplication {
 	private Environment env;
 
 	@Value("${googleapi.key}") String googleAPIKey;
-	@Value("${oxford.dictionary.appId}") String oxfordDictionaryAppId;
-	@Value("${oxford.dictionary.appKey}") String oxfordDictionaryAppKey;
+	@Value("${dictionaryapi.key}") String dictionaryAPIKey;
 	@Value("${webclient.log.enable:true}") boolean enableWebClientLog;
 
     @PostConstruct
     public void configure() {
 		GoogleImageSearchRequest.setAPIKeys(googleAPIKey);
-		OxfordDictionaryRequest.APP_ID_LIST = Optional.ofNullable(oxfordDictionaryAppId).orElse("").split(OxfordDictionaryRequest.KEY_SEPARATOR);
-		OxfordDictionaryRequest.APP_KEY_LIST = Optional.ofNullable(oxfordDictionaryAppKey).orElse("").split(OxfordDictionaryRequest.KEY_SEPARATOR);
+		DictionaryAPIRequest.API_KEY = dictionaryAPIKey;
     }
 
     @Bean public ForumQueryService forumQueryService() { return new ForumQueryService(httpClient()); }
@@ -68,16 +65,6 @@ public class WebParserRestApplication {
     @Bean public RestParseService restParseService() { return new RestParseService(); }
 
     @Bean public JsoupParseService jsoupParseService() { return new JsoupParseService(); }
-		
-	//@Bean
-    //public WebMvcConfigurer corsConfigurer() {
-    //    return new WebMvcConfigurerAdapter() {
-    //        @Override
-    //        public void addCorsMappings(CorsRegistry registry) {
-    //            registry.addMapping("/rest/**");
-    //        }
-    //    };
-    //}
 
     @Bean
 	public static AsyncHttpClient httpClient() {
