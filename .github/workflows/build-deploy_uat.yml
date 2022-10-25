@@ -38,6 +38,7 @@ jobs:
         path: build
   docker-uat:
     runs-on: ubuntu-latest
+    environment: UAT
     needs: [build-test]
     if: github.ref == 'refs/heads/master'
     steps:
