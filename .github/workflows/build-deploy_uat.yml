@@ -8,6 +8,8 @@ on:
 
 env:
   jasypt_encryptor_password: ${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
+  googleapi_key: ${{ secrets.googleapi_key }}
+  dictionaryapi_key: ${{ secrets.dictionaryapi_key }}
 
 jobs:
   build-test:
