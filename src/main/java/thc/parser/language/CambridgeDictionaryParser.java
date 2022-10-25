@@ -39,7 +39,7 @@ public class CambridgeDictionaryParser {
 					.timeout(60000)
 					.get();
 			
-			Elements audioLinkSource = doc.select("amp-audio source[type*=mpeg]");
+			Elements audioLinkSource = doc.select("audio source[type*=mpeg]");
 			audioLink = "https://dictionary.cambridge.org" + audioLinkSource.get(0).attr("src");
 			ipa = doc.select("span.pron.dpron span").get(0).text();
 			if (hasText(ipa) && hasText(audioLink)) {

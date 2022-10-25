@@ -51,7 +51,7 @@ public class Money18StockQuoteRequestTest {
 
         assertEquals("2800", q.getStockCode());
         assertEquals("TRACKER FUND", q.getStockName());
-        assertThat(Double.valueOf(q.getPrice()), greaterThan(20.0));
+        assertThat(Double.valueOf(q.getPrice()), greaterThan(10.0));
         assertTrue(NumberUtils.isNumber(q.getChangeAmount().replace("+", "").replace("-", "")));
         assertTrue(q.getChange().endsWith("%"));
         assertNotEquals(NA, q.getLastUpdate());

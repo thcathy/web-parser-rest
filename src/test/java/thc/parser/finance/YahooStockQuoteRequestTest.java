@@ -55,7 +55,7 @@ public class YahooStockQuoteRequestTest {
 
         assertEquals("2800", q.getStockCode());
         assertEquals("盈富基金", q.getStockName());
-        assertThat(Double.valueOf(q.getPrice()), greaterThan(20.0));
+        assertThat(Double.valueOf(q.getPrice()), greaterThan(10.0));
         assertTrue(NumberUtils.isNumber(q.getChangeAmount().replace("+", "").replace("-", "")));
         assertTrue(q.getChange().endsWith("%"));
         assertNotEquals(NA, q.getLastUpdate());
@@ -80,7 +80,7 @@ public class YahooStockQuoteRequestTest {
         log.debug("StockQuote: {}", q);
 
         assertEquals("7288", q.getStockCode());
-        assertThat(Double.valueOf(q.getPrice()), greaterThan(2.0));
+        assertThat(Double.valueOf(q.getPrice()), greaterThan(1.0));
     }
 
 }
