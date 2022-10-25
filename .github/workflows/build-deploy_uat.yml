@@ -44,8 +44,8 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/download-artifact@master
       with:
-        name: target
-        path: target
+        name: build
+        path: build
     - name: Set Release version env variable
       run: |
         echo "RELEASE_VERSION=$(${{github.workspace}}/gradlew properties -q | grep \"version:\" | awk '{print \$2}')" >> $GITHUB_ENV
