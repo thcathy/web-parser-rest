@@ -48,7 +48,7 @@ jobs:
         path: build
     - name: Set Release version env variable
       run: |
-        echo "RELEASE_VERSION=$(${{github.workspace}}./gradle properties -q | grep 'version:' | awk '{print $2}')" >> $GITHUB_ENV
+        echo "RELEASE_VERSION=$(${{github.workspace}}/gradle properties -q | grep 'version:' | awk '{print $2}')" >> $GITHUB_ENV
     - name: Set docker image tag env variable
       run: |
         echo "DOCKER_IMAGE_TAG=${{ env.RELEASE_VERSION }}-${{ github.run_number }}" >> $GITHUB_ENV
