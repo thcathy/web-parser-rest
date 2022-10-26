@@ -20,7 +20,7 @@ jobs:
     environment: ${{ inputs.environment }}
     steps:
     - uses: actions/checkout@v3
-    - name: Run ansible playbook to deploy and verify UAT
+    - name: Run ansible playbook to deploy and verify
       uses: dawidd6/action-ansible-playbook@v2
       with:
         playbook: ansible/deploy.yml
