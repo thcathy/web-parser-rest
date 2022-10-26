@@ -9,6 +9,7 @@ on:
         require: true
       environment:
         type: environment
+        default: PROD2
 
 env:
   jasypt_encryptor_password: ${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
