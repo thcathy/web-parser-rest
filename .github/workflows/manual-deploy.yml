@@ -29,5 +29,5 @@ jobs:
         options: |
           --inventory ansible/inventory_${{ secrets.ANSIBLE_LIMIT }}
           --limit ${{ secrets.ANSIBLE_LIMIT }}          
-          -e docker_image_tag=${{ secrets.DOCKERHUB_USERNAME }}/web-parser-rest:${{ github.event.inputs.docker_tag_version }}
+          -e docker_image_tag=${{ github.event.inputs.docker_tag_version }}
           -e jasypt_encryptor_password=${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
