@@ -3,8 +3,10 @@ name: manual deploy to env
 on:
   workflow_dispatch:
     inputs:
-      docker-tag:
+      docker_tag_version:
+        description: 'docker tag version. e.g. 2.0.1-7'
         default: 'latest'
+        require: true
       environment:
         type: environment
 
@@ -25,5 +27,5 @@ jobs:
         options: |
           --inventory 'ansible/inventory_${{ secrets.ANSIBLE_LIMIT }}'
           --limit ${{ secrets.ANSIBLE_LIMIT }}          
-          -e docker_image_tag=${{ secrets.DOCKERHUB_USERNAME }}/web-parser-rest:${{ github.event.inputs.docker-tag }}
+          -e docker_image_tag=${{ secrets.DOCKERHUB_USERNAME }}/web-parser-rest:${{ github.event.inputs.docker_tag_version }}
           -e jasypt_encryptor_password=${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
