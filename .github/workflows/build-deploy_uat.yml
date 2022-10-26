@@ -70,7 +70,7 @@ jobs:
       with:    
         playbook: ansible/deploy.yml
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        vault_password: ${{ secrets.VAULT_PASSWORD }}
+        vault_password: ${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
         options: |
           --inventory ansible/inventory_uat
           --limit uat          

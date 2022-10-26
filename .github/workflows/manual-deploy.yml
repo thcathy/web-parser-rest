@@ -1,0 +1,29 @@
+name: manual deploy to env
+
+on:
+  workflow_dispatch:
+    inputs:
+      docker-tag:
+        default: 'latest'
+      environment:
+        type: environment
+
+env:
+  jasypt_encryptor_password: ${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Run ansible playbook to deploy and verify UAT
+      uses: dawidd6/action-ansible-playbook@v2
+      with:
+        playbook: ansible/deploy.yml
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        vault_password: ${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
+        options: |
+          --inventory 'ansible/inventory_${{ secrets.ANSIBLE_LIMIT }}'
+          --limit ${{ secrets.ANSIBLE_LIMIT }}          
+          -e docker_image_tag=${{ secrets.DOCKERHUB_USERNAME }}/web-parser-rest:${{ github.event.inputs.docker-tag }}
+          -e jasypt_encryptor_password=${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
