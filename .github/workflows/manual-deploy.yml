@@ -7,10 +7,14 @@ on:
         description: 'docker tag version. e.g. 2.0.1-7'
         default: latest
         required: true
-      environment:
-        type: environment
-        default: PROD2
-        required: true
+      target_env:
+        description: 'target env'
+        type: choice
+        default: prod2
+        options:
+        - prod
+        - prod2
+        - uat
 env:
   jasypt_encryptor_password: ${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
 
@@ -27,7 +31,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         vault_password: ${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
         options: |
-          --inventory ansible/inventory_${{ secrets.ANSIBLE_LIMIT }}
-          --limit ${{ secrets.ANSIBLE_LIMIT }}          
+          --inventory ansible/inventory_${{ github.event.inputs.target_env }}
+          --limit ${{ github.event.inputs.target_env }}          
           -e docker_image_tag=${{ github.event.inputs.docker_tag_version }}
           -e jasypt_encryptor_password=${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
