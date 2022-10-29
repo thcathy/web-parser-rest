@@ -1,4 +1,4 @@
-name: manual deploy to env
+name: manual deploy to [${{ github.event.inputs.target_env }}]
 
 on:
   workflow_dispatch:
