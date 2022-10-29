@@ -1,4 +1,4 @@
-name: manual deploy to [${{ github.event.inputs.target_env }}]
+name: manual deploy to env
 
 on:
   workflow_dispatch:
@@ -20,6 +20,7 @@ env:
 
 jobs:
   deploy:
+    name: deploy to [${{ github.event.inputs.target_env }}]
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
