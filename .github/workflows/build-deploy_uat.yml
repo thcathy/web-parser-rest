@@ -23,7 +23,7 @@ jobs:
         java-version: '17'
         distribution: 'adopt'
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+      uses: gradle/gradle-build-action@v2
       with:
         arguments: check assemble
     - name: Publish Test Results
@@ -46,9 +46,11 @@ jobs:
       with:
         name: build
         path: build
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v2
     - name: Set Release version env variable
       run: |
-        echo "RELEASE_VERSION=$(${{github.workspace}}/gradlew properties -q | grep \"version:\" | awk '{print \$2}')" >> $GITHUB_ENV
+        echo "RELEASE_VERSION=$(./gradlew properties -q | grep \"version:\" | awk '{print \$2}')" >> $GITHUB_ENV
     - name: Set docker image tag env variable
       run: |
         echo "DOCKER_IMAGE_TAG=${{ env.RELEASE_VERSION }}-${{ github.run_number }}" >> $GITHUB_ENV
