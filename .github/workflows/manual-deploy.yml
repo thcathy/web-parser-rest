@@ -1,0 +1,38 @@
+name: manual deploy to env
+
+on:
+  workflow_dispatch:
+    inputs:
+      docker_tag_version:
+        description: 'docker tag version. e.g. 2.0.1-7'
+        default: latest
+        required: true
+      target_env:
+        description: 'target env'
+        type: choice
+        default: prod2
+        options:
+        - prod
+        - prod2
+        - uat
+env:
+  jasypt_encryptor_password: ${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
+
+jobs:
+  deploy:
+    name: deploy to [${{ github.event.inputs.target_env }}]
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+    - uses: actions/checkout@v3
+    - name: Run ansible playbook to deploy and verify
+      uses: dawidd6/action-ansible-playbook@v2
+      with:
+        playbook: ansible/deploy.yml
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        vault_password: ${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
+        options: |
+          --inventory ansible/inventory_${{ github.event.inputs.target_env }}
+          --limit ${{ github.event.inputs.target_env }}          
+          -e docker_image_tag=${{ github.event.inputs.docker_tag_version }}
+          -e jasypt_encryptor_password=${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}

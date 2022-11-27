@@ -38,6 +38,7 @@ jobs:
         path: build
   docker-uat:
     runs-on: ubuntu-latest
+    environment: UAT
     needs: [build-test]
     if: github.ref == 'refs/heads/master'
     steps:
@@ -50,7 +51,7 @@ jobs:
       uses: gradle/gradle-build-action@v2
     - name: Set Release version env variable
       run: |
-        echo "RELEASE_VERSION=$(./gradlew properties -q | grep \"version:\" | awk '{print \$2}')" >> $GITHUB_ENV
+        echo "RELEASE_VERSION=$(./gradlew properties -q | grep 'version:' | awk '{print $2}')" >> $GITHUB_ENV
     - name: Set docker image tag env variable
       run: |
         echo "DOCKER_IMAGE_TAG=${{ env.RELEASE_VERSION }}-${{ github.run_number }}" >> $GITHUB_ENV
@@ -64,14 +65,14 @@ jobs:
       with:
         push: true
         context: .
-        file: docker/Dockerfile
+        file: Dockerfile
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/web-parser-rest:latest,${{ secrets.DOCKERHUB_USERNAME }}/web-parser-rest:${{ env.DOCKER_IMAGE_TAG }}
     - name: Run ansible playbook to deploy and verify UAT
       uses: dawidd6/action-ansible-playbook@v2
       with:    
         playbook: ansible/deploy.yml
-        key: ${{ secrets.UAT_SSH_PRIVATE_KEY }}
-        vault_password: ${{ secrets.VAULT_PASSWORD }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        vault_password: ${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
         options: |
           --inventory ansible/inventory_uat
           --limit uat          
