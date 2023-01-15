@@ -8,8 +8,8 @@ apply plugin: 'io.spring.dependency-management'
 
 group 'squote'
 version = '2.0.1'
-sourceCompatibility = 10
-targetCompatibility = 10
+sourceCompatibility = 11
+targetCompatibility = 11
 
 bootJar {
     archiveName = 'web-parser-rest.jar'

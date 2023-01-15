@@ -71,7 +71,7 @@ public class GoogleImageSearchRequest implements RestParseRequest<List> {
 	@Override
 	public Mono<List> parseResponse(JsonNode node) {
 		try {
-			if (!node.has("items")) {
+			if (node == null || !node.has("items")) {
 				log.warn("No item found from body", node.asText());
 				return Mono.just(Collections.EMPTY_LIST);
 			}
