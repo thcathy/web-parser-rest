@@ -67,6 +67,7 @@ jobs:
         context: .
         file: Dockerfile
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/web-parser-rest:latest,${{ secrets.DOCKERHUB_USERNAME }}/web-parser-rest:${{ env.DOCKER_IMAGE_TAG }}
+        platforms: linux/amd64,linux/arm64
     - name: Run ansible playbook to deploy and verify UAT
       uses: dawidd6/action-ansible-playbook@v2
       with:    
