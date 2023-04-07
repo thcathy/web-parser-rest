@@ -1,0 +1,3 @@
+---
+deploy_folder: ~/k3s
+namespace: web-parser-rest

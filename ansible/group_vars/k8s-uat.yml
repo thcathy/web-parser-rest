@@ -1,0 +1,3 @@
+---
+deploy_folder: /home/ubuntu/k3s
+namespace: web-parser-rest-uat

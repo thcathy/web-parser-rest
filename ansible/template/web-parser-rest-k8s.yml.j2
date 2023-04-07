@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ app_name }}
+  labels:
+    app: {{ app_name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ app_name }}
+  template:
+    metadata:
+      labels:
+        app: {{ app_name }}
+    spec:
+      containers:
+      - name: {{ app_name }}
+        image: thcathy/{{ app_name }}:{{ docker_image_tag }}
+        env:
+        - name: JASYPT_ENCRYPTOR_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ app_name }}-secrets
+              key: JASYPT_ENCRYPTOR_PASSWORD
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /rest/index/constituents/HSI
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          timeoutSeconds: 30
+          failureThreshold: 5
+        volumeMounts:
+        - name: logs
+          mountPath: /logs
+      volumes:
+      - name: logs
+        hostPath:
+          path: /home/ubuntu/k3s/volumes/web-parser-rest/logs
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-parser-rest-service
+spec:
+  selector:
+    app: web-parser-rest
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: web-parser-rest-prefix-remover
+spec:
+  stripPrefix:
+    prefixes:
+    - /web-parser-rest
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-parser-rest-ingress
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.middlewares: web-parser-rest-web-parser-rest-prefix-remover@kubernetescrd
+spec:
+  tls:
+  - secretName: web-parser-rest-tls
+    hosts:
+      - arm-s1.funfunspell.com
+  rules:
+  - host: arm-s1.funfunspell.com
+    http:
+      paths:
+      - path: /web-parser-rest
+        pathType: Prefix
+        backend:
+          service:
+            name: web-parser-rest-service
+            port:
+              name: http

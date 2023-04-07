@@ -1,5 +1,5 @@
 ---
-- name: check server is respsonding
+- name: check server is responding
   uri:
     url: "https://{{ inventory_hostname }}/{{ app_name }}/rest/index/constituents/HSI"
     return_content: yes
