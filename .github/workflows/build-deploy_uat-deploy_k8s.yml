@@ -72,6 +72,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [docker-build]
     steps:
+    - uses: actions/checkout@v3
     - name: Run ansible playbook to deploy and verify UAT
       uses: dawidd6/action-ansible-playbook@v2
       with:    
@@ -87,6 +88,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [docker-build]
     steps:
+    - uses: actions/checkout@v3
     - name: Run ansible playbook to deploy and verify k8s UAT
       uses: dawidd6/action-ansible-playbook@v2
       with:
