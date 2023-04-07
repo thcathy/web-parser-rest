@@ -83,33 +83,29 @@ jobs:
           --limit uat          
           -e docker_image_tag=${{ env.DOCKER_IMAGE_TAG }}
           -e jasypt_encryptor_password=${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
-  deploy-k8s-uat:
+  deploy-k8s:
     runs-on: ubuntu-latest
     needs: [docker]
     steps:
-      - name: Run ansible playbook to deploy and verify k8s UAT
-        uses: dawidd6/action-ansible-playbook@v2
-        with:
-          playbook: ansible/deploy-k8s.yml
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          vault_password: ${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
-          options: |
-            --inventory ansible/inventory_k8s-uat
-            --limit k8s-uat
-            -e docker_image_tag=${{ env.DOCKER_IMAGE_TAG }}
-            -e jasypt_encryptor_password=${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
-  deploy-k8s-prod:
-    runs-on: ubuntu-latest
-    needs: [docker]
-    steps:
-      - name: Run ansible playbook to deploy and verify k8s UAT
-        uses: dawidd6/action-ansible-playbook@v2
-        with:
-          playbook: ansible/deploy-k8s.yml
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          vault_password: ${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
-          options: |
-            --inventory ansible/inventory_k8s-prod
-            --limit k8s-prod
-            -e docker_image_tag=${{ env.DOCKER_IMAGE_TAG }}
-            -e jasypt_encryptor_password=${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
+    - name: Run ansible playbook to deploy and verify k8s UAT
+      uses: dawidd6/action-ansible-playbook@v2
+      with:
+        playbook: ansible/deploy-k8s.yml
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        vault_password: ${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
+        options: |
+          --inventory ansible/inventory_k8s-uat
+          --limit k8s-uat
+          -e docker_image_tag=${{ env.DOCKER_IMAGE_TAG }}
+          -e jasypt_encryptor_password=${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
+    - name: Run ansible playbook to deploy and verify k8s PROD
+      uses: dawidd6/action-ansible-playbook@v2
+      with:
+        playbook: ansible/deploy-k8s.yml
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        vault_password: ${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
+        options: |
+          --inventory ansible/inventory_k8s-prod
+          --limit k8s-prod
+          -e docker_image_tag=${{ env.DOCKER_IMAGE_TAG }}
+          -e jasypt_encryptor_password=${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
