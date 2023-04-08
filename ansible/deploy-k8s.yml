@@ -33,7 +33,7 @@
     - name: set k8s secret
       k8s:
         kubeconfig: "{{ kubeconfig }}"
-        state: present
+        state: patched
         kind: Secret
         name: "{{ app_name }}-secrets"
         namespace: "{{ namespace }}"
