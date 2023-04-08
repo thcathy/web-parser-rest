@@ -1,3 +1,5 @@
 ---
 deploy_folder: ~/k3s
 namespace: web-parser-rest
+url_base_path: web-parser-rest
+volume_root: /home/ubuntu/k3s/volumes
