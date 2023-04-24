@@ -68,8 +68,8 @@ public class YahooStockQuoteRequest implements JsoupParseRequest<StockQuote> {
 			quote.setNAV(parseValue(() -> doc.select("span:contains(每股盈利)").first().parent().nextElementSibling().text()));
 
 			// last update
-			String[] time = doc.select("div[id~=quote-market-notice] span").text().split(" ");
-			Date parsedTime = sourceTimeFormat.parse(time[time.length - 2]);
+			String time = doc.select("div[id~=quote-market-notice] span").text().split(" ")[0].substring(3);
+			Date parsedTime = sourceTimeFormat.parse(time);
 			quote.setLastUpdate(outputDateFormat.format(parsedTime));
 
 			// 52 high low
