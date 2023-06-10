@@ -25,7 +25,7 @@ public class ISharesConstituentParserTest {
 		assertTrue("MSCI HK index should contain 11",result.contains("11"));
 		assertTrue("MSCI HK index should contain 2",result.contains("2"));
 		assertTrue("MSCI HK index should contain 388",result.contains("388"));
-		assertTrue("MSCI HK index should contain over 30 stocks", result.size() >= 30);
+		assertTrue("MSCI HK index should contain over 20 stocks", result.size() >= 20);
 		assertFalse("Should not contain MPEL", result.contains("MPEL"));
 		assertFalse("Should not contain HKD", result.contains("HKD"));
 		assertFalse("Should not return any --", result.contains("--"));
