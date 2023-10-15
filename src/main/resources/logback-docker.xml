@@ -3,7 +3,7 @@
 	<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>logs/web-parser-rest.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>logs/web-parser-rest.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<fileNamePattern>logs/web-parser-rest.log.%d{yyyy-MM-dd}</fileNamePattern>
 			<maxHistory>365</maxHistory>
 		</rollingPolicy>
 
