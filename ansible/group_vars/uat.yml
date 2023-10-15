@@ -1,2 +1,3 @@
 ---
 deploy_folder: ~/ffs
+namespace: web-parser-rest-uat

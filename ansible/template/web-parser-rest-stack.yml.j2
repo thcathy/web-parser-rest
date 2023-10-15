@@ -27,7 +27,7 @@ services:
       timeout: 30s
       retries: 5
     volumes:
-      - logs:/logs
+      - {{ docker_volume_root }}/{{ namespace }}:/logs
     networks:
       - overlay
       - {{ traefik_network }}
@@ -36,6 +36,3 @@ networks:
   overlay:
   {{ traefik_network }}:
     external: true
-
-volumes:
-  logs:
