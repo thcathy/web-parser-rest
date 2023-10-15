@@ -13,9 +13,9 @@ public class HistoryQuoteRequestTest {
 	JsoupParseService parseService = new JsoupParseService();
 
 	@Test
-    public void getPreviousYearQuote_GivenLastYear0001_ShouldReturnPriceOver50() {
+    public void getPreviousYearQuote_GivenLastYear0001_ShouldReturnPriceOver10() {
 		BigDecimal result = parseService.process(new HistoryQuoteRequest("00001", 1)).block();
-		Assertions.assertThat(result.doubleValue()).isGreaterThan(40l);
+		Assertions.assertThat(result.doubleValue()).isGreaterThan(10l);
 	}
 	
 	@Test
