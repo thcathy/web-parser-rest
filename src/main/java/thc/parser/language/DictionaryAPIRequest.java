@@ -45,9 +45,13 @@ public class DictionaryAPIRequest implements RestParseRequest<DictionaryResult> 
 
 	@Override
 	public Mono<DictionaryResult> parseResponse(JsonNode node) {
-		String audio, IPA;
+		if (node == null || !node.get(0).has("hwi")) {
+			log.warn("Empty response for query: {}", query);
+			return Mono.empty();
+		}
 
 		try {
+			String audio, IPA;
 			for (Iterator<JsonNode> it = node.get(0).get("hwi").get("prs").elements(); it.hasNext(); ) {
 				JsonNode element = it.next();
 				audio = getAudioText(element);
@@ -62,7 +66,7 @@ public class DictionaryAPIRequest implements RestParseRequest<DictionaryResult> 
 			IPA = getIPAText(prsNode);
 			return Mono.just(buildResult(audio, IPA));
 		} catch (Exception e) {
-			log.error("Fail parse response: {}", e.toString());
+			log.error("Fail parse response: {}", e, e);
 			return Mono.empty();
 		}
 	}
