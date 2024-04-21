@@ -3,6 +3,6 @@ app_name: web-parser-rest
 ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
 traefik_network:  traefik_traefik-public
 traefik_router_rule: Host(`{{ inventory_hostname }}`) && PathPrefix(`/{{ app_name }}`)
-kubeconfig: /home/ubuntu/.kube/config
+kubeconfig: /etc/rancher/k3s/k3s.yaml
 docker_volume_root: ~/docker/volume
 
