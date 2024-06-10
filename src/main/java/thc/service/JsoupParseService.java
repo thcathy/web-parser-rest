@@ -21,7 +21,7 @@ public class JsoupParseService {
             setHeaders(connection, parser.headers());
             return parser.parseResponse(connection.get());
     })
-                .subscribeOn(Schedulers.elastic())
+                .subscribeOn(Schedulers.boundedElastic())
                 .onErrorResume((e) -> {
             log.warn("Error when process jsoup request: {}, {}", e.toString(), parser.url());
             return Mono.just(parser.defaultValue());
@@ -29,7 +29,7 @@ public class JsoupParseService {
     }
 
     private void setHeaders(Connection connection, Map<String, String> headers) {
-        headers.entrySet().forEach((e) -> connection.header(e.getKey(), e.getValue()));
+        headers.forEach(connection::header);
     }
 
 

@@ -3,6 +3,7 @@ package thc;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
+import jakarta.annotation.PostConstruct;
 import org.asynchttpclient.AsyncHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,6 @@ import thc.service.HttpParseService;
 import thc.service.JsoupParseService;
 import thc.service.RestParseService;
 
-import javax.annotation.PostConstruct;
 import javax.net.ssl.SSLException;
 
 import static org.asynchttpclient.Dsl.asyncHttpClient;
