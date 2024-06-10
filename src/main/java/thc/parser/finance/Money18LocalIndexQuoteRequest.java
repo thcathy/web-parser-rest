@@ -30,6 +30,8 @@ public class Money18LocalIndexQuoteRequest implements HttpParseRequest<List<Stoc
 	protected static final Logger log = LoggerFactory.getLogger(Money18LocalIndexQuoteRequest.class);
 	private static final ObjectReader jsonReader = new ObjectMapper().configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true).readerFor(Map.class);
 
+	private static final List<String> invalidStockCode = List.of("CSCSHQ", "CSCSZQ");
+
 	@Override
 	public String url() { return URL; }
 
@@ -46,7 +48,7 @@ public class Money18LocalIndexQuoteRequest implements HttpParseRequest<List<Stoc
 			String[] indexes = IOUtils.toString(response, StandardCharsets.ISO_8859_1).split(";");
 			return Arrays.stream(indexes)
 					.flatMap(Money18LocalIndexQuoteRequest::toStockQuote)
-					.filter(q -> !q.getStockCode().equals("CSCSHQ") || !q.getStockCode().equals("CSCSZQ"))
+					.filter(q -> !invalidStockCode.contains(q.getStockCode()))
 					.collect(Collectors.toList());
 		} catch (Exception e) {
 			log.error("cannot parse response", e);
