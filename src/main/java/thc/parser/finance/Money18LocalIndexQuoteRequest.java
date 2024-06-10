@@ -43,9 +43,10 @@ public class Money18LocalIndexQuoteRequest implements HttpParseRequest<List<Stoc
 	@Override
 	public List<StockQuote> parseResponse(InputStream response) {
 		try {
-			String[] indexes = IOUtils.toString(response, StandardCharsets.ISO_8859_1.name()).split(";");
+			String[] indexes = IOUtils.toString(response, StandardCharsets.ISO_8859_1).split(";");
 			return Arrays.stream(indexes)
 					.flatMap(Money18LocalIndexQuoteRequest::toStockQuote)
+					.filter(q -> q.getStockCode().equals("CSCSHQ") || q.getStockCode().equals("CSCSZQ"))
 					.collect(Collectors.toList());
 		} catch (Exception e) {
 			log.error("cannot parse response", e);
