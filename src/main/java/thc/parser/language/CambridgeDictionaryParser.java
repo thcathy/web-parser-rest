@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 import thc.domain.DictionaryResult;
 
+import java.util.Collections;
+
 import static org.springframework.util.StringUtils.hasText;
 
 public class CambridgeDictionaryParser {
@@ -44,7 +46,7 @@ public class CambridgeDictionaryParser {
 			ipa = doc.select("span.pron.dpron span").get(0).text();
 			if (hasText(ipa) && hasText(audioLink)) {
 				return Mono.just(new DictionaryResult(
-						query, audioLink,"British English", ipa,"N.A."));
+						query, audioLink,"British English", ipa,"N.A.", Collections.emptyList()));
 			}
 		} catch (Exception e) {
 			log.warn("cannot process [{}], reason [{}]", query, e.toString());

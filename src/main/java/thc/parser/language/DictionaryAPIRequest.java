@@ -9,6 +9,7 @@ import thc.domain.DictionaryResult;
 import thc.parser.RestParseRequest;
 
 import java.text.MessageFormat;
+import java.util.Collections;
 import java.util.Iterator;
 
 public class DictionaryAPIRequest implements RestParseRequest<DictionaryResult> {
@@ -91,7 +92,8 @@ public class DictionaryAPIRequest implements RestParseRequest<DictionaryResult> 
 				MessageFormat.format(AUDIO_URL, getSubDirectory(audio), audio),
 				"English",
 				IPA,
-				""
+				"",
+				Collections.emptyList()
 		);
 	}
 

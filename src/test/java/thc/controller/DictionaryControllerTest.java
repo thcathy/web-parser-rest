@@ -10,6 +10,8 @@ import thc.constant.ContentConstants;
 import thc.domain.DictionaryResult;
 import thc.service.RestParseService;
 
+import java.util.Collections;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
@@ -29,7 +31,7 @@ public class DictionaryControllerTest {
 
     @Test
     public void http_return_is_cached() {
-        var dictionaryResult = new DictionaryResult("test", "http://", "", "", "");
+        var dictionaryResult = new DictionaryResult("test", "http://", "", "", "", Collections.emptyList());
         var mono = Mockito.mock(Mono.class);
         when(parseService.process(any())).thenReturn(Mono.just(dictionaryResult), Mono.empty());
 

@@ -11,6 +11,7 @@ import thc.domain.DictionaryResult;
 import thc.parser.RestParseRequest;
 
 import java.text.MessageFormat;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
@@ -143,7 +144,8 @@ public class OxfordDictionaryRequest implements RestParseRequest<DictionaryResul
 				audioUrl,
 				audioLang,
 				ipa,
-				definition
+				definition,
+				Collections.emptyList()
 		);
 	}
 

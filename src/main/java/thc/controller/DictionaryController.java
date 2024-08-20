@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.cache.CacheMono;
 import reactor.core.publisher.Mono;
 import thc.domain.DictionaryResult;
 import thc.parser.language.CambridgeDictionaryParser;
 import thc.parser.language.DictionaryAPIRequest;
+import thc.parser.language.GoogleDictionaryParser;
 import thc.service.RestParseService;
 
 import java.util.concurrent.TimeUnit;
@@ -26,13 +26,18 @@ public class DictionaryController {
 
 	@Autowired RestParseService parseService;
 
-	final protected Cache<String, Object> cache;
+	final protected Cache<String, DictionaryResult> dictionaryResultCache;
+	final protected Cache<String, DictionaryResult> googleResultCache;
 
 	public DictionaryController() {
-		cache = Caffeine
-				.newBuilder()
+		dictionaryResultCache = Caffeine.newBuilder()
 				.maximumSize(1000)
-				.expireAfterWrite(1, TimeUnit.DAYS)
+				.expireAfterWrite(30, TimeUnit.DAYS)
+				.build();
+
+		googleResultCache = Caffeine.newBuilder()
+				.maximumSize(1000)
+				.expireAfterWrite(30, TimeUnit.DAYS)
 				.build();
 	}
 
@@ -40,9 +45,30 @@ public class DictionaryController {
 	public Mono<DictionaryResult> query(@PathVariable String query) {
 		log.debug("process: {}", query);
 
-		return CacheMono
-				.lookup(cache.asMap(), query, DictionaryResult.class)
-				.onCacheMissResume(() -> queryOnlineSources(query));
+		return Mono.defer(() -> {
+			var cachedValue = dictionaryResultCache.getIfPresent(query);
+			if (cachedValue != null) {
+				return Mono.just(cachedValue);
+			} else {
+				return queryOnlineSources(query)
+						.doOnNext(value -> dictionaryResultCache.put(query, value));
+			}
+		});
+	}
+
+	@RequestMapping(value = "/rest/dictionary/google/{query}", method = GET)
+	public Mono<DictionaryResult> queryGoogle(@PathVariable String query) {
+		log.debug("process: {}", query);
+
+		return Mono.defer(() -> {
+			var cachedValue = googleResultCache.getIfPresent(query);
+			if (cachedValue != null) {
+				return Mono.just(cachedValue);
+			} else {
+				return new GoogleDictionaryParser(query).parse()
+						.doOnNext(value -> googleResultCache.put(query, value));
+			}
+		});
 	}
 
 	private Mono<DictionaryResult> queryOnlineSources(String query) {
@@ -66,3 +92,4 @@ public class DictionaryController {
 		}
 	}
 }
+
