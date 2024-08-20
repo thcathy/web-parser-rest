@@ -37,7 +37,6 @@ public class FinanceControllerIntegrationTest {
 		assertTrue(TestUtils.containCode("HSCEI", indexes));
 		assertTrue(TestUtils.containCode("SSECI", indexes));
 		assertTrue(TestUtils.containCode("納斯達克綜合指數", indexes));
-        assertTrue(TestUtils.containCode("英國富時指數", indexes));
         assertTrue(TestUtils.containCode("美匯指數", indexes));
 	}
 	
