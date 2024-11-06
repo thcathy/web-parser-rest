@@ -2,6 +2,7 @@ package thc.parser.finance;
 
 import com.google.common.base.Stopwatch;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,8 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.*;
 import static thc.domain.StockQuote.NA;
 
+@Deprecated
+@Ignore
 public class YahooStockQuoteRequestTest {
 	private Logger log = LoggerFactory.getLogger(YahooStockQuoteRequestTest.class);
 

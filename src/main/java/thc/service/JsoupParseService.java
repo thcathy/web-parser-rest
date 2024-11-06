@@ -15,8 +15,10 @@ public class JsoupParseService {
 
     public <T> Mono<T> process(JsoupParseRequest<T> parser) {
         return Mono.fromCallable(() -> {
-            Connection connection = Jsoup.connect(parser.url())
-                    .userAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36")
+            var url = parser.url();
+            log.info("Query url: {}", url);
+            Connection connection = Jsoup.connect(url)
+                    .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0.1 Safari/605.1.15")
                     .timeout(300000);
             setHeaders(connection, parser.headers());
             return parser.parseResponse(connection.get());

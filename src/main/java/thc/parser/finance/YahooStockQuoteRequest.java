@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.function.Supplier;
 
+@Deprecated	// delayed quote
 public class YahooStockQuoteRequest implements JsoupParseRequest<StockQuote> {
 	protected static final Logger log = LoggerFactory.getLogger(YahooStockQuoteRequest.class);
 

@@ -86,7 +86,7 @@ public class FinanceController {
 		Mono<StockQuote> quote = queryStockQuote(code, source);
 		Mono<Map<Integer, Mono<BigDecimal>>> historyQuotes = submitHistoryQuote(code);
 
-		return quote.zipWith(historyQuotes, (q, h) -> setHistoryQuotes(q, h));
+		return quote.zipWith(historyQuotes, this::setHistoryQuotes);
 	}
 
 	private StockQuote setHistoryQuotes(StockQuote stockQuote, Map<Integer, Mono<BigDecimal>> historyQuotes) {
@@ -95,7 +95,11 @@ public class FinanceController {
 	}
 
 	private Mono<Map<Integer, Mono<BigDecimal>>> submitHistoryQuote(String code) {
-		return Flux.range(1, 3).collectMap(i -> i, i -> jsoupParseService.process(new HistoryQuoteRequest(code, i)));
+		return Flux.range(1, 3)
+			.collectMap(
+				i -> i,
+				i -> parseService.processFlux(new HistoryQuoteRequest(code, i))
+			);
 	}
 
 	@RequestMapping(value = "/rest/quote/indexes", method = GET)
@@ -128,7 +132,7 @@ public class FinanceController {
 	
 	@RequestMapping(value = "/rest/quote/{code}/price/pre/{preYear}", method = GET)
 	public Mono<BigDecimal> getHistoryPrice(@PathVariable String code, @PathVariable int preYear) {
-		return jsoupParseService.process(new HistoryQuoteRequest(code, preYear));
+		return parseService.processFlux(new HistoryQuoteRequest(code, preYear));
 	}
 
 	private Mono<StockQuote> getIndexReport(IndexCode code, String yyyymmdd) {
