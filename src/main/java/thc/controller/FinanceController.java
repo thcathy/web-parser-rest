@@ -3,10 +3,8 @@ package thc.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import thc.constant.FinancialConstants.IndexCode;
@@ -17,9 +15,7 @@ import thc.service.HttpParseService;
 import thc.service.JsoupParseService;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static thc.constant.FinancialConstants.IndexCode.HSCEI;
@@ -98,7 +94,7 @@ public class FinanceController {
 		return Flux.range(1, 3)
 			.collectMap(
 				i -> i,
-				i -> parseService.processFlux(new HistoryQuoteRequest(code, i))
+				i -> parseService.processFlux(new SingleDateHistoryQuoteRequest(code, i))
 			);
 	}
 
@@ -132,7 +128,20 @@ public class FinanceController {
 	
 	@RequestMapping(value = "/rest/quote/{code}/price/pre/{preYear}", method = GET)
 	public Mono<BigDecimal> getHistoryPrice(@PathVariable String code, @PathVariable int preYear) {
-		return parseService.processFlux(new HistoryQuoteRequest(code, preYear));
+		return parseService.processFlux(new SingleDateHistoryQuoteRequest(code, preYear));
+	}
+
+	@GetMapping("/rest/quote/{code}/range/{fromDate}/{toDate}")
+	public Mono<List<BigDecimal>> getQuotesInRange(@PathVariable String code,
+												   @PathVariable @DateTimeFormat(pattern = "yyyyMMdd") Date fromDate,
+												   @PathVariable @DateTimeFormat(pattern = "yyyyMMdd") Date toDate) {
+		Calendar calendarFromDate = Calendar.getInstance();
+        calendarFromDate.setTime(fromDate);
+
+        Calendar calendarToDate = Calendar.getInstance();
+        calendarToDate.setTime(toDate);
+
+		return parseService.processFlux(new RangeHistoryQuoteRequest(code,  calendarFromDate, calendarToDate));
 	}
 
 	private Mono<StockQuote> getIndexReport(IndexCode code, String yyyymmdd) {
