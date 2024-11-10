@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import thc.constant.FinancialConstants.IndexCode;
+import thc.domain.DailyStockQuote;
 import thc.domain.StockQuote;
 import thc.parser.JsoupParseRequest;
 import thc.parser.finance.*;
@@ -133,8 +134,8 @@ public class FinanceController {
 
 	@GetMapping("/rest/quote/{code}/range/{fromDate}/{toDate}")
 	public Mono<List<DailyStockQuote>> getQuotesInRange(@PathVariable String code,
-												   @PathVariable @DateTimeFormat(pattern = "yyyyMMdd") Date fromDate,
-												   @PathVariable @DateTimeFormat(pattern = "yyyyMMdd") Date toDate) {
+														@PathVariable @DateTimeFormat(pattern = "yyyyMMdd") Date fromDate,
+														@PathVariable @DateTimeFormat(pattern = "yyyyMMdd") Date toDate) {
 		Calendar calendarFromDate = Calendar.getInstance();
         calendarFromDate.setTime(fromDate);
 

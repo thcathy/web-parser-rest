@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import thc.domain.DailyStockQuote;
 
 import java.io.InputStream;
 import java.time.Instant;
@@ -53,14 +54,25 @@ public class RangeHistoryQuoteRequest extends HistoryQuoteRequest<List<DailyStoc
 						.atZone(ZoneId.systemDefault())
 						.toLocalDate();
 				quotes.add(new DailyStockQuote(
-					localDate, openList.get(i), closeList.get(i), highList.get(i), lowList.get(i), volumeList.get(i), adjCloseList.get(i)
+					localDate,
+						parseDouble(openList.get(i)), parseDouble(closeList.get(i)),
+						parseDouble(highList.get(i)), parseDouble(lowList.get(i)),
+						parseInteger(volumeList.get(i)), parseDouble(adjCloseList.get(i))
 				));
 			}
 			return quotes;
 		} catch (Exception e) {
-			log.warn("Fail to get historical price from {}, Reason {}", url(), e.toString());
+			log.warn("Fail to get historical price from {}", url(), e);
 		}
 		return Collections.emptyList();
+	}
+
+	int parseInteger(Integer i) {
+        return i == null ? 0 : i;
+	}
+
+	double parseDouble(Double d) {
+		return d == null ? 0 : d;
 	}
 }
 

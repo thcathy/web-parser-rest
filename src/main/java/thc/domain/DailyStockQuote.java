@@ -1,4 +1,4 @@
-package thc.parser.finance;
+package thc.domain;
 
 import java.time.LocalDate;
 
