@@ -4,7 +4,7 @@ import org.junit.Test;
 import thc.WebParserRestApplication;
 import thc.service.HttpParseService;
 
-import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Calendar;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,10 +17,13 @@ public class RangeHistoryQuoteRequestTest {
         var toDate = Calendar.getInstance();
         var fromDate = Calendar.getInstance();
         fromDate.add(Calendar.DATE, -30);
+        var today = LocalDate.now();
 
         var result = parseService.processFlux(new RangeHistoryQuoteRequest("2800", fromDate, toDate)).block();
         assertThat(result).isNotNull();
         assertThat(result.size()).isGreaterThan(10);
-        result.forEach(v -> assertThat(v).isGreaterThan(new BigDecimal("12.5")));
+        result.forEach(v -> assertThat(v.adjClose()).isGreaterThan(10));
+        result.forEach(v -> assertThat(v.close()).isGreaterThan(10));
+        result.forEach(v -> assertThat(v.date()).isBeforeOrEqualTo(today));
     }
 }

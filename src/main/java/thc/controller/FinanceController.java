@@ -132,7 +132,7 @@ public class FinanceController {
 	}
 
 	@GetMapping("/rest/quote/{code}/range/{fromDate}/{toDate}")
-	public Mono<List<BigDecimal>> getQuotesInRange(@PathVariable String code,
+	public Mono<List<DailyStockQuote>> getQuotesInRange(@PathVariable String code,
 												   @PathVariable @DateTimeFormat(pattern = "yyyyMMdd") Date fromDate,
 												   @PathVariable @DateTimeFormat(pattern = "yyyyMMdd") Date toDate) {
 		Calendar calendarFromDate = Calendar.getInstance();
