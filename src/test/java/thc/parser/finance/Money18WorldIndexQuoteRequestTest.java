@@ -24,7 +24,7 @@ public class Money18WorldIndexQuoteRequestTest {
 	public void shouldReturnAllIndexQuotes() {
         List<StockQuote> quotes = parserService.process(new Money18WorldIndexQuoteRequest()).join();
         assertTrue(TestUtils.containCode("紐約道瓊斯指數", quotes));
-        assertTrue(TestUtils.containCode("納斯達克綜合指數", quotes));
+        assertTrue(TestUtils.containCode("標準普爾指數", quotes));
         assertTrue(TestUtils.containCode("上海綜合指數", quotes));
         quotes.forEach(this::isValidQuote);
     }
