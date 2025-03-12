@@ -9,12 +9,12 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.{{ app_name }}.rule={{ traefik_router_rule }}"
-        - "traefik.http.routers.{{ app_name }}.middlewares={{ app_name }}-prefix@docker"
+        - "traefik.http.routers.{{ app_name }}.middlewares={{ app_name }}-prefix@swarm"
         - "traefik.http.routers.{{ app_name }}.tls.certresolver=myresolver"
         - "traefik.http.routers.{{ app_name }}.entrypoints=websecure"
         - "traefik.http.services.{{ app_name }}.loadbalancer.server.port=8080"
         - "traefik.http.middlewares.{{ app_name }}-prefix.stripprefix.prefixes=/{{ app_name }}"
-        - "traefik.docker.network={{ traefik_network }}"
+        - "traefik.swarm.network={{ traefik_network }}"
       update_config:
         delay: 10s
         failure_action: rollback
