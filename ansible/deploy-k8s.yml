@@ -55,6 +55,8 @@
 
     - name: check new pod are running
       shell: kubectl get pods -l app={{ app_name }} -n={{ namespace }} -o jsonpath='{range .items[*]}{.spec.containers[].image}{"\n"}{end}' | grep {{ app_name }}:{{ docker_image_tag }}
+      environment:
+        KUBECONFIG: "{{ kubeconfig }}"
       register: pod_check
       until: pod_check.rc == 0
       retries: 10
