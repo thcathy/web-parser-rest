@@ -1,5 +1,5 @@
 ---
-deploy_folder: {{ ansible_env.HOME }}/k3s
+deploy_folder: "{{ ansible_env.HOME }}/k3s"
 namespace: web-parser-rest
 url_base_path: web-parser-rest
-volume_root: {{ ansible_env.HOME }}/k3s/volumes
+volume_root: "{{ ansible_env.HOME }}/k3s/volumes"
