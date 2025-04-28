@@ -46,7 +46,7 @@ public class RangeHistoryQuoteRequest extends HistoryQuoteRequest<List<DailyStoc
 			var openList = (List<Double>) quote.get("open");
 			var highList = (List<Double>) quote.get("high");
 			var closeList = (List<Double>) quote.get("close");
-			var volumeList = (List<Long>) quote.get("volume");
+			// var volumeList = (List<Integer>) quote.get("volume"); // temporary fix for overflow
 
 			var quotes = new ArrayList<DailyStockQuote>();
 			for (int i=0; i < timestampList.size(); i++) {
@@ -57,7 +57,7 @@ public class RangeHistoryQuoteRequest extends HistoryQuoteRequest<List<DailyStoc
 					localDate,
 						parseDouble(openList.get(i)), parseDouble(closeList.get(i)),
 						parseDouble(highList.get(i)), parseDouble(lowList.get(i)),
-						parseLong(volumeList.get(i)), parseDouble(adjCloseList.get(i))
+						0, parseDouble(adjCloseList.get(i))	// temporary fix for overflow
 				));
 			}
 			return quotes;
@@ -67,11 +67,8 @@ public class RangeHistoryQuoteRequest extends HistoryQuoteRequest<List<DailyStoc
 		return Collections.emptyList();
 	}
 
-	long parseLong(Object i) {
-		if (i == null) return 0;
-		if (i instanceof Long) return (long) i;
-		if (i instanceof Integer) return ((Integer) i).longValue();
-		throw new RuntimeException("cannot convert " + i + " to long");
+	int parseInteger(Integer i) {
+        return i == null ? 0 : i;
 	}
 
 	double parseDouble(Double d) {
