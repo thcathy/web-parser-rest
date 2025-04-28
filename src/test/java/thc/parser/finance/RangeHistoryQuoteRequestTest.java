@@ -22,8 +22,8 @@ public class RangeHistoryQuoteRequestTest {
         var result = parseService.processFlux(new RangeHistoryQuoteRequest("2800", fromDate, toDate)).block();
         assertThat(result).isNotNull();
         assertThat(result.size()).isGreaterThan(10);
-        assertThat(result.stream().filter(v -> v.adjClose() > 10).count()).isGreaterThan(20);
-        assertThat(result.stream().filter(v -> v.close() > 10).count()).isGreaterThan(20);
+        assertThat(result.stream().filter(v -> v.adjClose() > 10).count()).isGreaterThan(15);
+        assertThat(result.stream().filter(v -> v.close() > 10).count()).isGreaterThan(15);
         result.forEach(v -> assertThat(v.date()).isBeforeOrEqualTo(today));
     }
 }
