@@ -44,10 +44,11 @@ public class CambridgeDictionaryParser {
 				log.info("headword [{}], different from query [{}]", headwordElement != null ? headwordElement.text() : null, query);
 				return Mono.empty();
 			}
-			
-            var audioLinkSource = doc.select("audio source[type*=mpeg]");
+
+			var posHeaderElement = headwordElement.parent().parent().parent();
+            var audioLinkSource = posHeaderElement.select("audio source[type*=mpeg]");
 			audioLink = "https://dictionary.cambridge.org" + audioLinkSource.getFirst().attr("src");
-			ipa = doc.select("span.pron.dpron span").getFirst().text();
+			ipa = posHeaderElement.select("span.pron.dpron span").getFirst().text();
 			if (hasText(ipa) && hasText(audioLink)) {
 				return Mono.just(new DictionaryResult(
 						query, audioLink,"British English", ipa,"N.A.", Collections.emptyList()));

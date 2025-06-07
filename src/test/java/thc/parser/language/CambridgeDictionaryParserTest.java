@@ -373,4 +373,10 @@ public class CambridgeDictionaryParserTest {
 		Optional<DictionaryResult> result = new CambridgeDictionaryParser("trees").parse().blockOptional();
 		assertFalse(result.isPresent());
 	}
+
+	@Test
+	public void testParsePlayed() {
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("played").parse().blockOptional();
+		assertFalse(result.isPresent());
+	}
 }
