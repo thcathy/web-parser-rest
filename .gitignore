@@ -6,3 +6,5 @@
 .idea
 *.iml
 out/
+
+.env

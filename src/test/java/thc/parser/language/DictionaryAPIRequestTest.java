@@ -1,5 +1,6 @@
 package thc.parser.language;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
@@ -7,6 +8,7 @@ import org.junit.Test;
 import thc.domain.DictionaryResult;
 import thc.service.RestParseService;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,8 +33,19 @@ public class DictionaryAPIRequestTest {
     @Test
     public void testParseFailResult() {
         Optional<DictionaryResult> result = new RestParseService().process(new DictionaryAPIRequest("it is not a word")).blockOptional();
-
         assertFalse(result.isPresent());
+    }
+
+    @Test
+    public void playedShouldNotPresent() {
+        try (var inputStream = getClass().getClassLoader().getResourceAsStream("dictionaryapi/play.json")) {
+            var node = new ObjectMapper().readTree(inputStream);
+            var request = new DictionaryAPIRequest("played");
+            var result = request.parseResponse(node).blockOptional();
+            assertFalse(result.isPresent());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test

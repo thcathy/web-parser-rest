@@ -46,15 +46,30 @@ public class DictionaryAPIRequest implements RestParseRequest<DictionaryResult> 
 
 	@Override
 	public Mono<DictionaryResult> parseResponse(JsonNode node) {
-		if (node == null || !node.get(0).has("hwi")) {
+		if (node == null) {
 			log.warn("Empty response for query: {}", query);
+			return Mono.empty();
+		}
+
+		JsonNode matchedNode = null;
+		for (int i=0; i<node.size(); i++) {
+			if (node.get(i).has("meta") && node.get(i).get("meta").has("id")) {
+				var metaId = node.get(i).get("meta").get("id").asText().split(":")[0];
+				if (query.equals(metaId)) {
+					matchedNode = node.get(i);
+					break;
+				}
+			}
+		}
+		if (matchedNode == null) {
+			log.warn("Cannot find headword equal to query: {}", query);
 			return Mono.empty();
 		}
 
 		try {
 			String audio, IPA;
-			for (Iterator<JsonNode> it = node.get(0).get("hwi").get("prs").elements(); it.hasNext(); ) {
-				JsonNode element = it.next();
+			for (Iterator<JsonNode> it = matchedNode.get("hwi").get("prs").elements(); it.hasNext(); ) {
+				var element = it.next();
 				audio = getAudioText(element);
 				IPA = getIPAText(element);
 				if (StringUtils.isNotEmpty(audio) && StringUtils.isNotEmpty(IPA)) {
@@ -62,7 +77,7 @@ public class DictionaryAPIRequest implements RestParseRequest<DictionaryResult> 
 				}
 			}
 
-			JsonNode prsNode = node.get(0).get("hwi").get("prs").get(0);
+			var prsNode = matchedNode.get("hwi").get("prs").get(0);
 			audio = getAudioText(prsNode);
 			IPA = getIPAText(prsNode);
 			return Mono.just(buildResult(audio, IPA));

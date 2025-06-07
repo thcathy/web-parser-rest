@@ -1,0 +1,2134 @@
+[
+  {
+    "meta": {
+      "id": "play:1",
+      "uuid": "bf9b8d36-8d8f-43d2-8ee9-485fee82cbe9",
+      "sort": "165012000",
+      "src": "collegiate",
+      "section": "alpha",
+      "stems": [
+      ],
+      "offensive": false
+    },
+    "hom": 1,
+    "hwi": {
+      "hw": "play",
+      "prs": [
+        {
+          "mw": "\u02c8pl\u0101",
+          "sound": {
+            "audio": "play0001",
+            "ref": "c",
+            "stat": "1"
+          }
+        }
+      ]
+    },
+    "fl": "verb",
+    "ins": [
+      {
+        "if": "played"
+      },
+      {
+        "if": "play*ing"
+      },
+      {
+        "if": "plays"
+      }
+    ],
+    "def": [
+      {
+        "vd": "intransitive verb",
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "sn": "1 a",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to engage in sport or recreation {bc}{sx|frolic||}"
+                  ]
+                ]
+              }
+            ],
+            [
+              "pseq",
+              [
+                [
+                  "sense",
+                  {
+                    "sn": "b (1)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to toy or fiddle around with something "
+                      ],
+                      [
+                        "vis",
+                        [
+                          {
+                            "t": "{wi}played{\/wi} with her food"
+                          }
+                        ]
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(2)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to deal or behave frivolously or mockingly {bc}{sx|jest||}"
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(3)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to deal in a light, speculative, or sportive manner"
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(4)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to make use of double meaning or of the similarity of sound of two words for stylistic or humorous effect"
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(5)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to move aimlessly about {bc}{sx|trifle||}"
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ],
+            [
+              "sense",
+              {
+                "sn": "c",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to have sexual relations"
+                  ]
+                ],
+                "sdsense": {
+                  "sd": "especially",
+                  "dt": [
+                    [
+                      "text",
+                      "{bc}to have promiscuous or illicit sexual relations "
+                    ],
+                    [
+                      "uns",
+                      [
+                        [
+                          [
+                            "text",
+                            "usually used in the phrase {it}play around{\/it}"
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                }
+              }
+            ]
+          ],
+          [
+            [
+              "sense",
+              {
+                "sn": "2 a",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to engage or take part in a game"
+                  ]
+                ]
+              }
+            ],
+            [
+              "sense",
+              {
+                "sn": "b",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to perform in a position in a specified manner "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "the outfielders were {wi}playing{\/wi} deep"
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ],
+            [
+              "sense",
+              {
+                "sn": "c",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to perform an action during one\u0027s turn in a game"
+                  ]
+                ]
+              }
+            ],
+            [
+              "sense",
+              {
+                "sn": "d",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}{sx|gamble||}"
+                  ]
+                ]
+              }
+            ],
+            [
+              "pseq",
+              [
+                [
+                  "sense",
+                  {
+                    "sn": "e (1)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to behave or conduct oneself in a specified way "
+                      ],
+                      [
+                        "vis",
+                        [
+                          {
+                            "t": "{wi}play{\/wi} safe"
+                          }
+                        ]
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(2)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to feign a specified state or quality "
+                      ],
+                      [
+                        "vis",
+                        [
+                          {
+                            "t": "{wi}play{\/wi} dead"
+                          }
+                        ]
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(3)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to take part in or assent to some activity {bc}{sx|cooperate||} "
+                      ],
+                      [
+                        "vis",
+                        [
+                          {
+                            "t": "{wi}play{\/wi} along with his scheme"
+                          }
+                        ]
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(4)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to act so as to prove advantageous to another "
+                      ],
+                      [
+                        "uns",
+                        [
+                          [
+                            [
+                              "text",
+                              "usually used in the phrase {it}play into the hands of{\/it}"
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ]
+          ],
+          [
+            [
+              "pseq",
+              [
+                [
+                  "sense",
+                  {
+                    "sn": "3 a (1)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to perform music "
+                      ],
+                      [
+                        "vis",
+                        [
+                          {
+                            "t": "{wi}play{\/wi} on a violin"
+                          }
+                        ]
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(2)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to sound in performance "
+                      ],
+                      [
+                        "vis",
+                        [
+                          {
+                            "t": "the organ is {wi}playing{\/wi}"
+                          }
+                        ]
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(3)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to emit sounds "
+                      ],
+                      [
+                        "vis",
+                        [
+                          {
+                            "t": "the radio is {wi}playing{\/wi}"
+                          }
+                        ]
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(4)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to reproduce recorded sounds "
+                      ],
+                      [
+                        "vis",
+                        [
+                          {
+                            "t": "a record is {wi}playing{\/wi}"
+                          }
+                        ]
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ],
+            [
+              "pseq",
+              [
+                [
+                  "sense",
+                  {
+                    "sn": "b (1)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}{sx|show||}, {sx|run||} "
+                      ],
+                      [
+                        "vis",
+                        [
+                          {
+                            "t": "what\u0027s {wi}playing{\/wi} at the theater"
+                          }
+                        ]
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(2)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to act in a dramatic production"
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ],
+            [
+              "sense",
+              {
+                "sn": "c",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to be suitable for dramatic performance"
+                  ]
+                ]
+              }
+            ],
+            [
+              "sense",
+              {
+                "sn": "d",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to act with special consideration so as to gain favor, approval, or sympathy "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "might {wi}play{\/wi} to popular prejudices to serve his political ends",
+                        "aq": {
+                          "auth": "V. L. Parrington"
+                        }
+                      }
+                    ]
+                  ],
+                  [
+                    "uns",
+                    [
+                      [
+                        [
+                          "text",
+                          "often used in the phrase {it}play up to{\/it}"
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              }
+            ],
+            [
+              "sense",
+              {
+                "sn": "e",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to produce a specified impression in performance "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "a movie that {wi}plays{\/wi} like a sitcom"
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ]
+          ],
+          [
+            [
+              "sense",
+              {
+                "sn": "4 a",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to take advantage "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "{wi}playing{\/wi} on fears"
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ],
+            [
+              "pseq",
+              [
+                [
+                  "sense",
+                  {
+                    "sn": "b (1)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}{sx|flutter||}, {sx|frisk||}"
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(2)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to move or operate in a lively, irregular, or intermittent manner"
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ],
+            [
+              "sense",
+              {
+                "sn": "c",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to move or function freely within prescribed limits"
+                  ]
+                ]
+              }
+            ],
+            [
+              "sense",
+              {
+                "sn": "d",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to produce a stream "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "hoses {wi}playing{\/wi} on a fire"
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ]
+          ],
+          [
+            [
+              "sense",
+              {
+                "sn": "5",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to gain approval {bc}{sx|go over||} "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "her idea did not {wi}play{\/wi} well"
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      },
+      {
+        "vd": "transitive verb",
+        "sseq": [
+          [
+            [
+              "pseq",
+              [
+                [
+                  "sense",
+                  {
+                    "sn": "1 a (1)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to engage in or occupy oneself with "
+                      ],
+                      [
+                        "vis",
+                        [
+                          {
+                            "t": "{wi}play{\/wi} baseball"
+                          }
+                        ]
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(2)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to engage in (an activity) as a game"
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(3)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to deal with, handle, or manage"
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(4)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}{sx|exploit||}, {sx|manipulate||}"
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ],
+            [
+              "sense",
+              {
+                "sn": "b",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to pretend to engage in the activities of "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "{wi}play{\/wi} war"
+                      },
+                      {
+                        "t": "children {wi}playing{\/wi} house"
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ],
+            [
+              "pseq",
+              [
+                [
+                  "sense",
+                  {
+                    "sn": "c (1)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to amount to by one\u0027s efforts "
+                      ],
+                      [
+                        "vis",
+                        [
+                          {
+                            "t": "{wi}played{\/wi} an important role in their success"
+                          }
+                        ]
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(2)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to perform or execute for amusement or to deceive or mock "
+                      ],
+                      [
+                        "vis",
+                        [
+                          {
+                            "t": "{wi}play{\/wi} a trick"
+                          }
+                        ]
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(3)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}{sx|wreak||} "
+                      ],
+                      [
+                        "vis",
+                        [
+                          {
+                            "t": "{wi}play{\/wi} havoc"
+                          }
+                        ]
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(4)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to use or introduce as a political or rhetorical strategy "
+                      ],
+                      [
+                        "vis",
+                        [
+                          {
+                            "t": "{wi}play{\/wi} the national security card"
+                          }
+                        ]
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ]
+          ],
+          [
+            [
+              "pseq",
+              [
+                [
+                  "sense",
+                  {
+                    "sn": "2 a (1)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to contend against in or as if in a game"
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(2)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to use as a contestant in a game "
+                      ],
+                      [
+                        "vis",
+                        [
+                          {
+                            "t": "the coach did not {wi}play{\/wi} him"
+                          }
+                        ]
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(3)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to perform the duties associated with (a certain position) "
+                      ],
+                      [
+                        "vis",
+                        [
+                          {
+                            "t": "{wi}played{\/wi} quarterback"
+                          }
+                        ]
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(4)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to guard or move into position to defend against (an opponent) in a specified manner"
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ],
+            [
+              "pseq",
+              [
+                [
+                  "sense",
+                  {
+                    "sn": "b (1)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to wager in a game {bc}{sx|stake||}"
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(2)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to make wagers on "
+                      ],
+                      [
+                        "vis",
+                        [
+                          {
+                            "t": "{wi}play{\/wi} the races"
+                          }
+                        ]
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(3)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to speculate on or in "
+                      ],
+                      [
+                        "vis",
+                        [
+                          {
+                            "t": "{wi}play{\/wi} the stock market"
+                          }
+                        ]
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(4)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to operate on the basis of "
+                      ],
+                      [
+                        "vis",
+                        [
+                          {
+                            "t": "{wi}play{\/wi} a hunch"
+                          }
+                        ]
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ],
+            [
+              "sense",
+              {
+                "sn": "c",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to put into action in a game"
+                  ]
+                ],
+                "sdsense": {
+                  "sd": "especially",
+                  "dt": [
+                    [
+                      "text",
+                      "{bc}to remove (a {a_link|playing} card) from one\u0027s hand and place usually faceup on a table in one\u0027s turn either as part of a scoring combination or as one\u0027s contribution to a trick"
+                    ]
+                  ]
+                }
+              }
+            ],
+            [
+              "sense",
+              {
+                "sn": "d",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to catch or pick up (a batted ball) {bc}{sx|field||} "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "{wi}played{\/wi} the ball bare-handed"
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ],
+            [
+              "sense",
+              {
+                "sn": "e",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to direct the course of (something, such as a ball) {bc}{sx|hit||} "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "{wi}played{\/wi} a wedge shot to the green"
+                      }
+                    ]
+                  ]
+                ],
+                "sdsense": {
+                  "sd": "also",
+                  "dt": [
+                    [
+                      "text",
+                      "{bc}to cause (a ball or puck) to rebound "
+                    ],
+                    [
+                      "vis",
+                      [
+                        {
+                          "t": "{wi}played{\/wi} the ball off the backboard"
+                        }
+                      ]
+                    ]
+                  ]
+                }
+              }
+            ]
+          ],
+          [
+            [
+              "pseq",
+              [
+                [
+                  "sense",
+                  {
+                    "sn": "3 a (1)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to put on a performance of (a play)"
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(2)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to act in the character or part of"
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(3)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to act or perform in "
+                      ],
+                      [
+                        "vis",
+                        [
+                          {
+                            "t": "{wi}played{\/wi} leading theaters"
+                          }
+                        ]
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ],
+            [
+              "sense",
+              {
+                "sn": "b",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to perform or act the part of "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "{wi}play{\/wi} the fool"
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ]
+          ],
+          [
+            [
+              "sense",
+              {
+                "sn": "4 a",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to perform (music) on an instrument "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "{wi}play{\/wi} a waltz"
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ],
+            [
+              "sense",
+              {
+                "sn": "b",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to perform music on "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "{wi}play{\/wi} the violin"
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ],
+            [
+              "sense",
+              {
+                "sn": "c",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to perform music of (a certain composer)"
+                  ]
+                ]
+              }
+            ],
+            [
+              "pseq",
+              [
+                [
+                  "sense",
+                  {
+                    "sn": "d (1)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to cause (a device, such as a radio) to emit sounds"
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(2)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to cause the recorded sound or image of (something, such as a record, optical disk, or a digital file) to be reproduced"
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ]
+          ],
+          [
+            [
+              "sense",
+              {
+                "sn": "5 a",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}{sx|wield||}, {sx|ply||}"
+                  ]
+                ]
+              }
+            ],
+            [
+              "sense",
+              {
+                "sn": "b",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to discharge, fire, or set off with continuous effect "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "{wi}played{\/wi} the hose on the burning building"
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ],
+            [
+              "sense",
+              {
+                "sn": "c",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to cause to move or operate lightly and irregularly or intermittently"
+                  ]
+                ]
+              }
+            ],
+            [
+              "sense",
+              {
+                "sn": "d",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to keep (a hooked fish) in action"
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "uros": [
+      {
+        "ure": "play*abil*i*ty",
+        "prs": [
+          {
+            "mw": "\u02ccpl\u0101-\u0259-\u02c8bi-l\u0259-t\u0113",
+            "sound": {
+              "audio": "play0002",
+              "ref": "c",
+              "stat": "1"
+            }
+          }
+        ],
+        "fl": "noun"
+      },
+      {
+        "ure": "play*able",
+        "prs": [
+          {
+            "mw": "\u02c8pl\u0101-\u0259-b\u0259l",
+            "sound": {
+              "audio": "play0003",
+              "ref": "c",
+              "stat": "1"
+            }
+          }
+        ],
+        "fl": "adjective"
+      }
+    ],
+    "dros": [
+      {
+        "drp": "play ball",
+        "def": [
+          {
+            "sseq": [
+              [
+                [
+                  "sense",
+                  {
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}{sx|cooperate||}"
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "drp": "play both ends against the middle",
+        "def": [
+          {
+            "sseq": [
+              [
+                [
+                  "sense",
+                  {
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to set opposing interests against each other to one\u0027s own ultimate profit"
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "drp": "play by ear",
+        "def": [
+          {
+            "sseq": [
+              [
+                [
+                  "sense",
+                  {
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to deal with something without previous planning or instructions"
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "drp": "play games",
+        "def": [
+          {
+            "sseq": [
+              [
+                [
+                  "sense",
+                  {
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to try to hide the truth from someone by deceptive means"
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "drp": "play one\u0027s cards",
+        "def": [
+          {
+            "sseq": [
+              [
+                [
+                  "sense",
+                  {
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to act with the means available to one"
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "drp": "play possum",
+        "def": [
+          {
+            "sseq": [
+              [
+                [
+                  "sense",
+                  {
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to pretend to be asleep or dead"
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "drp": "play second fiddle",
+        "def": [
+          {
+            "sseq": [
+              [
+                [
+                  "sense",
+                  {
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to take a subordinate position"
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "drp": "play the field",
+        "def": [
+          {
+            "sseq": [
+              [
+                [
+                  "sense",
+                  {
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to date or have romantic connections with more than one person"
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "drp": "play the game",
+        "def": [
+          {
+            "sseq": [
+              [
+                [
+                  "sense",
+                  {
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to act according to a code or set of standards"
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "drp": "play with a full deck",
+        "def": [
+          {
+            "sseq": [
+              [
+                [
+                  "sense",
+                  {
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to be rational or sane"
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "drp": "play with fire",
+        "def": [
+          {
+            "sseq": [
+              [
+                [
+                  "sense",
+                  {
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to do something risky or dangerous"
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "drp": "play with oneself",
+        "def": [
+          {
+            "sseq": [
+              [
+                [
+                  "sense",
+                  {
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}{sx|masturbate||}"
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ]
+          }
+        ]
+      }
+    ],
+    "date": "before 12th century{ds|i|1|a|}",
+    "shortdef": [
+      "to engage in sport or recreation : frolic",
+      "to toy or fiddle around with something",
+      "to deal or behave frivolously or mockingly : jest"
+    ]
+  },
+  {
+  },
+  {
+  },
+  {
+    "meta": {
+    },
+    "hom": 2,
+    "hwi": {
+      "hw": "hooky",
+      "prs": [
+        {
+          "mw": "\u02c8hu\u0307-k\u0113",
+          "sound": {
+            "audio": "hooky001",
+            "ref": "c",
+            "stat": "1"
+          }
+        }
+      ]
+    },
+    "vrs": [
+      {
+        "vl": "or less commonly",
+        "va": "hook*ey"
+      }
+    ],
+    "fl": "noun",
+    "dros": [
+      {
+        "drp": "play hooky",
+        "vrs": [
+          {
+            "vl": "or less commonly",
+            "va": "play hookey"
+          }
+        ],
+        "def": [
+          {
+            "sls": [
+              "US",
+              "informal"
+            ],
+            "sseq": [
+              [
+                [
+                  "sense",
+                  {
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}to be away from school without permission "
+                      ],
+                      [
+                        "vis",
+                        [
+                          {
+                            "t": "Out on the playground, a boy from another homeroom cavorted around on a dirt bike, doing wheelies. He was {wi}playing hooky{\/wi}, but evidently couldn\u0027t stay away.",
+                            "aq": {
+                              "auth": "Tracy Kidder"
+                            }
+                          },
+                          {
+                            "t": "When he was a small child [Babe] Ruth was a holy terror. He had incredible energy, was relentlessly active and was always in trouble. He {wi}played hooky{\/wi} from school. He stole fruits and vegetables from stores, threw them at truck-drivers and ran and hid from the police.",
+                            "aq": {
+                              "auth": "Robert W. Creamer"
+                            }
+                          },
+                          {
+                            "t": "He [Tom Sawyer] moped to school gloomy and sad, and took his flogging, along with Joe Harper, for {wi}playing hookey{\/wi} the day before, with the air of one whose heart was busy with heavier woes and wholly dead to trifles.",
+                            "aq": {
+                              "auth": "Mark Twain"
+                            }
+                          }
+                        ]
+                      ]
+                    ],
+                    "sdsense": {
+                      "sd": "also",
+                      "dt": [
+                        [
+                          "text",
+                          "{bc}to be away from work or similar duties in a way likened to a child skipping school "
+                        ],
+                        [
+                          "vis",
+                          [
+                            {
+                              "t": "Hawkins is a tanned, muscular man in his 40s who\u0027s {wi}playing hooky{\/wi} today from his job as a printer\u0027s ink chemist.",
+                              "aq": {
+                                "auth": "Doug Stewart"
+                              }
+                            },
+                            {
+                              "t": "Most New Yorkers were at work last Tuesday while the official ceremony was going on\u2014and many of those who {wi}played hooky{\/wi} chose to go to the ticker-tape parade for the world champion New York Mets.",
+                              "aq": {
+                                "auth": "David Gates"
+                              }
+                            },
+                            {
+                              "t": "\u2026 in 1948 I once {wi}played hookey{\/wi} from my radio writing job with Edgar Bergen to play in the Santa Monica Open.",
+                              "aq": {
+                                "auth": "Arthur Marx"
+                              }
+                            }
+                          ]
+                        ]
+                      ]
+                    }
+                  }
+                ]
+              ]
+            ]
+          }
+        ]
+      }
+    ],
+    "et": [
+      [
+        "text",
+        "probably from slang {it}hook, hook it{\/it} to make off"
+      ]
+    ],
+    "date": "1842",
+    "shortdef": []
+  },
+  {
+    "meta": {
+      "id": "play back",
+      "uuid": "68c6deaa-f4d9-40c3-b150-0c8d86425e0e",
+      "sort": "165018000",
+      "src": "collegiate",
+      "section": "alpha",
+      "stems": [
+        "play back",
+        "played back",
+        "playing back",
+        "plays back"
+      ],
+      "offensive": false
+    },
+    "hwi": {
+      "hw": "play back"
+    },
+    "fl": "verb",
+    "ins": [
+      {
+        "if": "played back"
+      },
+      {
+        "if": "play*ing back"
+      },
+      {
+        "if": "plays back"
+      }
+    ],
+    "def": [
+      {
+        "vd": "transitive verb",
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to perform a playback of (a usually recently recorded disc or tape)"
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "date": "1949",
+    "shortdef": [
+      "to perform a playback of (a usually recently recorded disc or tape)"
+    ]
+  },
+  {
+    "meta": {
+      "id": "play down",
+      "uuid": "d7b121be-5a8b-49bb-b29d-eec8b4d885a6",
+      "sort": "165025000",
+      "src": "collegiate",
+      "section": "alpha",
+      "stems": [
+        "play down",
+        "played down",
+        "playing down",
+        "plays down"
+      ],
+      "offensive": false
+    },
+    "hwi": {
+      "hw": "play down"
+    },
+    "fl": "verb",
+    "ins": [
+      {
+        "if": "played down"
+      },
+      {
+        "if": "play*ing down"
+      },
+      {
+        "if": "plays down"
+      }
+    ],
+    "def": [
+      {
+        "vd": "transitive verb",
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to attach little importance to {bc}{sx|minimize||}"
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "date": "1930",
+    "shortdef": [
+      "to attach little importance to : minimize"
+    ]
+  },
+  {
+    "meta": {
+      "id": "play host to",
+      "uuid": "59f290a0-1c63-460e-aef7-f1d703cb0647",
+      "sort": "165035500",
+      "src": "collegiate",
+      "section": "alpha",
+      "stems": [
+        "play host to",
+        "played host to",
+        "playing host to",
+        "plays host to"
+      ],
+      "offensive": false
+    },
+    "hwi": {
+      "hw": "play host to"
+    },
+    "fl": "idiomatic phrase",
+    "def": [
+      {
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to serve as a {d_link|host|host:1} for (someone or something) "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "Each year, the city {wi}plays host to{\/wi} the film festival for one week."
+                      },
+                      {
+                        "t": "As travel to the Third World has expanded, so, too, has concern about the damage wrought by mass tourism on the people and places that {wi}play host to{\/wi} wandering North Americans and Europeans.",
+                        "aq": {
+                          "auth": "Ira Silver"
+                        }
+                      },
+                      {
+                        "t": "St. John\u0027s meets No. 3-ranked Duke and the Big East rival Miami on the road, and will {wi}play host to{\/wi} No. 4 Syracuse, No. 13 Connecticut and surging Seton Hall at the Garden.",
+                        "aq": {
+                          "auth": "Jon Drape"
+                        }
+                      },
+                      {
+                        "t": "The grasslands {wi}play host to{\/wi} {gloss}=provide a home for{\/gloss} long-billed curlews and sage grouse, and eagles, osprey and coyotes scavenge the area.",
+                        "aq": {
+                          "auth": "Kay Clark"
+                        }
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "date": "1837",
+    "shortdef": [
+      "to serve as a host for (someone or something)"
+    ]
+  },
+  {
+    "meta": {
+      "id": "play off",
+      "uuid": "8caf513c-8031-4461-901a-b815670c0d8f",
+      "sort": "165045000",
+      "src": "collegiate",
+      "section": "alpha",
+      "stems": [
+        "play off",
+        "played off",
+        "playing off",
+        "plays off"
+      ],
+      "offensive": false
+    },
+    "hwi": {
+      "hw": "play off"
+    },
+    "fl": "verb",
+    "ins": [
+      {
+        "if": "played off"
+      },
+      {
+        "if": "play*ing off"
+      },
+      {
+        "if": "plays off"
+      }
+    ],
+    "def": [
+      {
+        "vd": "transitive verb",
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "sn": "1 a",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to set in opposition for one\u0027s own gain"
+                  ]
+                ]
+              }
+            ],
+            [
+              "sense",
+              {
+                "sn": "b",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to set in contrast"
+                  ]
+                ]
+              }
+            ]
+          ],
+          [
+            [
+              "sense",
+              {
+                "sn": "2",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to complete the playing of (an interrupted contest)"
+                  ]
+                ]
+              }
+            ]
+          ],
+          [
+            [
+              "sense",
+              {
+                "sn": "3",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to break (a tie) by a playoff"
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "date": "1736{ds||1|a|}",
+    "shortdef": [
+      "to set in opposition for one\u0027s own gain",
+      "to set in contrast",
+      "to complete the playing of (an interrupted contest)"
+    ]
+  },
+  {
+    "meta": {
+      "id": "play out",
+      "uuid": "40d2501e-88c7-427b-befa-6412438536e2",
+      "sort": "165046000",
+      "src": "collegiate",
+      "section": "alpha",
+      "stems": [
+        "play out",
+        "played out",
+        "playing out",
+        "plays out"
+      ],
+      "offensive": false
+    },
+    "hwi": {
+      "hw": "play out"
+    },
+    "fl": "verb",
+    "ins": [
+      {
+        "if": "played out"
+      },
+      {
+        "if": "play*ing out"
+      },
+      {
+        "if": "plays out"
+      }
+    ],
+    "def": [
+      {
+        "vd": "transitive verb",
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "sn": "1 a",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to perform to the end "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "{it}play out{\/it} a role"
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ],
+            [
+              "sense",
+              {
+                "sn": "b",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}{sx|use up||}, {sx|finish||}"
+                  ]
+                ]
+              }
+            ]
+          ],
+          [
+            [
+              "sense",
+              {
+                "sn": "2",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}{sx|unreel||}, {sx|unfold||} "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "{it}played out{\/it} a length of line",
+                        "aq": {
+                          "auth": "Gordon Webber"
+                        }
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      },
+      {
+        "vd": "intransitive verb",
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "sn": "1",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to become spent or exhausted"
+                  ]
+                ]
+              }
+            ]
+          ],
+          [
+            [
+              "sense",
+              {
+                "sn": "2",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}{sx|develop||}, {sx|unfold||} "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "see how things {it}play out{\/it}"
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "date": "1598{ds|t|1|a|}",
+    "shortdef": [
+      "to perform to the end",
+      "use up, finish",
+      "unreel, unfold"
+    ]
+  },
+  {
+    "meta": {
+      "id": "play up",
+      "uuid": "765e8b3a-8453-4839-8403-093b0f231ae9",
+      "sort": "165053000",
+      "src": "collegiate",
+      "section": "alpha",
+      "stems": [
+        "play up",
+        "played up",
+        "playing up",
+        "plays up"
+      ],
+      "offensive": false
+    },
+    "hwi": {
+      "hw": "play up"
+    },
+    "fl": "verb",
+    "ins": [
+      {
+        "if": "played up"
+      },
+      {
+        "if": "play*ing up"
+      },
+      {
+        "if": "plays up"
+      }
+    ],
+    "def": [
+      {
+        "vd": "transitive verb",
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "dt": [
+                  [
+                    "text",
+                    "{bc}{sx|emphasize||}"
+                  ]
+                ],
+                "sdsense": {
+                  "sd": "also",
+                  "dt": [
+                    [
+                      "text",
+                      "{bc}{sx|exaggerate||}, {sx|overemphasize||}"
+                    ]
+                  ]
+                }
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "date": "1814",
+    "shortdef": [
+      "emphasize; also : exaggerate, overemphasize"
+    ]
+  }
+]
