@@ -24,7 +24,7 @@ public class RestParseService {
                 .retrieve()
                 .bodyToMono(JsonNode.class)
                 .onErrorResume(this::whenError)
-                .flatMap(body -> parser.parseResponse(body));
+                .flatMap(parser::parseResponse);
     }
 
     private Mono<? extends JsonNode> whenError(Throwable throwable) {
@@ -42,9 +42,8 @@ public class RestParseService {
     }
 
     private <T> void addHeaders(RestParseRequest<T> parser, HttpHeaders httpHeaders) {
-        httpHeaders.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-        parser.headers().entrySet()
-                .forEach(entry -> httpHeaders.add(entry.getKey(), entry.getValue()));
+        httpHeaders.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        parser.headers().forEach(httpHeaders::add);
     }
 
 }

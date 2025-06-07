@@ -24,7 +24,7 @@ public class DictionaryControllerTest {
 
     @Before
     public void setup() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         controller = new DictionaryController();
         controller.parseService = parseService;
     }

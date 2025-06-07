@@ -12,8 +12,8 @@ import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.Iterator;
 
-public class DictionaryAPIRequest implements RestParseRequest<DictionaryResult> {
-	private static final Logger log = LoggerFactory.getLogger(DictionaryAPIRequest.class);
+public class DictionaryAPIComRequest implements RestParseRequest<DictionaryResult> {
+	private static final Logger log = LoggerFactory.getLogger(DictionaryAPIComRequest.class);
 
 	public static final String URL = "https://www.dictionaryapi.com/api/v3/references/collegiate/json/{0}?key={1}";
 	public static final String AUDIO_URL = "https://media.merriam-webster.com/audio/prons/en/us/mp3/{0}/{1}.mp3";
@@ -21,7 +21,7 @@ public class DictionaryAPIRequest implements RestParseRequest<DictionaryResult> 
 
 	private final String query;
 
-	public DictionaryAPIRequest(String query) {
+	public DictionaryAPIComRequest(String query) {
 		this.query = query;
 	}
 
@@ -54,8 +54,8 @@ public class DictionaryAPIRequest implements RestParseRequest<DictionaryResult> 
 		JsonNode matchedNode = null;
 		for (int i=0; i<node.size(); i++) {
 			if (node.get(i).has("meta") && node.get(i).get("meta").has("id")) {
-				var metaId = node.get(i).get("meta").get("id").asText().split(":")[0];
-				if (query.equals(metaId)) {
+				var metaId = node.get(i).get("meta").get("id").asText();
+				if (thc.util.StringUtils.isAlphabeticallyEqual(query, metaId)) {
 					matchedNode = node.get(i);
 					break;
 				}

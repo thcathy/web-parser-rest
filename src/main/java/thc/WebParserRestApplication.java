@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import thc.parser.language.DictionaryAPIRequest;
+import thc.parser.language.DictionaryAPIComRequest;
 import thc.parser.search.GoogleImageSearchRequest;
 import thc.service.ForumQueryService;
 import thc.service.HttpParseService;
@@ -55,7 +55,7 @@ public class WebParserRestApplication {
     @PostConstruct
     public void configure() {
 		GoogleImageSearchRequest.setAPIKeys(googleAPIKey);
-		DictionaryAPIRequest.API_KEY = dictionaryAPIKey;
+		DictionaryAPIComRequest.API_KEY = dictionaryAPIKey;
     }
 
     @Bean public ForumQueryService forumQueryService() { return new ForumQueryService(httpClient()); }

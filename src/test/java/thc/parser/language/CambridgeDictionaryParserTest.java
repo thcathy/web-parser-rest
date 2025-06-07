@@ -1,5 +1,6 @@
 package thc.parser.language;
 
+import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import thc.domain.DictionaryResult;
@@ -16,7 +17,7 @@ public class CambridgeDictionaryParserTest {
 
 		assertTrue(result.isPresent());
 		assertEquals("bəˈnɑː.nə", result.get().IPA);
-		assertThat(result.get().pronunciationUrl, Matchers.endsWith("//dictionary.cambridge.org/media/english/uk_pron/u/ukb/ukbal/ukballs018.mp3"));
+		MatcherAssert.assertThat(result.get().pronunciationUrl, Matchers.endsWith("//dictionary.cambridge.org/media/english/uk_pron/u/ukb/ukbal/ukballs018.mp3"));
 	}
 
 	@Test
@@ -25,7 +26,7 @@ public class CambridgeDictionaryParserTest {
 
 		assertTrue(result.isPresent());
 		assertEquals("ˈɒr.ɪndʒ",result.get().IPA);
-		assertThat(result.get().pronunciationUrl, Matchers.endsWith("//dictionary.cambridge.org/media/english/uk_pron/u/uko/ukora/ukorang001.mp3"));
+		MatcherAssert.assertThat(result.get().pronunciationUrl, Matchers.endsWith("//dictionary.cambridge.org/media/english/uk_pron/u/uko/ukora/ukorang001.mp3"));
 	}
 
 	@Test
@@ -364,7 +365,12 @@ public class CambridgeDictionaryParserTest {
 	@Test
 	public void testParseFailGetContent() {
 		Optional<DictionaryResult> result = new CambridgeDictionaryParser("asdlkjfwerj").parse().blockOptional();
+        assertFalse(result.isPresent());
+	}
 
-		assertTrue(!result.isPresent());
+	@Test
+	public void testParseTrees() {
+		Optional<DictionaryResult> result = new CambridgeDictionaryParser("trees").parse().blockOptional();
+		assertFalse(result.isPresent());
 	}
 }

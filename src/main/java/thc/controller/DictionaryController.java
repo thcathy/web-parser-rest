@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 import thc.domain.DictionaryResult;
 import thc.parser.language.CambridgeDictionaryParser;
-import thc.parser.language.DictionaryAPIRequest;
+import thc.parser.language.DictionaryAPIComRequest;
+import thc.parser.language.DictionaryAPIDevRequest;
 import thc.parser.language.GoogleDictionaryParser;
 import thc.service.RestParseService;
 
@@ -76,7 +77,9 @@ public class DictionaryController {
 	private Mono<DictionaryResult> queryOnlineSources(String query) {
 		return new CambridgeDictionaryParser(query).parse()
 				.filter(this::hasPronunciationUrl)
-				.switchIfEmpty(queryDictionaryAPI(query))
+				.switchIfEmpty(queryDictionaryAPIDev(query))
+				.filter(this::hasPronunciationUrl)
+				.switchIfEmpty(queryDictionaryAPICom(query))
 				.filter(this::hasPronunciationUrl)
 				.defaultIfEmpty(new DictionaryResult(query));
 	}
@@ -85,11 +88,20 @@ public class DictionaryController {
 		return StringUtils.isNotEmpty(result.pronunciationUrl);
 	}
 
-	private Mono<DictionaryResult> queryDictionaryAPI(String query) {
+	private Mono<DictionaryResult> queryDictionaryAPICom(String query) {
 		try {
-			return parseService.process(new DictionaryAPIRequest(query));
+			return parseService.process(new DictionaryAPIComRequest(query));
 		} catch (Exception e) {
-			log.warn("Exception when process dictionary API for {}", query, e);
+			log.warn("Exception when process dictionaryapi.com for {}", query, e);
+			return Mono.empty();
+		}
+	}
+
+	private Mono<DictionaryResult> queryDictionaryAPIDev(String query) {
+		try {
+			return parseService.process(new DictionaryAPIDevRequest(query));
+		} catch (Exception e) {
+			log.warn("Exception when process dictionaryapi.dev for {}", query, e);
 			return Mono.empty();
 		}
 	}

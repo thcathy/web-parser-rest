@@ -1,12 +1,11 @@
 package thc.parser.language;
 
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 import thc.domain.DictionaryResult;
+import thc.util.StringUtils;
 
 import java.util.Collections;
 
@@ -36,14 +35,19 @@ public class CambridgeDictionaryParser {
 	private Mono<DictionaryResult> parserFromUrl(String url) {
 		log.info("query url: {}", url);
 		try {
-			Document doc = Jsoup.connect(url)
+            var doc = Jsoup.connect(url)
 					.userAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36")
 					.timeout(60000)
 					.get();
+			var headwordElement = doc.selectFirst("span.hw");
+			if (headwordElement == null || !StringUtils.isAlphabeticallyEqual(query, headwordElement.text())) {
+				log.info("headword [{}], different from query [{}]", headwordElement != null ? headwordElement.text() : null, query);
+				return Mono.empty();
+			}
 			
-			Elements audioLinkSource = doc.select("audio source[type*=mpeg]");
-			audioLink = "https://dictionary.cambridge.org" + audioLinkSource.get(0).attr("src");
-			ipa = doc.select("span.pron.dpron span").get(0).text();
+            var audioLinkSource = doc.select("audio source[type*=mpeg]");
+			audioLink = "https://dictionary.cambridge.org" + audioLinkSource.getFirst().attr("src");
+			ipa = doc.select("span.pron.dpron span").getFirst().text();
 			if (hasText(ipa) && hasText(audioLink)) {
 				return Mono.just(new DictionaryResult(
 						query, audioLink,"British English", ipa,"N.A.", Collections.emptyList()));
