@@ -77,11 +77,15 @@ public class FinanceController {
 	}
 
 	@RequestMapping(value = "/rest/quote/full/{code}", method = GET)
-	public Mono<StockQuote> hkQuoteSingle(@PathVariable String code, @RequestParam(required = false) String source) {
+	public Mono<StockQuote> hkQuoteSingle(
+			@PathVariable String code,
+			@RequestParam(required = false) String source,
+			@RequestParam(required = false, defaultValue = "XHKG") String mic
+	) {
 		log.info("hkQuoteSingle: {}", code);
 
 		Mono<StockQuote> quote = queryStockQuote(code, source);
-		Mono<Map<Integer, Mono<BigDecimal>>> historyQuotes = submitHistoryQuote(code);
+		Mono<Map<Integer, Mono<BigDecimal>>> historyQuotes = submitHistoryQuote(code, mic);
 
 		return quote.zipWith(historyQuotes, this::setHistoryQuotes);
 	}
@@ -91,11 +95,11 @@ public class FinanceController {
 		return stockQuote;
 	}
 
-	private Mono<Map<Integer, Mono<BigDecimal>>> submitHistoryQuote(String code) {
+	private Mono<Map<Integer, Mono<BigDecimal>>> submitHistoryQuote(String code, String mic) {
 		return Flux.range(1, 3)
 			.collectMap(
 				i -> i,
-				i -> parseService.processFlux(new SingleDateHistoryQuoteRequest(code, i))
+				i -> parseService.processFlux(new SingleDateHistoryQuoteRequest(code, mic, i))
 			);
 	}
 
@@ -128,21 +132,29 @@ public class FinanceController {
 	}
 	
 	@RequestMapping(value = "/rest/quote/{code}/price/pre/{preYear}", method = GET)
-	public Mono<BigDecimal> getHistoryPrice(@PathVariable String code, @PathVariable int preYear) {
-		return parseService.processFlux(new SingleDateHistoryQuoteRequest(code, preYear));
+	public Mono<BigDecimal> getHistoryPrice(
+			@PathVariable String code,
+			@PathVariable int preYear,
+			@RequestParam(required = false, defaultValue = "XHKG") String mic)
+	{
+		return parseService.processFlux(new SingleDateHistoryQuoteRequest(code, mic, preYear));
 	}
 
 	@GetMapping("/rest/quote/{code}/range/{fromDate}/{toDate}")
-	public Mono<List<DailyStockQuote>> getQuotesInRange(@PathVariable String code,
-														@PathVariable @DateTimeFormat(pattern = "yyyyMMdd") Date fromDate,
-														@PathVariable @DateTimeFormat(pattern = "yyyyMMdd") Date toDate) {
+	public Mono<List<DailyStockQuote>> getQuotesInRange(
+			@PathVariable String code,
+			@PathVariable @DateTimeFormat(pattern = "yyyyMMdd") Date fromDate,
+			@PathVariable @DateTimeFormat(pattern = "yyyyMMdd") Date toDate,
+			@RequestParam(required = false, defaultValue = "XHKG") String mic
+	) {
 		Calendar calendarFromDate = Calendar.getInstance();
         calendarFromDate.setTime(fromDate);
 
         Calendar calendarToDate = Calendar.getInstance();
         calendarToDate.setTime(toDate);
 
-		return parseService.processFlux(new RangeHistoryQuoteRequest(code,  calendarFromDate, calendarToDate));
+		return parseService.processFlux(
+				new RangeHistoryQuoteRequest(code, mic,  calendarFromDate, calendarToDate));
 	}
 
 	private Mono<StockQuote> getIndexReport(IndexCode code, String yyyymmdd) {

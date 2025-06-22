@@ -18,8 +18,8 @@ public class SingleDateHistoryQuoteRequest extends HistoryQuoteRequest<BigDecima
 
 	static final ObjectReader jsonReader = new ObjectMapper().configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true).readerFor(Map.class);
 
-	public SingleDateHistoryQuoteRequest(String stock, int preYear) {
-		super(stock, calculateFromDate(preYear), calculateToDate(preYear));
+	public SingleDateHistoryQuoteRequest(String stock, String mic, int preYear) {
+		super(stock, mic, calculateFromDate(preYear), calculateToDate(preYear));
 	}
 
 	private static Calendar calculateFromDate(int preYear) {
@@ -35,8 +35,8 @@ public class SingleDateHistoryQuoteRequest extends HistoryQuoteRequest<BigDecima
 		return toDate;
 	}
 
-	public SingleDateHistoryQuoteRequest(String code, Calendar fromDate, Calendar toDate) {
-		super(code, fromDate, calculateToDate(fromDate, toDate));
+	public SingleDateHistoryQuoteRequest(String code, String mic, Calendar fromDate, Calendar toDate) {
+		super(code, mic, fromDate, calculateToDate(fromDate, toDate));
 	}
 
 	private static Calendar calculateToDate(Calendar fromDate, Calendar toDate) {

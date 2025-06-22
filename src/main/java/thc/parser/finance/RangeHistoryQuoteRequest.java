@@ -17,8 +17,8 @@ public class RangeHistoryQuoteRequest extends HistoryQuoteRequest<List<DailyStoc
 
 	static final ObjectReader jsonReader = new ObjectMapper().configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true).readerFor(Map.class);
 
-	public RangeHistoryQuoteRequest(String code, Calendar fromDate, Calendar toDate) {
-		super(code, fromDate, calculateToDate(fromDate, toDate));
+	public RangeHistoryQuoteRequest(String code, String mic, Calendar fromDate, Calendar toDate) {
+		super(code, mic, fromDate, calculateToDate(fromDate, toDate));
 	}
 
 	private static Calendar calculateToDate(Calendar fromDate, Calendar toDate) {

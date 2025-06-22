@@ -12,7 +12,7 @@ public class SingleDateHistoryQuoteRequestTest {
 
 	@Test
     public void getPreviousYearQuote_GivenLastYear0001_ShouldReturnPriceOver10() {
-		BigDecimal result = parseService.processFlux(new SingleDateHistoryQuoteRequest("00001", 1)).block();
+		BigDecimal result = parseService.processFlux(new SingleDateHistoryQuoteRequest("00001", "XHKG", 1)).block();
 		Assertions.assertThat(result.doubleValue()).isGreaterThan(10l);
 	}
 }
