@@ -25,9 +25,10 @@ public abstract class HistoryQuoteRequest<T> implements HttpParseRequest<T> {
 	protected final Calendar toDate;
 
 	public HistoryQuoteRequest(String code, String mic, Calendar fromDate, Calendar toDate) {
+		var finalCode = code;
 		if ("XHKG".equals(mic)) {
-			code = code.endsWith(".HK") ? code : code + ".HK";
-			code = StringUtils.leftPad(code.replaceFirst("^0+(?!$)", ""), 4, '0');
+			finalCode = StringUtils.leftPad(finalCode.replaceFirst("^0+", ""), 4, '0');
+			finalCode = finalCode.endsWith(".HK") ? finalCode : finalCode + ".HK";
 		}
 
 		if (fromDate.equals(toDate)) {
@@ -35,7 +36,7 @@ public abstract class HistoryQuoteRequest<T> implements HttpParseRequest<T> {
 			toDate.add(Calendar.DATE, 1);
 		}
 
-		this.code = code;
+		this.code = finalCode;
 		this.fromDate = fromDate;
 		this.toDate = toDate;
 	}

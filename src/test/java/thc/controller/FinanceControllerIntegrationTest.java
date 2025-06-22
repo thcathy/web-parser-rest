@@ -59,7 +59,7 @@ public class FinanceControllerIntegrationTest {
     public void hkQuoteSingle_givenHSBC_shouldReturnQuote() {
         Stopwatch timer = Stopwatch.createStarted();
 
-        StockQuote quote = financeController.hkQuoteSingle("941", "XHKG", null).block();
+        StockQuote quote = financeController.hkQuoteSingle("941", null, "XHKG").block();
 
         log.info("hkQuoteSingle_givenHSBC_shouldReturnQuote took: {}", timer.stop());
         log.info("Return quote: {}", quote);
