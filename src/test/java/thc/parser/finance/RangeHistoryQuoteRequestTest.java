@@ -20,7 +20,7 @@ public class RangeHistoryQuoteRequestTest {
         var today = LocalDate.now();
 
         var result = parseService.processFlux(new RangeHistoryQuoteRequest(
-                "2800", "XHKG", fromDate, toDate)).block();
+                "2800", "HK", fromDate, toDate)).block();
         assertThat(result).isNotNull();
         assertThat(result.size()).isGreaterThan(10);
         assertThat(result.stream().filter(v -> v.adjClose() > 10).count()).isGreaterThan(15);
@@ -36,7 +36,7 @@ public class RangeHistoryQuoteRequestTest {
         var today = LocalDate.now();
 
         var result = parseService.processFlux(new RangeHistoryQuoteRequest(
-                "QQQ", "XNAS", fromDate, toDate)).block();
+                "QQQ", "US", fromDate, toDate)).block();
         assertThat(result).isNotNull();
         assertThat(result.size()).isGreaterThan(12);
         assertThat(result.stream().filter(v -> v.adjClose() > 400).count()).isGreaterThan(12);
@@ -52,7 +52,7 @@ public class RangeHistoryQuoteRequestTest {
         var today = LocalDate.now();
 
         var result = parseService.processFlux(new RangeHistoryQuoteRequest(
-                "IBIT", "XNAS", fromDate, toDate)).block();
+                "IBIT", "US", fromDate, toDate)).block();
         assertThat(result).isNotNull();
         assertThat(result.size()).isGreaterThan(12);
         assertThat(result.stream().filter(v -> v.adjClose() > 40).count()).isGreaterThan(12);

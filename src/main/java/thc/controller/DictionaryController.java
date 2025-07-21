@@ -59,6 +59,7 @@ public class DictionaryController {
 		});
 	}
 
+	@Deprecated
 	@RequestMapping(value = "/rest/dictionary/google/{query}", method = GET)
 	public Mono<DictionaryResult> queryGoogle(@PathVariable String query) {
 		log.debug("process: {}", query);

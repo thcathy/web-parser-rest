@@ -80,12 +80,12 @@ public class FinanceController {
 	public Mono<StockQuote> hkQuoteSingle(
 			@PathVariable String code,
 			@RequestParam(required = false) String source,
-			@RequestParam(required = false, defaultValue = "XHKG") String mic
+			@RequestParam(required = false, defaultValue = "HK") String market
 	) {
 		log.info("hkQuoteSingle: {}", code);
 
 		Mono<StockQuote> quote = queryStockQuote(code, source);
-		Mono<Map<Integer, Mono<BigDecimal>>> historyQuotes = submitHistoryQuote(code, mic);
+		Mono<Map<Integer, Mono<BigDecimal>>> historyQuotes = submitHistoryQuote(code, market);
 
 		return quote.zipWith(historyQuotes, this::setHistoryQuotes);
 	}
@@ -95,11 +95,11 @@ public class FinanceController {
 		return stockQuote;
 	}
 
-	private Mono<Map<Integer, Mono<BigDecimal>>> submitHistoryQuote(String code, String mic) {
+	private Mono<Map<Integer, Mono<BigDecimal>>> submitHistoryQuote(String code, String market) {
 		return Flux.range(1, 3)
 			.collectMap(
 				i -> i,
-				i -> parseService.processFlux(new SingleDateHistoryQuoteRequest(code, mic, i))
+				i -> parseService.processFlux(new SingleDateHistoryQuoteRequest(code, market, i))
 			);
 	}
 
@@ -135,9 +135,9 @@ public class FinanceController {
 	public Mono<BigDecimal> getHistoryPrice(
 			@PathVariable String code,
 			@PathVariable int preYear,
-			@RequestParam(required = false, defaultValue = "XHKG") String mic)
+			@RequestParam(required = false, defaultValue = "HK") String market)
 	{
-		return parseService.processFlux(new SingleDateHistoryQuoteRequest(code, mic, preYear));
+		return parseService.processFlux(new SingleDateHistoryQuoteRequest(code, market, preYear));
 	}
 
 	@GetMapping("/rest/quote/{code}/range/{fromDate}/{toDate}")
@@ -145,7 +145,7 @@ public class FinanceController {
 			@PathVariable String code,
 			@PathVariable @DateTimeFormat(pattern = "yyyyMMdd") Date fromDate,
 			@PathVariable @DateTimeFormat(pattern = "yyyyMMdd") Date toDate,
-			@RequestParam(required = false, defaultValue = "XHKG") String mic
+			@RequestParam(required = false, defaultValue = "HK") String market
 	) {
 		Calendar calendarFromDate = Calendar.getInstance();
         calendarFromDate.setTime(fromDate);
@@ -154,7 +154,7 @@ public class FinanceController {
         calendarToDate.setTime(toDate);
 
 		return parseService.processFlux(
-				new RangeHistoryQuoteRequest(code, mic,  calendarFromDate, calendarToDate));
+				new RangeHistoryQuoteRequest(code, market,  calendarFromDate, calendarToDate));
 	}
 
 	private Mono<StockQuote> getIndexReport(IndexCode code, String yyyymmdd) {

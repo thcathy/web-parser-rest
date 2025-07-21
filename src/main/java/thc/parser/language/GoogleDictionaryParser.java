@@ -10,6 +10,7 @@ import thc.domain.DictionaryResult;
 
 import java.util.stream.Collectors;
 
+@Deprecated
 public class GoogleDictionaryParser {
 	protected static final Logger log = LoggerFactory.getLogger(GoogleDictionaryParser.class);
 	private final String query;

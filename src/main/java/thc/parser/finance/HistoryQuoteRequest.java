@@ -24,9 +24,9 @@ public abstract class HistoryQuoteRequest<T> implements HttpParseRequest<T> {
 	protected final Calendar fromDate;
 	protected final Calendar toDate;
 
-	public HistoryQuoteRequest(String code, String mic, Calendar fromDate, Calendar toDate) {
+	public HistoryQuoteRequest(String code, String market, Calendar fromDate, Calendar toDate) {
 		var finalCode = code;
-		if ("XHKG".equals(mic)) {
+		if ("HK".equals(market)) {
 			finalCode = StringUtils.leftPad(finalCode.replaceFirst("^0+", ""), 4, '0');
 			finalCode = finalCode.endsWith(".HK") ? finalCode : finalCode + ".HK";
 		}
