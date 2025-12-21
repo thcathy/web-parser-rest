@@ -45,6 +45,7 @@ public class Money18WorldIndexQuoteRequest implements HttpParseRequest<List<Stoc
 			List<Map<String, String>> items = (List<Map<String, String>>) responseMap.get("item");
 			return items.stream()
 					.flatMap((i) -> toStockQuote(i, updateTime))
+                    .filter(q -> q.getPriceDoubleValue() > 0)
 					.collect(Collectors.toList());
 		} catch (Exception e) {
 			log.error("cannot parse response", e);
