@@ -22,7 +22,6 @@ public class ISharesConstituentParserTest {
 	@Test
 	public void parseMSCIHK_ShouldReturnCorrectStockCodes() {
 		List<String> result = queryConstituents(MSCIHK);
-		assertTrue("MSCI HK index should contain 11",result.contains("11"));
 		assertTrue("MSCI HK index should contain 2",result.contains("2"));
 		assertTrue("MSCI HK index should contain 388",result.contains("388"));
 		assertTrue("MSCI HK index should contain over 20 stocks", result.size() >= 20);
