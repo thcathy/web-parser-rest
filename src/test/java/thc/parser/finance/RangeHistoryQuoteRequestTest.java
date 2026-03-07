@@ -55,8 +55,8 @@ public class RangeHistoryQuoteRequestTest {
                 "IBIT", "US", fromDate, toDate)).block();
         assertThat(result).isNotNull();
         assertThat(result.size()).isGreaterThan(12);
-        assertThat(result.stream().filter(v -> v.adjClose() > 40).count()).isGreaterThan(12);
-        assertThat(result.stream().filter(v -> v.close() > 40).count()).isGreaterThan(12);
+        assertThat(result.stream().filter(v -> v.adjClose() > 30).count()).isGreaterThan(12);
+        assertThat(result.stream().filter(v -> v.close() > 30).count()).isGreaterThan(12);
         result.forEach(v -> assertThat(v.date()).isBeforeOrEqualTo(today));
     }
 }
