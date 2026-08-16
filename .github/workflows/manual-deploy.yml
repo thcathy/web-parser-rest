@@ -24,9 +24,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
     - name: Run ansible playbook to deploy and verify
-      uses: dawidd6/action-ansible-playbook@v2
+      uses: dawidd6/action-ansible-playbook@v9
       with:
         playbook: ansible/deploy.yml
         key: ${{ secrets.SSH_PRIVATE_KEY }}
