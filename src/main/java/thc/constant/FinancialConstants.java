@@ -17,7 +17,7 @@ public class FinancialConstants {
         HSI("Hang Seng Index", "http://www.etnet.com.hk/www/tc/stocks/indexes_detail.php?subtype=HSI", EtnetIndexConstituentParser::parse),
         HSCEI("HS China Enterprises Index", "http://www.etnet.com.hk/www/tc/stocks/indexes_detail.php?subtype=cei", EtnetIndexConstituentParser::parse),
         HCCI("HS China Corp Index", "http://www.etnet.com.hk/www/tc/stocks/indexes_detail.php?subtype=cci", EtnetIndexConstituentParser::parse),
-        MSCIHK("MSCI HK Index", "https://www.ishares.com/us/products/239657/ishares-msci-hong-kong-etf/1467271812596.ajax?tab=all&fileType=json", ISharesConstituentParser::parseMSCIHK);
+        MSCIHK("MSCI HK Index", "https://www.ishares.com/us/products/239657/ishares-msci-hong-kong-etf/latest-holdings.csv", ISharesConstituentParser::parseMSCIHK);
 
         final public String name;
         final public String url;

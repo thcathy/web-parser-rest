@@ -1,0 +1,23 @@
+---
+description: Prefer Java local-variable type inference (var)
+globs: "**/*.java"
+alwaysApply: false
+---
+
+# Prefer `var` in Java
+
+Use `var` for local variables when the initializer makes the type obvious.
+
+```java
+// ❌ BAD
+BufferedReader reader = new BufferedReader(new InputStreamReader(response, StandardCharsets.UTF_8));
+List<String> header = readHoldingsHeader(reader);
+Set<String> tickers = new LinkedHashSet<>();
+
+// ✅ GOOD
+var reader = new BufferedReader(new InputStreamReader(response, StandardCharsets.UTF_8));
+var header = readHoldingsHeader(reader);
+var tickers = new LinkedHashSet<String>();
+```
+
+Keep an explicit type when `var` is not allowed (fields, method parameters, `catch`, or a variable assigned later in a `while ((line = ...) != null)` loop).
